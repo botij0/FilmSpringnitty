@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="card">
+    <h2 th:text="${titulo}" class="card-header"></h2>
+    <div class="card-body">
+      <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+      <table class="table table-hover">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Identificador</th>
+          <th scope="col">Titulo</th>
+          <th scope="col">Año</th>
+          <th scope="col">Duracion</th>
+          <th scope="col">Pais</th>
+          <th scope="col">Direccion</th>
+          <th scope="col">Sinopsis</th>
+          <th scope="col">Imagen</th>
+          <th scope="col">Genero</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pelicula : ${listadoPeliculas}">
+          <td th:text="${pelicula.idPelicula}"></td>
+          <td th:text="${pelicula.titulo}"></td>
+          <td th:text="${pelicula.anio}"></td>
+          <td th:text="${pelicula.duracion}"></td>
+          <td th:text="${pelicula.pais}"></td>
+          <td th:text="${pelicula.direccion}"></td>
+          <td th:text="${pelicula.sinopsis}"></td>
+          <td><img th:src="${pelicula.imagen}" style="width:70px; height: 120px"></td>
+          <td th:text="${pelicula.genero}"></td>
+          <td>
+            <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button" title="Editar la Película."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+            <a th:href="@{/cpeliculas/borrar/{id}  (id=${pelicula.idPelicula})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar la Película."><i class="fas fa-trash" aria-hidden="true"></i></a>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+
+      <nav th:replace="paginator-nav :: paginator"></nav>
+
+    </div>
+  </div>
+  <hr>
+  <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/}">Ir a Inicio</a>
+</div> <!-- /container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>FilmSpringnity</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+  </head>
+
+  <body class="text-center vh-100" style="background-color:#F9F9F9">
+
+    <div class="cover-container d-flex vh-100 flex-column mx-auto">
+      <header class="mb-auto">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A6E26E;">
+          <!-- Container wrapper -->
+          <div class="container">
+            <!-- Navbar brand -->
+            <a class="navbar-brand me-2" href="https://mdbgo.com/">
+              <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/2560px-Spring_Framework_Logo_2018.svg.png"
+                      height="30"
+                      alt="MDB Logo"
+                      loading="lazy"
+                      style="margin-top: -1px;"
+              />
+            </a>
+
+            <!-- Toggle button -->
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarButtonsExample"
+                    aria-controls="navbarButtonsExample"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarButtonsExample">
+              <!-- Left links -->
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">FilmSpringnity</a>
+                </li>
+              </ul>
+
+              <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/cpeliculas/home2}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/cpeliculas/buscar}">Buscador Avanzado</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/cpeliculas/listado}">Peliculas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Actores</a>
+                </li>
+              </ul>
+
+              <!-- Left links -->
+
+              <div class="">
+                <button type="button" class="btn btn-link px-3 me-2">
+                  Iniciar Sesión
+                </button>
+                <button type="button" class="btn btn-primary me-3">
+                  Registrarse
+                </button>
+              </div>
+            </div>
+            <!-- Collapsible wrapper -->
+          </div>
+          <!-- Container wrapper -->
+        </nav>
+        <!-- Navbar -->
+      </header>
+
+
+      <main class="mb-1">
+        <div class="card">
+
+          <h2 th:text="${pelicula.titulo}" class="card-header"></h2>
+          <div class="card-body mt-4">
+            <div class="container">
+
+              <div class="row">
+                <div class="col w-50">
+                  <dl class="row">
+                    <dt class="w-50 text-end">Titulo: </dt> <dd class="w-50"> Hola</dd>
+                    <dt class="w-50 text-end">Titulo: </dt> <dd class="w-50"> Hola</dd>
+                    <dt class="w-50 text-end">Titulo: </dt> <dd class="w-50"> Hola</dd>
+                    <dt class="w-50 text-end">Titulo: </dt> <dd class="w-50"> Hola</dd>
+                    <dt class="w-50 text-end">Titulo: </dt> <dd class="w-50"> Hola</dd>
+                    <dt class="w-50 text-end">Titulo: </dt> <dd class="w-50"> Hola</dd>
+                  </dl>
+                </div>
+                <div class="col w-50">
+                  <img th:src="${pelicula.imagen}" class="rounded" style="width: 210px; height: 360px"/>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+
+        </div>
+
+        <hr>
+        <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/}">Ir a Inicio</a>
+
+      </main>
+
+      <footer class="mt-auto" style="background-color: #A6E26E;">
+        <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+          <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+          by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+        </p>
+      </footer>
+    </div>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+  </body>
+</html>
