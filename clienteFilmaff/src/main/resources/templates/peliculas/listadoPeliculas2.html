@@ -67,7 +67,7 @@
                                 <a class="nav-link" th:href="@{/cpeliculas/buscar}">Buscador Avanzado</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Peliculas</a>
+                                <a class="nav-link" th:href="@{/cpeliculas/listado2}">Peliculas</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Actores</a>
@@ -101,7 +101,7 @@
                     <div class="container">
                         <div class="row row-cols-4">
                             <div class="mb-5 prueba" th:each="pelicula : ${listadoPeliculas}">
-                                <a th:href="@{/cpeliculas/nuevo}">
+                                <a th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})}">
                                     <div class="border border-1 bg-light shadow mx-auto rounded" style="width: 250px; height:420px ">
                                         <img th:src="${pelicula.imagen}" class="mt-3 rounded img-fluid" style="width: 210px; height: 360px"/>
                                         <p class="p-2 fw-bold" th:text="${pelicula.titulo}"></p>
