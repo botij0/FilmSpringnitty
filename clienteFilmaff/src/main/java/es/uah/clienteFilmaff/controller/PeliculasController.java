@@ -29,6 +29,11 @@ public class PeliculasController {
         return "home2";
     }
 
+    @GetMapping(value = "/gestionPeliculas")
+    public String gestionPeliculas (Model model){
+        return "gestionPeliculas";
+    }
+
     @GetMapping("/nuevo")
     public String nuevo (Model model) {
         model.addAttribute("titulo", "Nueva Pelicula");
