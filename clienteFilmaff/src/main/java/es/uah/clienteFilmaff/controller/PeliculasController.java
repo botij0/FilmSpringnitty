@@ -47,6 +47,11 @@ public class PeliculasController {
         return "peliculas/searchPelicula";
     }
 
+    @GetMapping("/buscarPublic")
+    public String buscarPublic (Model model){
+        return "peliculas/searchPeliculaPublic";
+    }
+
     @GetMapping("/listado")
     public String listadoPeliculas(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
     {
@@ -103,6 +108,27 @@ public class PeliculasController {
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page", pageRender);
         return "peliculas/listPeliculas";
+    }
+
+    @GetMapping("/titulo/{rol}")
+    public String buscarPeliculaPorTituloPublic(Model model, @PathVariable("rol") Integer rol, @RequestParam(name="page", defaultValue = "0") int page,
+                                          @RequestParam("titulo") String titulo)
+    {
+        Pageable pageable = PageRequest.of(page,5);
+        Page<Pelicula> listado;
+        if(titulo.equals("")){
+            listado = peliculasService.buscarTodos(pageable);
+        }
+        else{
+            listado = peliculasService.buscarPeliculaPorTitulo(titulo, pageable);
+        }
+
+        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/listado", listado);
+        model.addAttribute("titulo", "Listado de Peliculas por Titulo");
+        model.addAttribute("listadoPeliculas", listado);
+        model.addAttribute("page", pageRender);
+
+        return (rol == 0) ? "peliculas/listPeliculas" :  "peliculas/listadoPeliculas2";
     }
 
     @GetMapping("/genero")
