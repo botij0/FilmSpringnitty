@@ -23,6 +23,21 @@ public class Actor {
     @Basic
     @Column(name = "paisNac")
     private String paisNac;
+    @Basic
+    @Column(name = "imagen")
+    private String imagen;
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public Actor(){
+
+    }
 
     public Integer getIdActor() {
         return idActor;
@@ -56,11 +71,11 @@ public class Actor {
         this.paisNac = paisNac;
     }
 
-    @ManyToMany
-    @JoinTable(name = "peliculas_has_actores",
-            joinColumns = @JoinColumn(name = "idActores"),
-            inverseJoinColumns = @JoinColumn(name = "idPeliculas"))
 
+    @JoinTable(name = "peliculas_has_actores",
+            joinColumns = { @JoinColumn(name = "idActores", referencedColumnName = "idActor") },
+            inverseJoinColumns = {@JoinColumn(name = "idPeliculas", referencedColumnName = "idPelicula")})
+    @ManyToMany
     @JsonIgnoreProperties("actores")
     private List<Pelicula> peliculas;
 

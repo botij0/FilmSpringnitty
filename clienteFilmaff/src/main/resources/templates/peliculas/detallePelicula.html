@@ -107,7 +107,7 @@
                   </dl>
                 </div>
                 <div class="col-6">
-                  <img th:src="${pelicula.imagen}" class="rounded" style="width: 310px; height: 530px"/>
+                  <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}" class="rounded" style="width: 310px; height: 530px"/>
                 </div>
               </div>
 

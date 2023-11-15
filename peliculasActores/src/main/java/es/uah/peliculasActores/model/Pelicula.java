@@ -39,6 +39,10 @@ public class Pelicula {
     @Column(name = "genero")
     private String genero;
 
+    public Pelicula(){
+
+    }
+
     public Integer getIdPelicula() {
         return idPelicula;
     }
@@ -103,7 +107,10 @@ public class Pelicula {
         this.imagen = imagen;
     }
 
-    @ManyToMany(mappedBy = "peliculas")
+    @JoinTable(name = "peliculas_has_actores",
+            joinColumns = { @JoinColumn(name = "idPeliculas", referencedColumnName = "idPelicula") },
+            inverseJoinColumns = {@JoinColumn(name = "idActores", referencedColumnName = "idActor")})
+    @ManyToMany
     @JsonIgnoreProperties("peliculas")
     private List<Actor> actores;
 

@@ -65,6 +65,17 @@ public class PeliculasDAOImpl implements IPeliculasDAO {
 
     @Override
     public void eliminarPelicula(Integer idPelicula){
+        Optional<Pelicula> optional = peliculasJPA.findById(idPelicula);
+        if(optional.isPresent())
+        {
+            Pelicula pelicula = optional.get();
+            List<Actor> actores = pelicula.getActores();
+            actores.remove(pelicula);
+            /*for(Actor actor: actores)
+            {
+                pelicula.removeActor(actor);
+            }*/
+        }
         peliculasJPA.deleteById(idPelicula);
     }
 

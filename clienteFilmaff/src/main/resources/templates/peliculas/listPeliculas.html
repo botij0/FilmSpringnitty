@@ -87,7 +87,7 @@
     <main class="mb-1">
       <div class="card">
         <h2 th:text="${titulo}" class="card-header text-center"></h2>
-        <div class="card-body">
+        <div class="card-body mx-auto" style="width: 85%">
           <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
           <h4 class="card-title text-end me-4">
             <a th:href="@{/cpeliculas/nuevo}" class="btn btn-primary btn-xs">Crear nueva película</a>
@@ -111,14 +111,16 @@
 
             <tbody>
               <tr th:each="pelicula : ${listadoPeliculas}">
-                <td th:text="${pelicula.idPelicula}"></td>
+                <td><a class="btn btn-secondary btn-xs text-white" th:href="@{/cpeliculas/detallePelicula/} + ${pelicula.idPelicula}" th:text="${pelicula.idPelicula}"></a> </td>
                 <td th:text="${pelicula.titulo}"></td>
                 <td th:text="${pelicula.anio}"></td>
                 <td th:text="${pelicula.duracion}"></td>
                 <td th:text="${pelicula.pais}"></td>
                 <td th:text="${pelicula.direccion}"></td>
-                <td th:text="${pelicula.sinopsis}"></td>
-                <td><img th:src="${pelicula.imagen}" style="width:70px; height: 120px"></td>
+                <td th:if="${pelicula.sinopsis.length() >= 150 }" th:text="${pelicula.sinopsis.substring(0,150) + '...'}" th:title="${pelicula.sinopsis}"></td>
+                <td th:unless="${pelicula.sinopsis.length() >= 150 }" th:text="${pelicula.sinopsis}"></td>
+                <td><img  th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}"
+                         style="width:70px; height: 120px"></td>
                 <td th:text="${pelicula.genero}"></td>
                 <td><p th:each="actor :${pelicula.actores}" th:text="${actor.getNombre()}"></p></td>
                 <td>

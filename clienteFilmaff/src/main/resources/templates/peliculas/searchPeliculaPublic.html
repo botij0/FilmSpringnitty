@@ -99,7 +99,7 @@
             <button type="submit" class="btn btn-success">Buscar por Título</button>
         </form>
         <hr>
-        <form th:action="@{/cpeliculas/genero}" method="get">
+        <form th:action="@{/cpeliculas/genero/1}" method="get">
             <div class="mb-3">
                 <label for="titulo" class="form-label">Género</label>
                 <select class="form-select" name="genero" id="genero">
@@ -115,7 +115,7 @@
             <button type="submit" class="btn btn-success">Buscar por Género</button>
         </form>
         <hr>
-        <form th:action="@{/cpeliculas/actor}" method="get">
+        <form th:action="@{/cpeliculas/actor/1}" method="get">
             <div class="mb-3">
                 <label for="actor" class="form-label">Nombre del Actor</label>
                 <input type="text" class="form-control" id="actor" name="actor"

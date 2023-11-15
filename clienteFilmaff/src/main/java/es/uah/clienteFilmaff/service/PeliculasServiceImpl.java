@@ -1,5 +1,6 @@
 package es.uah.clienteFilmaff.service;
 
+import es.uah.clienteFilmaff.model.Actor;
 import es.uah.clienteFilmaff.model.Pelicula;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +44,13 @@ public class PeliculasServiceImpl implements IPeliculasService {
         }
         Page<Pelicula> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), peliculaList.size());
         return page;
+    }
+    public List<Integer> idActoresPelicula(Pelicula pelicula){
+        List<Integer> listaIds = new ArrayList<>();
+        for (Actor actor  : pelicula.getActores()) {
+            listaIds.add(actor.getIdActor());
+        }
+        return listaIds;
     }
 
     @Override
