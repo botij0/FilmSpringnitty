@@ -10,7 +10,7 @@
 <body class="text-center vh-100" style="background-color:#F9F9F9">
 
 <div class="cover-container d-flex vh-100 flex-column mx-auto">
-    <header class="mb-auto">
+    <header class="">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A6E26E;">
             <!-- Container wrapper -->
@@ -50,19 +50,21 @@
 
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/}">Inicio</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/home2}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/buscarPublic}">Buscador Avanzado</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/cpeliculas/listado2}">Peliculas</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/cactores/listado2}">Actores</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/}">Panel de Control</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/gestionPeliculas}">Panel de Control</a>
                         </li>
                     </ul>
 
@@ -85,40 +87,45 @@
     </header>
 
 
-    <main class="px-3 vh-100 mt-3">
-        <div class="container">
-            <h1 class="text-center">Panel de Control</h1>
-            <hr>
-            <div class="card-group">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Listado Peliculas Tabla</h3>
-                        <a class="btn btn-link" th:href="@{/cpeliculas/listado}">
-                            Listado Peliculas Tabla
-                        </a>
+    <main class="">
+        <div class="card h-100" >
+
+            <h2 th:text="${actor.nombre}" class="card-header"></h2>
+            <div class="card-body mt-1">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-6 mt-3 text-start">
+                            <dl class="row row-gap-4">
+                                <dt class="col-6 text-end">Nombre: </dt> <dd class="col-6" th:text="${actor.nombre}"></dd>
+                                <dt class="col-6 text-end">Fecha Nacimiento: </dt> <dd class="col-6" th:text="${actor.fechaNac}"></dd>
+                                <dt class="col-6 text-end">Pais Nacimiento: </dt> <dd class="col-6" th:text="${actor.paisNac}"></dd>
+                            </dl>
+                            <dl class="row">
+                                <dt class=" col-6 text-end">Peliculas: </dt>
+                                <dd class="col-6">
+                                    <ul>
+                                        <li th:each="pelicula :${actor.peliculas}" class="mb-3">
+                                            <a   th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})  }"
+                                                 th:text="${pelicula.titulo}"></a>
+                                        </li>
+                                    </ul>
+
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-6">
+                            <img th:src="@{'/cpeliculas/uploads/' + ${actor.imagen}}" th:alt="${actor.imagen}" class="rounded" style="width: 310px; height: 530px"/>
+                        </div>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Buscar Peliculas Tabla</h3>
-                        <a class="btn btn-link" th:href="@{/cpeliculas/buscar}">
-                            Buscar Peliculas Tabla
-                        </a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Listado Actores Tabla</h3>
-                        <a class="btn btn-link" th:href="@{/cactores/listado}">
-                            Listado de Actores Tabla
-                        </a>
-                    </div>
-                </div>
-
             </div>
+
         </div>
+        <div style="padding: 30px 0">
+            <a class="btn btn-primary w-25" role="button" th:href="@{/cactores/listado2}">Volver</a>
+        </div>
+
     </main>
 
     <footer class="mt-auto" style="background-color: #A6E26E;">

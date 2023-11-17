@@ -7,10 +7,10 @@
 
     <!-- Custom styles for this template -->
 </head>
-<body class="text-center vh-100" style="background-color:#F9F9F9">
+<body class="vh-100" style="background-color:#F9F9F9">
 
 <div class="cover-container d-flex vh-100 flex-column mx-auto">
-    <header class="mb-auto">
+    <header class="mb-1">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A6E26E;">
             <!-- Container wrapper -->
@@ -58,11 +58,13 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/cpeliculas/listado2}">Peliculas</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cactores/listado2}">Actores</a>
+                            <a class="nav-link" href="#">Actores</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/}">Panel de Control</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/gestionPeliculas}">Panel de Control</a>
                         </li>
                     </ul>
 
@@ -85,40 +87,45 @@
     </header>
 
 
-    <main class="px-3 vh-100 mt-3">
-        <div class="container">
-            <h1 class="text-center">Panel de Control</h1>
-            <hr>
-            <div class="card-group">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Listado Peliculas Tabla</h3>
-                        <a class="btn btn-link" th:href="@{/cpeliculas/listado}">
-                            Listado Peliculas Tabla
-                        </a>
-                    </div>
-                </div>
+    <main class="px-3 w-75 mx-auto">
 
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Buscar Peliculas Tabla</h3>
-                        <a class="btn btn-link" th:href="@{/cpeliculas/buscar}">
-                            Buscar Peliculas Tabla
-                        </a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Listado Actores Tabla</h3>
-                        <a class="btn btn-link" th:href="@{/cactores/listado}">
-                            Listado de Actores Tabla
-                        </a>
-                    </div>
-                </div>
-
+        <h2 class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important; margin-top: -4px;">Búsqueda Tabla de Peliculas</h2>
+        <form th:action="@{/cpeliculas/titulo/0}" method="get">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" id="titulo" name="titulo"
+                       placeholder="Escriba el título de la película">
             </div>
-        </div>
+            <button type="submit" class="btn btn-success">Buscar por Título</button>
+        </form>
+        <hr>
+        <form th:action="@{/cpeliculas/genero/0}" method="get">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Género</label>
+                <select class="form-select" name="genero" id="genero">
+                    <!--                 <option selected>Seleccionar categoría</option> -->
+                    <option th:value="Misterio">Misterio</option>
+                    <option th:value="CienciaFiccion">CienciaFiccion</option>
+                    <option th:value="Suspense">Suspense</option>
+                    <option th:value="Animacion">Animacion</option>
+                    <option th:value="Terror">Terror</option>
+                    <option th:value="Comedia">Comedia</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Buscar por Género</button>
+        </form>
+        <hr>
+        <form th:action="@{/cpeliculas/actor/0}" method="get">
+            <div class="mb-3">
+                <label for="actor" class="form-label">Nombre del Actor</label>
+                <input type="text" class="form-control" id="actor" name="actor"
+                       placeholder="Escriba el nombre del Actor del curso">
+            </div>
+            <button type="submit" class="btn btn-success">Buscar por Actor</button>
+        </form>
+
+        <hr>
+        <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/gestionPeliculas}">Volver</a>
     </main>
 
     <footer class="mt-auto" style="background-color: #A6E26E;">

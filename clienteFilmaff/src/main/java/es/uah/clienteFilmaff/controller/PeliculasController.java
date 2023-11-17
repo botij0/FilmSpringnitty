@@ -7,7 +7,6 @@ import es.uah.clienteFilmaff.service.IActoresService;
 import es.uah.clienteFilmaff.service.IPeliculasService;
 import es.uah.clienteFilmaff.service.IUploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import es.uah.clienteFilmaff.service.UploadFileServiceImpl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -67,11 +65,6 @@ public class PeliculasController {
         return "home";
     }
 
-    @GetMapping(value = "/home2")
-    public String home2 (Model model){
-        return "home2";
-    }
-
     @GetMapping(value = "/gestionPeliculas")
     public String gestionPeliculas (Model model){
         return "gestionPeliculas";
@@ -88,14 +81,14 @@ public class PeliculasController {
         return "peliculas/formPelicula";
     }
 
-    @GetMapping("/buscar")
+    @GetMapping("/buscarTabla")
     public String buscar (Model model){
-        return "peliculas/searchPelicula";
+        return "peliculas/searchPeliculaTabla";
     }
 
-    @GetMapping("/buscarPublic")
+    @GetMapping("/buscarListado")
     public String buscarPublic (Model model){
-        return "peliculas/searchPeliculaPublic";
+        return "peliculas/searchPeliculaListado";
     }
 
     @GetMapping("/listado")
@@ -137,7 +130,7 @@ public class PeliculasController {
     }
 
     @GetMapping("/titulo")
-    public String buscarPeliculaPorTitulo(Model model, @RequestParam(name="page", defaultValue = "0") int page,
+    public String buscarPeliculaPorTituloTabla(Model model, @RequestParam(name="page", defaultValue = "0") int page,
                                           @RequestParam("titulo") String titulo)
     {
         Pageable pageable = PageRequest.of(page,5);
@@ -149,18 +142,18 @@ public class PeliculasController {
             listado = peliculasService.buscarPeliculaPorTitulo(titulo, pageable);
         }
 
-        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/listado", listado);
+        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/listado", listado);
         model.addAttribute("titulo", "Listado de Peliculas por Titulo");
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page", pageRender);
         return "peliculas/listPeliculas";
     }
 
-    @GetMapping("/titulo/{rol}")
-    public String buscarPeliculaPorTituloPublic(Model model, @PathVariable("rol") Integer rol, @RequestParam(name="page", defaultValue = "0") int page,
+    @GetMapping("/titulo/lista")
+    public String buscarPeliculaPorTituloLista(Model model, @RequestParam(name="page", defaultValue = "0") int page,
                                           @RequestParam("titulo") String titulo)
     {
-        Pageable pageable = PageRequest.of(page,5);
+        Pageable pageable = PageRequest.of(page,8);
         Page<Pelicula> listado;
         if(titulo.equals("")){
             listado = peliculasService.buscarTodos(pageable);
@@ -169,12 +162,12 @@ public class PeliculasController {
             listado = peliculasService.buscarPeliculaPorTitulo(titulo, pageable);
         }
 
-        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/listado", listado);
+        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/listado2", listado);
         model.addAttribute("titulo", "Listado de Peliculas por Titulo");
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page", pageRender);
 
-        return (rol == 0) ? "peliculas/listPeliculas" :  "peliculas/listadoPeliculas2";
+        return "peliculas/listadoPeliculas2";
     }
 
     @GetMapping("/genero/{rol}")

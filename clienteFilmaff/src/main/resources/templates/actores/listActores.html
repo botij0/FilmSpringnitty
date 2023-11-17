@@ -58,7 +58,7 @@
               <a class="nav-link" th:href="@{/cpeliculas/listado2}">Peliculas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Actores</a>
+              <a class="nav-link"th:href="@{/cactores/listado2}">Actores</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" th:href="@{/cpeliculas/gestionPeliculas}">Panel de Control</a>
@@ -89,7 +89,7 @@
       <h2 th:text="${titulo}" class="card-header text-center"></h2>
       <div class="card-body mx-auto" style="width: 85%">
         <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
-        <h4 class="card-title text-end me-4">
+        <h4 class="card-title text-end">
           <a th:href="@{/cactores/nuevo}" class="btn btn-primary btn-xs">Crear nuevo Actor</a>
         </h4>
         <table class="table table-hover mx-auto">
@@ -116,8 +116,10 @@
             <td><a th:each="pelicula :${actor.peliculas}" th:text="${pelicula.titulo}"
                    th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})  }" class="mx-2"></a></td>
             <td>
-              <a th:href="@{/cactores/editar/{id}  (id=${actor.idActor})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button" title="Editar Actor."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-              <a th:href="@{/cactores/borrar/{id}  (id=${actor.idActor})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar Actor."><i class="fas fa-trash" aria-hidden="true"></i></a>
+              <a th:href="@{/cactores/editar/{id}  (id=${actor.idActor})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button"
+                 title="Editar Actor."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+              <a th:href="@{/cactores/borrar/{id}  (id=${actor.idActor})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')"
+                 class="btn btn-danger btn-sm" role="button" title="Eliminar Actor."><i class="fas fa-trash" aria-hidden="true"></i></a>
             </td>
           </tr>
           </tbody>

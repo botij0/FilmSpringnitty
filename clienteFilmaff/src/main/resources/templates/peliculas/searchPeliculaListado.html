@@ -50,10 +50,10 @@
 
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/home2}">Inicio</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/buscarPublic}">Buscador Avanzado</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/cpeliculas/listado2}">Peliculas</a>
@@ -89,8 +89,8 @@
 
     <main class="px-3 w-75 mx-auto">
 
-        <h2 class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important; margin-top: -4px;">Búsqueda Tabla de Peliculas</h2>
-        <form th:action="@{/cpeliculas/titulo/0}" method="get">
+        <h2 class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important; margin-top: -4px;">Búsqueda de Peliculas</h2>
+        <form th:action="@{/cpeliculas/titulo/1}" method="get">
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
                 <input type="text" class="form-control" id="titulo" name="titulo"
@@ -99,7 +99,7 @@
             <button type="submit" class="btn btn-success">Buscar por Título</button>
         </form>
         <hr>
-        <form th:action="@{/cpeliculas/genero/0}" method="get">
+        <form th:action="@{/cpeliculas/genero/1}" method="get">
             <div class="mb-3">
                 <label for="titulo" class="form-label">Género</label>
                 <select class="form-select" name="genero" id="genero">
@@ -115,7 +115,7 @@
             <button type="submit" class="btn btn-success">Buscar por Género</button>
         </form>
         <hr>
-        <form th:action="@{/cpeliculas/actor/0}" method="get">
+        <form th:action="@{/cpeliculas/actor/1}" method="get">
             <div class="mb-3">
                 <label for="actor" class="form-label">Nombre del Actor</label>
                 <input type="text" class="form-control" id="actor" name="actor"
@@ -125,7 +125,7 @@
         </form>
 
         <hr>
-        <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/gestionPeliculas}">Volver</a>
+        <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/home2}">Inicio</a>
     </main>
 
     <footer class="mt-auto" style="background-color: #A6E26E;">

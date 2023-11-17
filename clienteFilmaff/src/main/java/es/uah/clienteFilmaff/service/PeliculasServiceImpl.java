@@ -27,23 +27,8 @@ public class PeliculasServiceImpl implements IPeliculasService {
     {
         Pelicula[] peliculas = template.getForObject(url, Pelicula[].class);
         List<Pelicula> peliculaList = Arrays.asList(peliculas);
+        return getPaginatedPage(peliculaList,pageable);
 
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<Pelicula> list;
-
-        if(peliculaList.size() < startItem)
-        {
-            list = Collections.emptyList();
-        }
-        else
-        {
-            int toIndex = Math.min(startItem + pageSize, peliculaList.size());
-            list = peliculaList.subList(startItem,toIndex);
-        }
-        Page<Pelicula> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), peliculaList.size());
-        return page;
     }
     public List<Integer> idActoresPelicula(Pelicula pelicula){
         List<Integer> listaIds = new ArrayList<>();
@@ -61,10 +46,10 @@ public class PeliculasServiceImpl implements IPeliculasService {
 
     @Override
     public Page<Pelicula> buscarPeliculaPorTitulo(String titulo, Pageable pageable) {
+
         Pelicula[] peliculas = template.getForObject(url + "/titulo/" + titulo, Pelicula[].class);
         List<Pelicula> lista = Arrays.asList(peliculas);
-        Page<Pelicula> page = new PageImpl<>(lista, pageable, lista.size());
-        return page;
+        return getPaginatedPage(lista,pageable);
 
     }
 
@@ -72,9 +57,7 @@ public class PeliculasServiceImpl implements IPeliculasService {
     public Page<Pelicula> buscarPeliculaPorGenero(String genero, Pageable pageable) {
         Pelicula[] peliculas = template.getForObject(url + "/genero/" + genero, Pelicula[].class);
         List<Pelicula> lista = Arrays.asList(peliculas);
-        Page<Pelicula> page = new PageImpl<>(lista, pageable, lista.size());
-        return page;
-
+        return getPaginatedPage(lista,pageable);
     }
 
 
@@ -82,9 +65,7 @@ public class PeliculasServiceImpl implements IPeliculasService {
     public Page<Pelicula> buscarPeliculaPorActor(String actor, Pageable pageable) {
         Pelicula[] peliculas = template.getForObject(url + "/actor/" + actor, Pelicula[].class);
         List<Pelicula> lista = Arrays.asList(peliculas);
-        Page<Pelicula> page = new PageImpl<>(lista, pageable, lista.size());
-        return page;
-
+        return getPaginatedPage(lista,pageable);
     }
 
 
@@ -103,5 +84,26 @@ public class PeliculasServiceImpl implements IPeliculasService {
     @Override
     public void eliminarPelicula(Integer idPelicula){
         template.delete(url + "/" + idPelicula);
+    }
+
+    private Page<Pelicula> getPaginatedPage(List<Pelicula> peliculas, Pageable pageable)
+    {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Pelicula> list;
+
+        if(peliculas.size() < startItem)
+        {
+            list = Collections.emptyList();
+        }
+        else
+        {
+            int toIndex = Math.min(startItem + pageSize, peliculas.size());
+            list = peliculas.subList(startItem,toIndex);
+        }
+
+        Page<Pelicula> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), peliculas.size());
+        return page;
     }
 }

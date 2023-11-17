@@ -10,7 +10,7 @@
   <body class="text-center vh-100" style="background-color:#F9F9F9">
 
     <div class="cover-container d-flex vh-100 flex-column mx-auto">
-      <header class="mb-auto">
+      <header class="">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A6E26E;">
           <!-- Container wrapper -->
@@ -50,16 +50,16 @@
 
               <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                  <a class="nav-link" th:href="@{/cpeliculas/home2}">Inicio</a>
+                  <a class="nav-link" th:href="@{/cpeliculas/}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" th:href="@{/cpeliculas/buscarPublic}">Buscador Avanzado</a>
+                  <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" th:href="@{/cpeliculas/listado2}">Peliculas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Actores</a>
+                  <a class="nav-link" th:href="@{/cactores/listado2}">Actores</a>
                 </li>
               </ul>
 
@@ -82,7 +82,7 @@
       </header>
 
 
-      <main class="mb-1">
+      <main class="">
         <div class="card">
 
           <h2 th:text="${pelicula.titulo}" class="card-header"></h2>
@@ -102,7 +102,12 @@
                   <dl class="row">
                     <dt class=" col-6 text-end">Reparto: </dt>
                     <dd class="col-6">
-                      <p  th:each="actor :${pelicula.actores}" th:text="${actor.getNombre()}"></p>
+                      <ul>
+                        <li th:each="actor :${pelicula.actores}" class="mb-3">
+                          <a   th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})  }"
+                               th:text="${actor.nombre}"></a>
+                        </li>
+                      </ul>
                     </dd>
                   </dl>
                 </div>
@@ -113,10 +118,13 @@
 
 
             </div>
-            <hr class="mt-lg-5">
-            <a class="btn btn-primary w-25 mx-auto" role="button" th:href="@{/cpeliculas/listado2}">Volver</a>
+
           </div>
         </div>
+        <div style="padding: 30px 0">
+          <a class="btn btn-primary w-25 mx-auto" role="button" th:href="@{/cpeliculas/listado2}">Volver</a>
+        </div>
+
       </main>
 
       <footer class="mt-auto" style="background-color: #A6E26E;">

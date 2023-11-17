@@ -7,10 +7,10 @@
 
     <!-- Custom styles for this template -->
 </head>
-<body class="vh-100" style="background-color:#F9F9F9">
+<body class="text-center vh-100" style="background-color:#F9F9F9">
 
 <div class="cover-container d-flex vh-100 flex-column mx-auto">
-    <header class="mb-1">
+    <header class="">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A6E26E;">
             <!-- Container wrapper -->
@@ -60,7 +60,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Actores</a>
+                            <a class="nav-link" th:href="@{/cactores/listado2}">Actores</a>
                         </li>
 
                         <li class="nav-item">
@@ -88,44 +88,59 @@
 
 
     <main class="px-3 w-75 mx-auto">
+        <h2 th:text="${titulo}"
+            class="text-secondary border border-success border-top-0 border-left-0 border-right-0 text-center py-2">
+        </h2>
+        <form th:action="@{/cactores/guardar/}" method="post" th:object="${actor}" enctype="multipart/form-data" class="text-start">
 
-        <h2 class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important; margin-top: -4px;">Búsqueda de Peliculas</h2>
-        <form th:action="@{/cpeliculas/titulo/1}" method="get">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Título</label>
-                <input type="text" class="form-control" id="titulo" name="titulo"
-                       placeholder="Escriba el título de la película">
+            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                Por favor corrija los siguientes errores:
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                </ul>
             </div>
-            <button type="submit" class="btn btn-success">Buscar por Título</button>
-        </form>
-        <hr>
-        <form th:action="@{/cpeliculas/genero/1}" method="get">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Género</label>
-                <select class="form-select" name="genero" id="genero">
-                    <!--                 <option selected>Seleccionar categoría</option> -->
-                    <option th:value="Misterio">Misterio</option>
-                    <option th:value="CienciaFiccion">CienciaFiccion</option>
-                    <option th:value="Suspense">Suspense</option>
-                    <option th:value="Animacion">Animacion</option>
-                    <option th:value="Terror">Terror</option>
-                    <option th:value="Comedia">Comedia</option>
+
+            <div class="my-4">
+                <label for="nombre" class="form-label fw-bold">Nombre Completo</label>
+                <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
+                       placeholder="Escriba el Nombre y Apellido/s" required="required">
+            </div>
+
+            <div class="my-4">
+                <label for="fechaNac" class="form-label fw-bold">Fecha Nacimiento</label>
+                <input type="date" class="form-control" th:field="*{fechaNac}" id="fechaNac" name="fechaNac"
+                       placeholder="**/**/****" required="required">
+            </div>
+
+            <div class="my-4">
+                <label for="paisNac" class="form-label fw-bold">Pais Nacimiento</label>
+                <select class="form-select" th:field="*{paisNac}" name="paisNac" id="paisNac">
+                    <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
+                    <option th:value="España">España</option>
+                    <option th:value="EstadosUnidos">EstadosUnidos</option>
+                    <option th:value="Japón">Japón</option>
+                    <option th:value="China">China</option>
+                    <option th:value="Rusia">Rusia</option>
+                    <option th:value="India">India</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-success">Buscar por Género</button>
-        </form>
-        <hr>
-        <form th:action="@{/cpeliculas/actor/1}" method="get">
-            <div class="mb-3">
-                <label for="actor" class="form-label">Nombre del Actor</label>
-                <input type="text" class="form-control" id="actor" name="actor"
-                       placeholder="Escriba el nombre del Actor del curso">
-            </div>
-            <button type="submit" class="btn btn-success">Buscar por Actor</button>
-        </form>
 
-        <hr>
-        <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/home2}">Inicio</a>
+            <img th:if="${actor.imagen != null && #strings.length(actor.imagen) > 0}" class="img-thumbnail rounded float-left"
+                 style="max-width: 25%; max-height: 220px;" th:src="@{'/cpeliculas/uploads/' + ${actor.imagen}}"
+                 th:alt="${actor.imagen}" />
+
+            <div class="my-4">
+                <label for="file" class="col-sm-2 col-form-label fw-bold">Imagen</label>
+                <div class="col-sm-6">
+                    <input type="file" id="file" name="file" class="form-control"
+                           th:required="${(actor.imagen != null && #strings.length(actor.imagen) > 0)} ? null : 'required' "/>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark mt-2 mb-5">Guardar</button>
+            <input type="hidden" th:field="*{idActor}" />
+            <input type="hidden" th:field="*{imagen}"/>
+        </form>
     </main>
 
     <footer class="mt-auto" style="background-color: #A6E26E;">
