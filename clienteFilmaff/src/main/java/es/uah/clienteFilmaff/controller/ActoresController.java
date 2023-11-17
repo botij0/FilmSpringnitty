@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/cactores")
@@ -28,27 +27,49 @@ public class ActoresController {
     @Autowired
     private IUploadFileService uploadFileService;
 
-    @GetMapping("/listado")
+    @GetMapping("/tabla")
     public String listadoActores(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
     {
         Pageable pageable = PageRequest.of(page, 4);
+        Page<Actor> listado = actoresService.buscarTodos(pageable);
+        PageRender<Actor> pageRender = new PageRender<Actor>("/cactores/tabla",listado);
+        model.addAttribute("titulo", "Tabla de los Actores");
+        model.addAttribute("listadoActores", listado);
+        model.addAttribute("page",pageRender);
+        return "actores/tablaActores";
+    }
+
+    @GetMapping("/listado")
+    public String listadoActores2(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
+    {
+        Pageable pageable = PageRequest.of(page, 8);
         Page<Actor> listado = actoresService.buscarTodos(pageable);
         PageRender<Actor> pageRender = new PageRender<Actor>("/cactores/listado",listado);
         model.addAttribute("titulo", "Listado de los Actores");
         model.addAttribute("listadoActores", listado);
         model.addAttribute("page",pageRender);
-        return "actores/listActores";
+        return "actores/listadoActores";
     }
 
-    @GetMapping("/listado2")
-    public String listadoActores2(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
+    @GetMapping("/nombre/")
+    public String buscarActorPorNombre(Model model,
+                                          @RequestParam(name="page", defaultValue = "0") int page,
+                                          @RequestParam("titulo") String titulo)
     {
-        Pageable pageable = PageRequest.of(page, 8);
-        Page<Actor> listado = actoresService.buscarTodos(pageable);
-        PageRender<Actor> pageRender = new PageRender<Actor>("/cactores/listado2",listado);
-        model.addAttribute("titulo", "Listado de los Actores");
+        Pageable pageable = PageRequest.of(page,8);
+        Page<Actor> listado;
+        if(titulo.equals("")){
+            listado = actoresService.buscarTodos(pageable);
+        }
+        else{
+            listado = actoresService.buscarActorPorNombre(titulo, pageable);
+        }
+
+        PageRender<Actor> pageRender = new PageRender<Actor>("/cactores/listado", listado);
+
+        model.addAttribute("titulo", "Listado de Actores");
         model.addAttribute("listadoActores", listado);
-        model.addAttribute("page",pageRender);
+        model.addAttribute("page", pageRender);
         return "actores/listadoActores";
     }
 
@@ -95,7 +116,7 @@ public class ActoresController {
         actoresService.guardarActor(actor);
         model.addAttribute("titulo", "Nuevo curso");
         attributes.addFlashAttribute("msg", "Los datos del curso fueron guardados!");
-        return "redirect:/cactores/listado";
+        return "redirect:/cactores/tabla";
     }
 
     @GetMapping("/editar/{id}")
@@ -116,6 +137,6 @@ public class ActoresController {
         actoresService.eliminarActor(id);
         attributes.addFlashAttribute("msg", "Los datos del curso fueron borrados!");
 
-        return "redirect:/cactores/listado";
+        return "redirect:/cactores/tabla";
     }
 }

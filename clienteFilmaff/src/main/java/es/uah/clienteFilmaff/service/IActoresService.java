@@ -12,7 +12,7 @@ public interface IActoresService {
     List<Actor> listaActores();
 
     Actor buscarActorPorId(Integer idActor);
-    Actor buscarActorPorNombre(String nombre);
+    Page<Actor> buscarActorPorNombre(String nombre, Pageable pageable);
     void guardarActor(Actor actor);
     void eliminarActor(Integer idActor);
     void inscribirPelicula(Integer idActor, Integer idPelicula);

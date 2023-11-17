@@ -49,7 +49,7 @@ public class PeliculasDAOImpl implements IPeliculasDAO {
             List<Actor> actoresPeli = peli.getActores();
             for (Actor actorInPeli: actoresPeli)
             {
-                if(actorInPeli.getNombre().contains(actor)){
+                if(actorInPeli.getNombre().toLowerCase().contains(actor.toLowerCase())){
                     returnList.add(peli);
                     break;
                 }

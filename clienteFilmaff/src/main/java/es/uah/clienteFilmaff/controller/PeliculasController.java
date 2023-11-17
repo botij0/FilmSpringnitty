@@ -22,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/cpeliculas")
@@ -65,16 +67,17 @@ public class PeliculasController {
         return "home";
     }
 
-    @GetMapping(value = "/gestionPeliculas")
-    public String gestionPeliculas (Model model){
-        return "gestionPeliculas";
+    @GetMapping(value = "/panelControl")
+    public String panelControl (Model model){
+        return "panelControl";
     }
 
-    @GetMapping("/nuevo")
-    public String nuevo (Model model) {
+    @GetMapping("/nueva")
+    public String nueva (Model model) {
         List<Actor> actorList = actoresService.listaActores();
-
+        var paises = Arrays.asList(Locale.getISOCountries());
         model.addAttribute("titulo", "Nueva Pelicula");
+        model.addAttribute("paises", paises);
         Pelicula pelicula = new Pelicula();
         model.addAttribute("pelicula", pelicula);
         model.addAttribute("listadoActores", actorList);
@@ -82,37 +85,37 @@ public class PeliculasController {
     }
 
     @GetMapping("/buscarTabla")
-    public String buscar (Model model){
+    public String buscarTabla (Model model){
         return "peliculas/searchPeliculaTabla";
     }
 
     @GetMapping("/buscarListado")
-    public String buscarPublic (Model model){
+    public String buscarListado (Model model){
         return "peliculas/searchPeliculaListado";
+    }
+
+    @GetMapping("/tabla")
+    public String tablaPeliculas(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
+    {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Pelicula> listado = peliculasService.buscarTodos(pageable);
+        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/tabla",listado);
+        model.addAttribute("titulo", "Listado de todas las Peliculas");
+        model.addAttribute("listadoPeliculas", listado);
+        model.addAttribute("page",pageRender);
+        return "peliculas/tablaPeliculas";
     }
 
     @GetMapping("/listado")
     public String listadoPeliculas(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
     {
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 8);
         Page<Pelicula> listado = peliculasService.buscarTodos(pageable);
         PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/listado",listado);
         model.addAttribute("titulo", "Listado de todas las Peliculas");
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page",pageRender);
-        return "peliculas/listPeliculas";
-    }
-
-    @GetMapping("/listado2")
-    public String listadoPeliculas2(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
-    {
-        Pageable pageable = PageRequest.of(page, 8);
-        Page<Pelicula> listado = peliculasService.buscarTodos(pageable);
-        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/listado2",listado);
-        model.addAttribute("titulo", "Listado de todas las Peliculas");
-        model.addAttribute("listadoPeliculas", listado);
-        model.addAttribute("page",pageRender);
-        return "peliculas/listadoPeliculas2";
+        return "peliculas/listadoPeliculas";
     }
 
     @GetMapping("/idpelicula/{id}")
@@ -129,11 +132,12 @@ public class PeliculasController {
         return "peliculas/detallePelicula";
     }
 
-    @GetMapping("/titulo")
-    public String buscarPeliculaPorTituloTabla(Model model, @RequestParam(name="page", defaultValue = "0") int page,
+    @GetMapping("/titulo/{pageSize}")
+    public String buscarPeliculaPorTitulo(Model model, @PathVariable("pageSize") int pageSize,
+                                          @RequestParam(name="page", defaultValue = "0") int page,
                                           @RequestParam("titulo") String titulo)
     {
-        Pageable pageable = PageRequest.of(page,5);
+        Pageable pageable = PageRequest.of(page,pageSize);
         Page<Pelicula> listado;
         if(titulo.equals("")){
             listado = peliculasService.buscarTodos(pageable);
@@ -142,39 +146,22 @@ public class PeliculasController {
             listado = peliculasService.buscarPeliculaPorTitulo(titulo, pageable);
         }
 
-        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/listado", listado);
+        PageRender<Pelicula> pageRender = pageSize == 8 ?   new PageRender<Pelicula>("/cpeliculas/listado", listado) :
+                                                            new PageRender<Pelicula>("/cpeliculas/tabla", listado);
+
         model.addAttribute("titulo", "Listado de Peliculas por Titulo");
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page", pageRender);
-        return "peliculas/listPeliculas";
+        return pageSize == 8 ? "peliculas/listadoPeliculas" :
+                                "peliculas/tablaPeliculas";
     }
 
-    @GetMapping("/titulo/lista")
-    public String buscarPeliculaPorTituloLista(Model model, @RequestParam(name="page", defaultValue = "0") int page,
-                                          @RequestParam("titulo") String titulo)
-    {
-        Pageable pageable = PageRequest.of(page,8);
-        Page<Pelicula> listado;
-        if(titulo.equals("")){
-            listado = peliculasService.buscarTodos(pageable);
-        }
-        else{
-            listado = peliculasService.buscarPeliculaPorTitulo(titulo, pageable);
-        }
-
-        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/listado2", listado);
-        model.addAttribute("titulo", "Listado de Peliculas por Titulo");
-        model.addAttribute("listadoPeliculas", listado);
-        model.addAttribute("page", pageRender);
-
-        return "peliculas/listadoPeliculas2";
-    }
-
-    @GetMapping("/genero/{rol}")
-    public String buscarPeliculaPorGenero(Model model, @PathVariable("rol") Integer rol, @RequestParam(name="page", defaultValue = "0") int page,
+    @GetMapping("/genero/{pageSize}")
+    public String buscarPeliculaPorGenero(Model model, @PathVariable("pageSize") int pageSize,
+                                          @RequestParam(name="page", defaultValue = "0") int page,
                                           @RequestParam("genero") String genero)
     {
-        Pageable pageable = PageRequest.of(page,5);
+        Pageable pageable = PageRequest.of(page,pageSize);
         Page<Pelicula> listado;
         if(genero.equals("")){
             listado = peliculasService.buscarTodos(pageable);
@@ -183,19 +170,23 @@ public class PeliculasController {
             listado = peliculasService.buscarPeliculaPorGenero(genero, pageable);
         }
 
-        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/listado", listado);
+        PageRender<Pelicula> pageRender = pageSize == 8 ?   new PageRender<Pelicula>("/cpeliculas/listado", listado) :
+                                                            new PageRender<Pelicula>("/cpeliculas/tabla", listado);
+
         model.addAttribute("titulo", "Listado de Peliculas por Genero");
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page", pageRender);
-        return (rol == 0) ? "peliculas/listPeliculas" :  "peliculas/listadoPeliculas2";
+        return pageSize == 8 ? "peliculas/listadoPeliculas" :
+                                "peliculas/tablaPeliculas";
     }
 
 
-    @GetMapping("/actor/{rol}")
-    public String buscarPeliculaPorActor(Model model, @PathVariable("rol") Integer rol, @RequestParam(name="page", defaultValue = "0") int page,
+    @GetMapping("/actor/{pageSize}")
+    public String buscarPeliculaPorActor(Model model, @PathVariable("pageSize") int pageSize,
+                                         @RequestParam(name="page", defaultValue = "0") int page,
                                           @RequestParam("actor") String actor)
     {
-        Pageable pageable = PageRequest.of(page,5);
+        Pageable pageable = PageRequest.of(page,pageSize);
         Page<Pelicula> listado;
         if(actor.equals("")){
             listado = peliculasService.buscarTodos(pageable);
@@ -204,11 +195,14 @@ public class PeliculasController {
             listado = peliculasService.buscarPeliculaPorActor(actor, pageable);
         }
 
-        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/listado", listado);
-        model.addAttribute("titulo", "Listado de Peliculas por Actor");
+        PageRender<Pelicula> pageRender = pageSize == 8 ?   new PageRender<Pelicula>("/cpeliculas/listado", listado) :
+                                                            new PageRender<Pelicula>("/cpeliculas/tabla", listado);
+
+        model.addAttribute("titulo", "Listado de Peliculas por Actores");
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page", pageRender);
-        return (rol == 0) ? "peliculas/listPeliculas" :  "peliculas/listadoPeliculas2";
+        return pageSize == 8 ? "peliculas/listadoPeliculas" :
+                                "peliculas/tablaPeliculas";
     }
 
 
@@ -238,9 +232,9 @@ public class PeliculasController {
         }
 
         peliculasService.guardarPelicula(pelicula);
-        model.addAttribute("titulo", "Nuevo curso");
+        model.addAttribute("titulo", "Nueva Pelicula");
         attributes.addFlashAttribute("msg", "Los datos del curso fueron guardados!");
-        return "redirect:/cpeliculas/listado";
+        return "redirect:/cpeliculas/tabla";
     }
 
     @GetMapping("/editar/{id}")
@@ -263,6 +257,6 @@ public class PeliculasController {
         peliculasService.eliminarPelicula(id);
         attributes.addFlashAttribute("msg", "Los datos del curso fueron borrados!");
 
-        return "redirect:/cpeliculas/listado";
+        return "redirect:/cpeliculas/tabla";
     }
 }

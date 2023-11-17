@@ -52,16 +52,16 @@
                 <a class="nav-link" th:href="@{/cpeliculas/}">Inicio</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" th:href="@{/cpeliculas/listado}">Peliculas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/cpeliculas/listado2}">Peliculas</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{/cactores/listado2}">Actores</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{/cpeliculas/gestionPeliculas}">Panel de Control</a>
+                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
               </li>
             </ul>
 
@@ -90,7 +90,7 @@
         <div class="card-body mx-auto" style="width: 85%">
           <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
           <h4 class="card-title text-end me-4">
-            <a th:href="@{/cpeliculas/nuevo}" class="btn btn-primary btn-xs">Crear nueva película</a>
+            <a th:href="@{/cpeliculas/nueva}" class="btn btn-primary btn-xs">Crear nueva película</a>
           </h4>
           <table class="table table-hover mx-auto">
             <thead class="thead-light">
@@ -111,7 +111,9 @@
 
             <tbody>
               <tr th:each="pelicula : ${listadoPeliculas}">
-                <td><a class="btn btn-secondary btn-xs text-white" th:href="@{/cpeliculas/detallePelicula/} + ${pelicula.idPelicula}" th:text="${pelicula.idPelicula}"></a> </td>
+                <td><a class="btn btn-secondary btn-xs text-white" th:href="@{/cpeliculas/detallePelicula/} + ${pelicula.idPelicula}"
+                       th:text="${pelicula.idPelicula}"></a>
+                </td>
                 <td th:text="${pelicula.titulo}"></td>
                 <td th:text="${pelicula.anio}"></td>
                 <td th:text="${pelicula.duracion}"></td>
@@ -124,19 +126,24 @@
                 <td th:text="${pelicula.genero}"></td>
                 <td><p th:each="actor :${pelicula.actores}" th:text="${actor.getNombre()}"></p></td>
                 <td>
-                  <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button" title="Editar la Película."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                  <a th:href="@{/cpeliculas/borrar/{id}  (id=${pelicula.idPelicula})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar la Película."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                  <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})  }" th:text="'editar'"
+                     class="btn btn-success btn-sm" role="button" title="Editar la Película.">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                  </a>
+                  <a th:href="@{/cpeliculas/borrar/{id}  (id=${pelicula.idPelicula})   }" th:text="'borrar'"
+                     onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar la Película.">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                  </a>
                 </td>
               </tr>
             </tbody>
-
           </table>
 
           <nav th:replace="paginator-nav :: paginator"></nav>
 
         </div>
         <hr>
-        <a class="btn btn-primary mx-auto" role="button" th:href="@{/cpeliculas/gestionPeliculas}" style="width: 15%">Volver</a>
+        <a class="btn btn-primary mx-auto" role="button" th:href="@{/cpeliculas/panelControl}" style="width: 15%">Volver</a>
       </div>
     </main>
 
