@@ -4,6 +4,7 @@ import es.uah.clienteFilmaff.model.Actor;
 import es.uah.clienteFilmaff.model.Pelicula;
 import es.uah.clienteFilmaff.paginator.PageRender;
 import es.uah.clienteFilmaff.service.IActoresService;
+import es.uah.clienteFilmaff.service.IPaisesService;
 import es.uah.clienteFilmaff.service.IUploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,9 @@ public class ActoresController {
 
     @Autowired
     private IUploadFileService uploadFileService;
+
+    @Autowired
+    IPaisesService paisesService;
 
     @GetMapping("/tabla")
     public String listadoActores(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
@@ -85,7 +89,7 @@ public class ActoresController {
         model.addAttribute("titulo", "Nuevo Actor/Actriz");
         Actor actor = new Actor();
         model.addAttribute("actor", actor);
-        //model.addAttribute("listadoActores", actorList);
+        model.addAttribute("paises", paisesService.obtenerListPaises());
         return "actores/formActores";
     }
 
@@ -123,6 +127,7 @@ public class ActoresController {
     public String editarActor (Model model, @PathVariable("id") Integer id) {
         Actor actor = actoresService.buscarActorPorId(id);
         model.addAttribute("titulo", "Editar Actor");
+        model.addAttribute("paises", paisesService.obtenerListPaises());
         model.addAttribute("actor",actor);
         return "actores/formActores";
     }

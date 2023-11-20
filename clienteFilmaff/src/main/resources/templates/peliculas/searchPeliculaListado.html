@@ -16,13 +16,13 @@
             <!-- Container wrapper -->
             <div class="container">
                 <!-- Navbar brand -->
-                <a class="navbar-brand me-2" href="https://mdbgo.com/">
+                <a class="navbar-brand me-2" th:href="@{/cpeliculas/}">
                     <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/2560px-Spring_Framework_Logo_2018.svg.png"
-                            height="30"
+                            th:src="@{/logo_def.png}"
+                            height="40"
                             alt="MDB Logo"
                             loading="lazy"
-                            style="margin-top: -1px;"
+                            style="margin-top: -12px; margin-bottom: -10px"
                     />
                 </a>
 
@@ -43,9 +43,6 @@
                 <div class="collapse navbar-collapse" id="navbarButtonsExample">
                     <!-- Left links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">FilmSpringnity</a>
-                        </li>
                     </ul>
 
                     <ul class="navbar-nav me-auto">
@@ -101,13 +98,20 @@
             <div class="mb-3">
                 <label for="titulo" class="form-label">Género</label>
                 <select class="form-select" name="genero" id="genero">
-                    <!--                 <option selected>Seleccionar categoría</option> -->
-                    <option th:value="Misterio">Misterio</option>
-                    <option th:value="CienciaFiccion">CienciaFiccion</option>
-                    <option th:value="Suspense">Suspense</option>
-                    <option th:value="Animacion">Animacion</option>
-                    <option th:value="Terror">Terror</option>
-                    <option th:value="Comedia">Comedia</option>
+                    <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
+                    <option value="Acción">Acción</option>
+                    <option value="Animación">Animación</option>
+                    <option value="Aventura">Aventura</option>
+                    <option value="Ciencia Ficción">Ciencia Ficción</option>
+                    <option value="Comedia">Comedia</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Documental">Documental</option>
+                    <option value="Fantasía">Fantasía</option>
+                    <option value="Musical">Musical</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Suspense">Suspense</option>
+                    <option value="Terror">Terror</option>
+                    <option value="Thriller">Thriller</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-success">Buscar por Género</button>

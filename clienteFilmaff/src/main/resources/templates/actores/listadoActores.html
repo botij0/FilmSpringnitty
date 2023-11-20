@@ -27,13 +27,13 @@
             <!-- Container wrapper -->
             <div class="container">
                 <!-- Navbar brand -->
-                <a class="navbar-brand me-2" href="https://mdbgo.com/">
+                <a class="navbar-brand me-2" th:href="@{/cpeliculas/}">
                     <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/2560px-Spring_Framework_Logo_2018.svg.png"
-                            height="30"
+                            th:src="@{/logo_def.png}"
+                            height="40"
                             alt="MDB Logo"
                             loading="lazy"
-                            style="margin-top: -1px;"
+                            style="margin-top: -12px; margin-bottom: -10px"
                     />
                 </a>
 
@@ -54,9 +54,6 @@
                 <div class="collapse navbar-collapse" id="navbarButtonsExample">
                     <!-- Left links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">FilmSpringnity</a>
-                        </li>
                     </ul>
 
                     <ul class="navbar-nav me-auto">

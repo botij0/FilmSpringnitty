@@ -4,6 +4,7 @@ import es.uah.clienteFilmaff.model.Actor;
 import es.uah.clienteFilmaff.model.Pelicula;
 import es.uah.clienteFilmaff.paginator.PageRender;
 import es.uah.clienteFilmaff.service.IActoresService;
+import es.uah.clienteFilmaff.service.IPaisesService;
 import es.uah.clienteFilmaff.service.IPeliculasService;
 import es.uah.clienteFilmaff.service.IUploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class PeliculasController {
 
     @Autowired
     private IUploadFileService uploadFileService;
+
+    @Autowired
+    IPaisesService paisesService;
 
 
     @GetMapping("/uploads/{filename:.+}")
@@ -75,9 +79,8 @@ public class PeliculasController {
     @GetMapping("/nueva")
     public String nueva (Model model) {
         List<Actor> actorList = actoresService.listaActores();
-        var paises = Arrays.asList(Locale.getISOCountries());
         model.addAttribute("titulo", "Nueva Pelicula");
-        model.addAttribute("paises", paises);
+        model.addAttribute("paises", paisesService.obtenerListPaises());
         Pelicula pelicula = new Pelicula();
         model.addAttribute("pelicula", pelicula);
         model.addAttribute("listadoActores", actorList);
@@ -242,6 +245,7 @@ public class PeliculasController {
         Pelicula pelicula = peliculasService.buscarPeliculaPorId(id);
         model.addAttribute("titulo", "Editar Pelicula");
         model.addAttribute("listadoActores", actoresService.listaActores());
+        model.addAttribute("paises", paisesService.obtenerListPaises());
         model.addAttribute("actoresSeleccionados",peliculasService.idActoresPelicula(pelicula));
         model.addAttribute("pelicula",pelicula);
         return "peliculas/formPelicula";

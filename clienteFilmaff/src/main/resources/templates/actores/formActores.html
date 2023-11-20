@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>FilmSpringnity</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <!-- Or for RTL support -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
     <!-- Custom styles for this template -->
 </head>
@@ -16,13 +22,13 @@
             <!-- Container wrapper -->
             <div class="container">
                 <!-- Navbar brand -->
-                <a class="navbar-brand me-2" href="https://mdbgo.com/">
+                <a class="navbar-brand me-2" th:href="@{/cpeliculas/}">
                     <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/2560px-Spring_Framework_Logo_2018.svg.png"
-                            height="30"
+                            th:src="@{/logo_def.png}"
+                            height="40"
                             alt="MDB Logo"
                             loading="lazy"
-                            style="margin-top: -1px;"
+                            style="margin-top: -12px; margin-bottom: -10px"
                     />
                 </a>
 
@@ -43,9 +49,6 @@
                 <div class="collapse navbar-collapse" id="navbarButtonsExample">
                     <!-- Left links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">FilmSpringnity</a>
-                        </li>
                     </ul>
 
                     <ul class="navbar-nav me-auto">
@@ -113,13 +116,8 @@
             <div class="my-4">
                 <label for="paisNac" class="form-label fw-bold">Pais Nacimiento</label>
                 <select class="form-select" th:field="*{paisNac}" name="paisNac" id="paisNac">
-                    <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
-                    <option th:value="España">España</option>
-                    <option th:value="EstadosUnidos">EstadosUnidos</option>
-                    <option th:value="Japón">Japón</option>
-                    <option th:value="China">China</option>
-                    <option th:value="Rusia">Rusia</option>
-                    <option th:value="India">India</option>
+                    <option th:each="pais :${paises}" th:value="${pais}" th:text="${pais}">
+                    </option>
                 </select>
             </div>
 
@@ -135,7 +133,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-dark mt-2 mb-5">Guardar</button>
+            <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">Guardar</button>
+            <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();" style="width: 130px; height: 40px">Volver</a>
             <input type="hidden" th:field="*{idActor}" />
             <input type="hidden" th:field="*{imagen}"/>
         </form>
@@ -149,6 +148,16 @@
     </footer>
 </div>
 
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script>
+    $( document ).ready(function(){
+        $('#paisNac').select2();
+    });
+</script>
 </body>
 </html>
