@@ -40,6 +40,11 @@ public class PeliculasDAOImpl implements IPeliculasDAO {
     }
 
     @Override
+    public List<Pelicula> buscarPeliculaPorAnio(Integer min, Integer max){
+        return peliculasJPA.findByAnioBetween(min,max);
+    }
+
+    @Override
     public List<Pelicula> buscarPeliculasPorActor(String actor){
         List<Pelicula> peliculaList = peliculasJPA.findAll();
         List<Pelicula> returnList = new ArrayList<>();

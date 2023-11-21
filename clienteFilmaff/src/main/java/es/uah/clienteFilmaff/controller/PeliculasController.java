@@ -7,6 +7,7 @@ import es.uah.clienteFilmaff.service.IActoresService;
 import es.uah.clienteFilmaff.service.IPaisesService;
 import es.uah.clienteFilmaff.service.IPeliculasService;
 import es.uah.clienteFilmaff.service.IUploadFileService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -23,9 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RequestMapping("/cpeliculas")
@@ -206,6 +206,25 @@ public class PeliculasController {
         model.addAttribute("page", pageRender);
         return pageSize == 8 ? "peliculas/listadoPeliculas" :
                                 "peliculas/tablaPeliculas";
+    }
+
+    @GetMapping("/anio/{pageSize}")
+    public String buscarPeliculaPorAnio(Model model, @PathVariable("pageSize") int pageSize,
+                                        @RequestParam(name="page", defaultValue = "0") int page,
+                                        @RequestParam("min") Integer min, @RequestParam("max") Integer  max)
+    {
+        Pageable pageable = PageRequest.of(page,pageSize);
+
+        Page<Pelicula> listado = peliculasService.buscarPeliculaPorAnio(min,max,pageable);
+
+        PageRender<Pelicula> pageRender = pageSize == 8 ?   new PageRender<Pelicula>("/cpeliculas/listado", listado) :
+                new PageRender<Pelicula>("/cpeliculas/tabla", listado);
+
+        model.addAttribute("titulo", "Listado de Peliculas por Año");
+        model.addAttribute("listadoPeliculas", listado);
+        model.addAttribute("page", pageRender);
+        return pageSize == 8 ? "peliculas/listadoPeliculas" :
+                "peliculas/tablaPeliculas";
     }
 
 

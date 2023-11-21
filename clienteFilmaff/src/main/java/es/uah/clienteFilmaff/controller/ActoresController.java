@@ -1,7 +1,6 @@
 package es.uah.clienteFilmaff.controller;
 
 import es.uah.clienteFilmaff.model.Actor;
-import es.uah.clienteFilmaff.model.Pelicula;
 import es.uah.clienteFilmaff.paginator.PageRender;
 import es.uah.clienteFilmaff.service.IActoresService;
 import es.uah.clienteFilmaff.service.IPaisesService;
@@ -32,7 +31,7 @@ public class ActoresController {
     IPaisesService paisesService;
 
     @GetMapping("/tabla")
-    public String listadoActores(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
+    public String tablaActores(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
     {
         Pageable pageable = PageRequest.of(page, 4);
         Page<Actor> listado = actoresService.buscarTodos(pageable);
@@ -44,7 +43,7 @@ public class ActoresController {
     }
 
     @GetMapping("/listado")
-    public String listadoActores2(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
+    public String listadoActores(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
     {
         Pageable pageable = PageRequest.of(page, 8);
         Page<Actor> listado = actoresService.buscarTodos(pageable);

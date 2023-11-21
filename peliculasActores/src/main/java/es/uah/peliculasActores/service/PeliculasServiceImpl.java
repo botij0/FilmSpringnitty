@@ -31,6 +31,10 @@ public class PeliculasServiceImpl implements IPeliculasService {
     public List<Pelicula> buscarPeliculasPorGenero(String genero) {
         return peliculasDAO.buscarPeliculasPorGenero(genero);
     }
+    @Override
+    public List<Pelicula> buscarPeliculaPorAnio(Integer min ,Integer max){
+        return peliculasDAO.buscarPeliculaPorAnio(min,max);
+    }
 
     @Override
     public List<Pelicula> buscarPeliculasPorActor(String actor){

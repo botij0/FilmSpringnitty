@@ -1,5 +1,6 @@
 package es.uah.clienteFilmaff.service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.domain.Page;
 import es.uah.clienteFilmaff.model.Pelicula;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ public interface IPeliculasService {
     Page<Pelicula> buscarPeliculaPorGenero (String genero, Pageable pageable);
 
     Page<Pelicula> buscarPeliculaPorActor (String actor, Pageable pageable);
+    Page<Pelicula> buscarPeliculaPorAnio(Integer min, Integer max, Pageable pageable);
 
     void guardarPelicula(Pelicula pelicula);
     void eliminarPelicula(Integer idPelicula);

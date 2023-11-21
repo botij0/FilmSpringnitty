@@ -68,6 +68,13 @@ public class PeliculasServiceImpl implements IPeliculasService {
         return getPaginatedPage(lista,pageable);
     }
 
+    @Override
+    public Page<Pelicula> buscarPeliculaPorAnio(Integer min, Integer max, Pageable pageable){
+        Pelicula[] peliculas = template.getForObject(url + "/anio/" + min + "/" + max, Pelicula[].class);
+        List<Pelicula> lista = Arrays.asList(peliculas);
+        return getPaginatedPage(lista,pageable);
+    }
+
 
 
     @Override

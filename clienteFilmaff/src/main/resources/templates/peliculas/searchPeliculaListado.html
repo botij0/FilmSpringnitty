@@ -50,7 +50,7 @@
                             <a class="nav-link" th:href="@{/cpeliculas/}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Peliculas</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
@@ -127,10 +127,23 @@
         </form>
 
         <hr>
+        <form th:action="@{/cpeliculas/anio/8}" method="get">
+            <div class="mb-3">
+                <label for="min" class="form-label">Desde</label>
+                <input type="number" class="form-control" id="min" name="min"
+                       placeholder="Desde" value="0" required>
+                <label for="max" class="form-label">Hasta</label>
+                <input type="number" class="form-control" id="max" name="max"
+                       placeholder="Hasta" value="2024" required>
+            </div>
+            <button type="submit" class="btn btn-success">Buscar por Años</button>
+        </form>
+
+        <hr>
         <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/home}">Inicio</a>
     </main>
 
-    <footer class="mt-auto" style="background-color: #A6E26E;">
+    <footer class="mt-auto text-center" style="background-color: #A6E26E;">
         <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
             <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
             by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.

@@ -56,7 +56,7 @@
                             <a class="nav-link" th:href="@{/cpeliculas/home}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Peliculas</a>
+                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
@@ -104,7 +104,7 @@
             <div class="my-4">
                 <label for="nombre" class="form-label fw-bold">Nombre Completo</label>
                 <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
-                       placeholder="Escriba el Nombre y Apellido/s" required="required">
+                       placeholder="Escriba el Nombre y Apellido/s" required="required" maxlength="50">
             </div>
 
             <div class="my-4">

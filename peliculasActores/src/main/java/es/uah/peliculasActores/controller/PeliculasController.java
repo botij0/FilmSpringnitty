@@ -36,6 +36,11 @@ public class PeliculasController {
     public List<Pelicula> buscarPeliculasPorActor(@PathVariable("actor") String actor){
         return peliculasService.buscarPeliculasPorActor(actor);
     }
+    @GetMapping("/peliculas/anio/{min}/{max}")
+    public List<Pelicula> buscarPeliculasPorAnio(@PathVariable("min") Integer min,
+                                                 @PathVariable("max") Integer max){
+        return peliculasService.buscarPeliculaPorAnio(min,max);
+    }
 
     @PostMapping("/peliculas")
     public void guardarPelicula(@RequestBody Pelicula pelicula) {

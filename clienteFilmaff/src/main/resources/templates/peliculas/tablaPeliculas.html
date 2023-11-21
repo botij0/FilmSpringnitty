@@ -49,7 +49,7 @@
                 <a class="nav-link" th:href="@{/cpeliculas/}">Inicio</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/cpeliculas/listado}">Peliculas</a>
+                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
@@ -89,6 +89,7 @@
           <h4 class="card-title text-end me-4">
             <a th:href="@{/cpeliculas/nueva}" class="btn btn-primary btn-xs">Crear nueva película</a>
           </h4>
+
           <table class="table table-hover mx-auto">
             <thead class="thead-light">
               <tr>
@@ -113,7 +114,7 @@
                 </td>
                 <td th:text="${pelicula.titulo}"></td>
                 <td th:text="${pelicula.anio}"></td>
-                <td th:text="${pelicula.duracion}"></td>
+                <td th:text="${pelicula.duracion} + ' mins'"></td>
                 <td th:text="${pelicula.pais}"></td>
                 <td th:text="${pelicula.direccion}"></td>
                 <td th:if="${pelicula.sinopsis.length() >= 150 }" th:text="${pelicula.sinopsis.substring(0,150) + '...'}" th:title="${pelicula.sinopsis}"></td>
@@ -121,7 +122,8 @@
                 <td><img  th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}"
                          style="width:70px; height: 120px"></td>
                 <td th:text="${pelicula.genero}"></td>
-                <td><p th:each="actor :${pelicula.actores}" th:text="${actor.getNombre()}"></p></td>
+                <td><a th:each="actor :${pelicula.actores}" th:text="${actor.nombre}"
+                       th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})  }" class="mx-2"></a></td>
                 <td>
                   <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})  }" th:text="'editar'"
                      class="btn btn-success btn-sm" role="button" title="Editar la Película.">
@@ -144,8 +146,8 @@
       </div>
     </main>
 
-    <footer class="mt-auto" style="background-color: #A6E26E;">
-      <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+    <footer class="mt-auto text-center" style="background-color: #A6E26E;">
+      <p class="py-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
         <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
         by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
       </p>

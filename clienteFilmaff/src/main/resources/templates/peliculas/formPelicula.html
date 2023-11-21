@@ -59,7 +59,7 @@
                                 <a class="nav-link" th:href="@{/cpeliculas/home}">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Peliculas</a>
+                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
@@ -107,7 +107,7 @@
                 <div class="mb-3">
                     <label for="titulo" class="form-label fw-bold">Titulo</label>
                     <input type="text" class="form-control" th:field="*{titulo}" id="titulo" name="titulo"
-                           placeholder="Escriba el titulo de la película" required="required">
+                           placeholder="Escriba el titulo de la película" required="required" maxlength="100">
                 </div>
 
                 <div class="mb-3">
@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="duracion" class="form-label fw-bold">Duración</label>
+                    <label for="duracion" class="form-label fw-bold">Duración (mins)</label>
                     <input type="number" class="form-control" th:field="*{duracion}" id="duracion" name="duracion"
                            placeholder="Escriba la duración de la película en minutos" required="required">
                 </div>
@@ -131,9 +131,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="direccion" class="form-label fw-bold">Director</label>
+                    <label for="direccion" class="form-label fw-bold">Dirección</label>
                     <input type="text" class="form-control" th:field="*{direccion}" id="direccion" name="direccion"
-                           placeholder="Escriba el director de la película" required="required">
+                           placeholder="Escriba el director de la película" required="required" maxlength="100">
                 </div>
 
                 <div class="mb-3">
