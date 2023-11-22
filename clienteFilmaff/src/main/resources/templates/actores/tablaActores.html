@@ -86,9 +86,9 @@
             <th class="col">Id</th>
             <th class="col">Nombre</th>
             <th class="col">Fecha Nacimiento</th>
-            <th class="col">Pais Nacimiento</th>
+            <th class="col">País Nacimiento</th>
             <th class="col">Imagen</th>
-            <th class="col">Peliculas</th>
+            <th class="col">Películas</th>
             <th class="col">Acciones</th>
           </tr>
           </thead>
@@ -107,10 +107,10 @@
             <td><a th:each="pelicula :${actor.peliculas}" th:text="${pelicula.titulo}"
                    th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})  }" class="mx-2"></a></td>
             <td>
-              <a th:href="@{/cactores/editar/{id}  (id=${actor.idActor})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button"
-                 title="Editar Actor."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+              <a th:href="@{/cactores/editar/{id}  (id=${actor.idActor})  }" th:text="'editar'" class="btn btn-success btn-sm mb-3" role="button"
+                 title="Editar Actor."></a>
               <a th:href="@{/cactores/borrar/{id}  (id=${actor.idActor})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')"
-                 class="btn btn-danger btn-sm" role="button" title="Eliminar Actor."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                 class="btn btn-danger btn-sm mb-3" role="button" title="Eliminar Actor."></a>
             </td>
           </tr>
           </tbody>

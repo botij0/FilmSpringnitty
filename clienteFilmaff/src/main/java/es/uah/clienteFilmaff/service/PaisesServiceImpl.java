@@ -5,6 +5,7 @@ import es.uah.clienteFilmaff.model.Pelicula;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,6 +21,7 @@ public class PaisesServiceImpl implements IPaisesService {
             Locale obj = new Locale("", countryCode);
             paises.add(obj.getDisplayName());
         }
+        Collections.sort(paises);
         return paises;
     }
 }
