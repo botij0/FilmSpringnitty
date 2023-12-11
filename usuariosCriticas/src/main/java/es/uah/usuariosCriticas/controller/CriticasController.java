@@ -19,7 +19,7 @@ public class CriticasController {
     }
 
     @GetMapping("/criticas/pelicula/{idPelicula}")
-    public List<Critica> buscarMatriculasPorIdCurso(@PathVariable("idPelicula") Integer idPelicula) {
+    public List<Critica> buscarMatriculasPorIdPelicula(@PathVariable("idPelicula") Integer idPelicula) {
         return criticasService.buscarCriticasPorIdPelicula(idPelicula);
     }
 

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>FilmSpringnity</title>
+    <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
 </head>
-<body class="text-center vh-100" style="background-color:#F9F9F9">
 
-<div class="cover-container d-flex vh-100 flex-column mx-auto">
+<body class="vh-100" style="background-color:#F9F9F9">
+
+<div class="cover-container vh-100 flex-column mx-auto">
     <header class="mb-auto">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
@@ -73,63 +72,63 @@
     </header>
 
 
-    <main class="px-3 vh-100 mt-3">
-        <div class="container">
-            <h1 class="text-center">Panel de Control</h1>
-            <hr>
-            <div class="card-group">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Gestión Películas</h3>
-                        <a class="btn btn-link" th:href="@{/cpeliculas/tabla}">
-                            Listado Peliculas Tabla
-                        </a>
-                    </div>
-                </div>
+    <main class="mb-1">
+        <div class="card">
+            <h2 th:text="${titulo}" class="card-header text-center"></h2>
+            <div class="card-body mx-auto" style="width: 85%">
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+                <h4 class="card-title text-end">
+                    <a th:href="@{/cusuarios/nuevo}" class="btn btn-primary btn-xs">Crear Usuario</a>
+                </h4>
+                <table class="table table-hover mx-auto">
+                    <thead class="thead-light">
+                    <tr>
+                        <th class="col">Id</th>
+                        <th class="col">Nombre</th>
+                        <th class="col">Clave</th>
+                        <th class="col">Correo</th>
+                        <th class="col">Rol</th>
+                        <th class="col">Acciones</th>
+                    </tr>
+                    </thead>
 
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Buscar Peliculas Tabla</h3>
-                        <a class="btn btn-link" th:href="@{/cpeliculas/buscarTabla}">
-                            Buscar Peliculas Tabla
-                        </a>
-                    </div>
-                </div>
+                    <tbody>
+                    <tr th:each="usuario : ${listadoUsuarios}">
+                        <td>
+                            <a class="btn btn-secondary btn-xs text-white" th:href="@{/cusuarios/ver/} + ${usuario.idUsuario}"
+                               th:text="${usuario.idUsuario}"></a>
+                        </td>
+                        <td th:text="${usuario.nombre}"></td>
+                        <td th:text="${usuario.password}"></td>
+                        <td th:text="${usuario.correo}"></td>
+                        <td>
+                            <table>
+                                <tbody>
+                                <tr th:each="rol: ${usuario.roles}">
+                                    <td th:text="${rol.authority}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <a th:href="@{/cusuarios/editar/{id}  (id=${usuario.idUsuario})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button" title="Editar el usuario."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                            <a th:href="@{/cusuarios/borrar/{id}  (id=${usuario.idUsuario})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar el usuario."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
 
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Gestión Actores</h3>
-                        <a class="btn btn-link" th:href="@{/cactores/tabla}">
-                            Listado de Actores Tabla
-                        </a>
-                    </div>
-                </div>
+                </table>
 
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Listado usuarios</h3>
-                        <a class="btn btn-link" th:href="@{/cusuarios/listado}">
-                            Listado de usuarios
-                        </a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Listado Críticas</h3>
-                        <a class="btn btn-link" th:href="@{/ccriticas/listado}">
-                            Listado de Críticas
-                        </a>
-                    </div>
-                </div>
-
+                <nav th:replace="paginator-nav :: paginator"></nav>
 
             </div>
+            <hr>
+            <a class="btn btn-primary mx-auto" role="button" th:href="@{/cpeliculas/panelControl}" style="width: 15%">Volver</a>
         </div>
     </main>
 
-    <footer class="mt-auto" style="background-color: #A6E26E;">
-        <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+    <footer class="mt-auto text-center" style="background-color: #A6E26E;">
+        <p class="py-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
             <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
             by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
         </p>
@@ -138,4 +137,5 @@
 
 <script th:src="@{/js/bootstrap.min.js}"></script>
 </body>
+
 </html>
