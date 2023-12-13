@@ -8,17 +8,17 @@ public class Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idRol")
-    private Integer id;
+    private Integer idRol;
     @Basic
     @Column(name = "authority")
     private String authority;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdRol() {
+        return idRol;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdRol(Integer idRol) {
+        this.idRol = idRol;
     }
 
     public String getAuthority() {

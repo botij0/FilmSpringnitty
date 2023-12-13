@@ -1,8 +1,10 @@
 package es.uah.clienteFilmaff.controller;
 
 import es.uah.clienteFilmaff.model.Critica;
+import es.uah.clienteFilmaff.model.Pelicula;
 import es.uah.clienteFilmaff.paginator.PageRender;
 import es.uah.clienteFilmaff.service.ICriticasService;
+import es.uah.clienteFilmaff.service.IPeliculasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,12 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/ccriticas")
 public class CriticasController {
 
     @Autowired
     ICriticasService criticasService;
+
+    @Autowired
+    IPeliculasService peliculasService;
 
     @GetMapping("/listado")
     public String listadoCriticas(Model model, @RequestParam(name="page", defaultValue="0") int page) {
@@ -33,7 +40,14 @@ public class CriticasController {
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         Critica critica = new Critica();
+        List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+
+        //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
+
+
         model.addAttribute("titulo", "Nueva critica");
+        model.addAttribute("peliculas", peliculaList);
+        model.addAttribute("usuarioID", 2);
         model.addAttribute("critica", critica);
         return "usuarios/formCritica";
     }
@@ -49,8 +63,14 @@ public class CriticasController {
     @GetMapping("/editar/{id}")
     public String editarCritica(Model model, @PathVariable("id") Integer id) {
         Critica critica = criticasService.buscarCriticaPorId(id);
+        List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+
+        //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
+
         model.addAttribute("titulo", "Editar Critica");
         model.addAttribute("critica", critica);
+        model.addAttribute("peliculas", peliculaList);
+        model.addAttribute("usuarioID", 2);
         return "usuarios/formCritica";
     }
 

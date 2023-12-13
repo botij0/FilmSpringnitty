@@ -83,17 +83,15 @@ public class CriticaServiceImpl implements ICriticasService {
 
     @Override
     public String guardarCritica(Critica critica) {
+        Usuario usuario = usuariosService.buscarUsuarioPorId(2);
+        critica.setUsuario(usuario);
+        critica.setFecha(new Date());
         if (critica.getIdCritica() != null && critica.getIdCritica() > 0) {
-            //template.put(url, matricula); //peligroso, habría que comprobar la inscripción anterior
-            return "No se puede modificar una matrícula.";
+            template.put(url, critica, String.class); //peligroso, habría que comprobar la inscripción anterior
+            return "Se han actualizado los datos";
         } else {
-            //Usuario usuario = usuariosService.buscarUsuarioPorId(critica.getUsuario().getIdUsuario());
-            //Pelicula pelicula = peliculasService.buscarPeliculaPorId(critica.getPeliculaId());
-
             //Guardamos la Crítica:
             critica.setIdCritica(0);
-            critica.setFecha(new Date());
-
             template.postForObject(url,critica,String.class);
             return "Los datos de la crítica fueron guardados!";
         }

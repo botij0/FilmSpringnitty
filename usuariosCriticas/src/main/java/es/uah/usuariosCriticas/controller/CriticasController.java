@@ -19,22 +19,27 @@ public class CriticasController {
     }
 
     @GetMapping("/criticas/pelicula/{idPelicula}")
-    public List<Critica> buscarMatriculasPorIdPelicula(@PathVariable("idPelicula") Integer idPelicula) {
+    public List<Critica> buscarCriticasPorIdPelicula(@PathVariable("idPelicula") Integer idPelicula) {
         return criticasService.buscarCriticasPorIdPelicula(idPelicula);
     }
 
     @GetMapping("/criticas/{id}")
-    public Critica buscarMatriculaPorId(@PathVariable("id") Integer id) {
+    public Critica buscarCriticaPorId(@PathVariable("id") Integer id) {
         return criticasService.buscarCriticaPorId(id);
     }
 
     @PostMapping("/criticas")
-    public void guardarMatricula(@RequestBody Critica critica) {
+    public void guardarCritica(@RequestBody Critica critica) {
+        criticasService.guardarCritica(critica);
+    }
+
+    @PutMapping("/criticas")
+    public void actualizarCritica(@RequestBody Critica critica) {
         criticasService.guardarCritica(critica);
     }
 
     @DeleteMapping("/criticas/{id}")
-    public void eliminarMatricula(@PathVariable("id") Integer id) {
+    public void eliminarCritica(@PathVariable("id") Integer id) {
         criticasService.eliminarCritica(id);
     }
 

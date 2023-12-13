@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
+    <title>FilmSpringnity</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 
 <body class="vh-100" style="background-color:#F9F9F9">
 
 <div class="cover-container vh-100 flex-column mx-auto">
-    <header class="mb-auto">
+    <header class="h-auto">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
             <div class="container-fluid">
@@ -72,8 +72,8 @@
     </header>
 
 
-    <main class="mb-1">
-        <div class="card">
+    <main class="h-100">
+        <div class="card mx-auto h-100">
             <h2 th:text="${titulo}" class="card-header text-center"></h2>
             <div class="card-body mx-auto" style="width: 85%">
                 <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
@@ -120,14 +120,14 @@
                 </table>
 
                 <nav th:replace="paginator-nav :: paginator"></nav>
-
+                <hr>
+                <a class="btn btn-primary mx-auto" role="button" th:href="@{/cpeliculas/panelControl}" style="width: 15%">Volver</a>
             </div>
-            <hr>
-            <a class="btn btn-primary mx-auto" role="button" th:href="@{/cpeliculas/panelControl}" style="width: 15%">Volver</a>
+
         </div>
     </main>
 
-    <footer class="mt-auto text-center" style="background-color: #A6E26E;">
+    <footer class="h-auto text-center" style="background-color: #A6E26E;">
         <p class="py-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
             <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
             by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.

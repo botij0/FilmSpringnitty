@@ -2,7 +2,7 @@ package es.uah.clienteFilmaff.model;
 
 public class Rol {
 
-    private Integer idRol;
+    private Integer id;
 
     private String authority;
 
@@ -12,17 +12,17 @@ public class Rol {
     public Rol(String idRolAndName){
         if(idRolAndName != null && idRolAndName.length() > 0){
             String[] fieldPositions = idRolAndName.split("-");
-            this.idRol = Integer.parseInt(fieldPositions[0]);
+            this.id = Integer.parseInt(fieldPositions[0]);
             this.authority = fieldPositions[1];
         }
     }
 
     public Integer getIdRol() {
-        return idRol;
+        return id;
     }
 
-    public void setIdRol(Integer idRol) {
-        this.idRol = idRol;
+    public void setIdRol(Integer id) {
+        this.id = id;
     }
 
     public String getAuthority() {
@@ -35,6 +35,6 @@ public class Rol {
 
     @Override
     public String toString() {
-        return "" + idRol +"-" + this.authority;
+        return "" + id +"-" + this.authority;
     }
 }

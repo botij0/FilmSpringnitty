@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FilmSpringnity</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+</head>
+<body class="text-center vh-100" style="background-color:#F9F9F9">
+
+<div class="cover-container d-flex vh-100 flex-column mx-auto">
+    <header class="">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
+            <div class="container-fluid">
+                <!-- icono o nombre -->
+
+                <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
+                    <img
+                            th:src="@{/logo_def.png}"
+                            height="40"
+                            alt="MDB Logo"
+                            loading="lazy"
+                            style="margin-top: -12px; margin-bottom: -10px"
+                    />
+                </a>
+
+                <!-- botón del menu -->
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- elementos del menu colapsable -->
+
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                        </li>
+                    </ul>
+
+                    <hr class="d-md-none text-black">
+
+                    <!--boton Informacion -->
+
+                    <form class="d-flex  me-0 me-md-5 justify-content-center">
+                        <button type="button" class="btn btn-link px-3 me-2">
+                            Iniciar Sesión
+                        </button>
+                        <button type="button" class="btn btn-primary me-3">
+                            Registrarse
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar -->
+    </header>
+
+
+    <main class="px-3 w-75 mx-auto">
+        <h2 th:text="${titulo}"
+            class="text-secondary border border-success border-top-0 border-left-0 border-right-0 text-center py-2">
+        </h2>
+        <form th:action="@{/cusuarios/guardar/}" method="post" th:object="${usuario}" enctype="multipart/form-data" class="text-start">
+
+            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                Por favor corrija los siguientes errores:
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                </ul>
+            </div>
+
+            <div class="my-4">
+                <label for="nombre" class="form-label fw-bold">Nombre Usuario</label>
+                <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
+                       placeholder="Escriba el Nombre de Usuario" required="required" maxlength="50">
+            </div>
+
+            <div class="my-4">
+                <label for="password" class="form-label fw-bold">Contraseña</label>
+                <input type="text" class="form-control" th:field="*{password}" id="password" name="password"
+                       placeholder="Introduzca una contraseña" required="required">
+            </div>
+
+            <div class="my-4">
+                <label for="correo" class="form-label fw-bold">Correo</label>
+                <input type="email" class="form-control" th:field="*{correo}" id="correo" name="correo"
+                       placeholder="correo@mail.com" required="required">
+            </div>
+
+            <div class="my-4">
+                <label for="roles" class="form-label fw-bold">Rol:</label>
+                <input type="checkbox" class="form-check-input mx-4" name="roles" id="roles"
+                       th:each="rol : ${allRoles}"
+                       th:text="${rol}"
+                       th:value="${rol}"
+                       th:field="*{roles}"
+                >
+            </div>
+
+
+            <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">Guardar</button>
+            <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();" style="width: 130px; height: 40px">Volver</a>
+            <input type="hidden" th:field="*{idUsuario}" />
+        </form>
+    </main>
+
+    <footer class="mt-auto" style="background-color: #A6E26E;">
+        <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+            <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+            by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+        </p>
+    </footer>
+</div>
+
+
+<!-- Scripts -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

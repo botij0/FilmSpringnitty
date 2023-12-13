@@ -76,42 +76,84 @@
       <main class="">
         <div class="card">
 
-          <h2 th:text="${pelicula.titulo}" class="card-header"></h2>
-          <div class="card-body mt-1">
-            <div class="container">
+          <h2 th:text="${pelicula.titulo}" class="text-decoration-underline"></h2>
 
-              <div class="row">
-                <div class="col-6 mt-3 text-start">
-                  <dl class="row row-gap-4">
-                    <dt class="col-6 text-end">Titulo: </dt> <dd class="col-6" th:text="${pelicula.titulo}"></dd>
-                    <dt class="col-6 text-end">Año: </dt> <dd class="col-6" th:text="${pelicula.anio}"></dd>
-                    <dt class="col-6 text-end">Duración: </dt> <dd class="col-6" th:text="${pelicula.duracion} + ' minutos'"></dd>
-                    <dt class="col-6 text-end">Pais: </dt> <dd class="col-6" th:text="${pelicula.pais}"></dd>
-                    <dt class="col-6 text-end">Genero: </dt> <dd class="col-6" th:text="${pelicula.genero}"></dd>
-                    <dt class="col-6 text-end">Sinopsis: </dt> <dd class="col-6" th:text="${pelicula.sinopsis}"></dd>
-                  </dl>
-                  <dl class="row">
-                    <dt class=" col-6 text-end">Reparto: </dt>
-                    <dd class="col-6">
-                      <ul>
-                        <li th:each="actor :${pelicula.actores}" class="mb-3">
-                          <a   th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})  }"
-                               th:text="${actor.nombre}"></a>
-                        </li>
-                      </ul>
-                    </dd>
-                  </dl>
+          <ul class="nav nav-tabs justify-content-md-center" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="ficha-tab" data-bs-toggle="tab" data-bs-target="#ficha"
+                      type="button" role="tab" aria-controls="ficha" aria-selected="true">Ficha</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="criticas-tab" data-bs-toggle="tab" data-bs-target="#criticas"
+                      type="button" role="tab" aria-controls="criticas" aria-selected="false">Criticas</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="contenido">
+            <div class="tab-pane fade show active" id="ficha" role="tabpanel" aria-labelledby="ficha-tab">
+              <div class=" mt-1">
+                <div class="container">
+
+                  <div class="row">
+                    <div class="col-6 mt-3 text-start">
+                      <dl class="row row-gap-4">
+                        <dt class="col-6 text-end">Titulo: </dt> <dd class="col-6" th:text="${pelicula.titulo}"></dd>
+                        <dt class="col-6 text-end">Año: </dt> <dd class="col-6" th:text="${pelicula.anio}"></dd>
+                        <dt class="col-6 text-end">Duración: </dt> <dd class="col-6" th:text="${pelicula.duracion} + ' minutos'"></dd>
+                        <dt class="col-6 text-end">Pais: </dt> <dd class="col-6" th:text="${pelicula.pais}"></dd>
+                        <dt class="col-6 text-end">Genero: </dt> <dd class="col-6" th:text="${pelicula.genero}"></dd>
+                        <dt class="col-6 text-end">Sinopsis: </dt> <dd class="col-6" th:text="${pelicula.sinopsis}"></dd>
+                      </dl>
+                      <dl class="row">
+                        <dt class=" col-6 text-end">Reparto: </dt>
+                        <dd class="col-6">
+                          <ul>
+                            <li th:each="actor :${pelicula.actores}" class="mb-3">
+                              <a   th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})  }"
+                                   th:text="${actor.nombre}"></a>
+                            </li>
+                          </ul>
+                        </dd>
+                      </dl>
+                    </div>
+                    <div class="col-6">
+                      <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}" class="rounded" style="width: 310px; height: 530px"/>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-6">
-                  <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}" class="rounded" style="width: 310px; height: 530px"/>
+
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="criticas" role="tabpanel" aria-labelledby="criticas-tab">
+              <div class="card-body">
+                <div class="bg-light rounded shadow-sm p-4 mb-4 criticas text-black h-100 w-75 mx-auto">
+                  <h5>Criticas y Puntuaciones</h5>
+                  <hr>
+                  <div class="critica-usuario text-start">
+                    <div class="Icono-Info">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-person-circle float-start me-3" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226
+                      4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                      </svg>
+
+                      <h6 class="ms-3"> Javier Gonzalez</h6>
+                      <p class="ms-4">11-12-2023</p>
+                    </div>
+                    <div class="texto-critica text-center">
+                      <p>me ha gustado la pelicula, esto es una critica de prueba</p>
+
+                    </div>
+
+                    <hr>
+                  </div>
                 </div>
               </div>
 
-
             </div>
-
           </div>
         </div>
+
         <div style="padding: 30px 0">
           <a class="btn btn-primary w-25 mx-auto" role="button" href="javascript:window.history.back();">Volver</a>
         </div>

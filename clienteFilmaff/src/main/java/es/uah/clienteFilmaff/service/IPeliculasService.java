@@ -22,4 +22,5 @@ public interface IPeliculasService {
     void guardarPelicula(Pelicula pelicula);
     void eliminarPelicula(Integer idPelicula);
     public List<Integer> idActoresPelicula(Pelicula pelicula);
+    public List<Pelicula> listadoPeliculas();
 }

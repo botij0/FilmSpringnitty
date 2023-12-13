@@ -93,6 +93,13 @@ public class PeliculasServiceImpl implements IPeliculasService {
         template.delete(url + "/" + idPelicula);
     }
 
+    @Override
+    public List<Pelicula> listadoPeliculas(){
+        Pelicula[] peliculas = template.getForObject(url, Pelicula[].class);
+        List<Pelicula> peliculaList = Arrays.asList(peliculas);
+        return peliculaList;
+    }
+
     private Page<Pelicula> getPaginatedPage(List<Pelicula> peliculas, Pageable pageable)
     {
         int pageSize = pageable.getPageSize();
