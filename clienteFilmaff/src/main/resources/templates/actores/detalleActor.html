@@ -1,127 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FilmSpringnity</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>FilmSpringnity</title>
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    </head>
 
-    <!-- Custom styles for this template -->
-</head>
-<body class="text-center vh-100" style="background-color:#F9F9F9">
+    <body class="text-center" style="background-color:#F9F9F9">
 
-<div class="cover-container d-flex vh-100 flex-column mx-auto">
-    <header class="">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
-            <div class="container-fluid">
-                <!-- icono o nombre -->
+        <header>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
+                <div class="container-fluid">
 
-                <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
-                    <img
-                            th:src="@{/logo_def.png}"
-                            height="40"
-                            alt="MDB Logo"
-                            loading="lazy"
-                            style="margin-top: -12px; margin-bottom: -10px"
-                    />
-                </a>
+                    <!------------------------------ icono ------------------------------>
+                    <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
+                        <img
+                                th:src="@{/logo_def.png}"
+                                height="40"
+                                alt="MDB Logo"
+                                loading="lazy"
+                                style="margin-top: -12px; margin-bottom: -10px"
+                        />
+                    </a>
 
-                <!-- botón del menu -->
+                    <!------------------------------ botón del menu ------------------------------>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
+                    <div class="collapse navbar-collapse" id="menu">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                            </li>
+                        </ul>
 
-                <!-- elementos del menu colapsable -->
+                        <hr class="d-md-none text-black">
 
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/cactores/listado}">Actores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
-                        </li>
-                    </ul>
-
-                    <hr class="d-md-none text-black">
-
-                    <!--boton Informacion -->
-
-                    <form class="d-flex  me-0 me-md-5 justify-content-center">
-                        <button type="button" class="btn btn-link px-3 me-2">
-                            Iniciar Sesión
-                        </button>
-                        <button type="button" class="btn btn-primary me-3">
-                            Registrarse
-                        </button>
-                    </form>
+                        <!------------------------------ Botones Identificación ------------------------------>
+                        <form class="d-flex  me-0 me-md-5 justify-content-center">
+                            <button type="button" class="btn btn-link px-3 me-2">
+                                Iniciar Sesión
+                            </button>
+                            <button type="button" class="btn btn-primary me-3">
+                                Registrarse
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </nav>
-        <!-- Navbar -->
-    </header>
+            </nav>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
+        </header>
 
+        <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
 
-    <main class="">
-        <div class="card h-100" >
+            <div class="card h-100" >
 
-            <h2 th:text="${actor.nombre}" class="card-header"></h2>
-            <div class="card-body mt-1">
-                <div class="container">
+                <h2 th:text="${actor.nombre}" class="card-header"></h2>
 
-                    <div class="row">
-                        <div class="col-6 mt-3 text-start">
-                            <dl class="row row-gap-4">
-                                <dt class="col-6 text-end">Nombre: </dt> <dd class="col-6" th:text="${actor.nombre}"></dd>
-                                <dt class="col-6 text-end">Fecha Nacimiento: </dt> <dd class="col-6" th:text="${actor.fechaNac}"></dd>
-                                <dt class="col-6 text-end">Pais Nacimiento: </dt> <dd class="col-6" th:text="${actor.paisNac}"></dd>
-                            </dl>
-                            <dl class="row">
-                                <dt class=" col-6 text-end">Peliculas: </dt>
-                                <dd class="col-6">
-                                    <ul>
-                                        <li th:each="pelicula :${actor.peliculas}" class="mb-3">
-                                            <a   th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})  }"
-                                                 th:text="${pelicula.titulo}"></a>
-                                        </li>
-                                    </ul>
+                <div class="card-body mt-1">
+                    <div class="container">
+                        <div class="row">
 
-                                </dd>
-                            </dl>
-                        </div>
-                        <div class="col-6">
-                            <img th:src="@{'/cpeliculas/uploads/' + ${actor.imagen}}" th:alt="${actor.imagen}" class="rounded" style="width: 310px; height: 530px"/>
+                            <!--------------------------------------- Datos Actor --------------------------------------->
+                            <div class="col-6 mt-3 text-start">
+                                <dl class="row row-gap-4">
+                                    <dt class="col-6 text-end">Nombre: </dt>
+                                    <dd class="col-6" th:text="${actor.nombre}"></dd>
+                                    <dt class="col-6 text-end">Fecha Nacimiento: </dt>
+                                    <dd class="col-6" th:text="${actor.fechaNac}"></dd>
+                                    <dt class="col-6 text-end">Pais Nacimiento: </dt>
+                                    <dd class="col-6" th:text="${actor.paisNac}"></dd>
+                                </dl>
+                                <dl class="row">
+                                    <dt class=" col-6 text-end">Peliculas: </dt>
+                                    <dd class="col-6">
+                                        <ul>
+                                            <li th:each="pelicula :${actor.peliculas}" class="mb-3">
+                                                <a   th:href="@{/cpeliculas/detallePelicula/{id}
+                                                     (id=${pelicula.idPelicula})}"
+                                                     th:text="${pelicula.titulo}"
+                                                >
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </div>
+
+                            <!--------------------------------------- Img Actor --------------------------------------->
+                            <div class="col-6">
+                                <img th:src="@{'/cpeliculas/uploads/' + ${actor.imagen}}" th:alt="${actor.imagen}"
+                                     class="rounded" style="width: 310px; height: 530px"
+                                />
+                            </div>
+
                         </div>
                     </div>
                 </div>
+
+            </div>
+            <!------------------------------------------------- Btn Volver ------------------------------------------------->
+            <div style="padding: 30px 0">
+                <a class="btn btn-primary w-25" role="button" href="javascript:window.history.back();">Volver</a>
             </div>
 
-        </div>
-        <div style="padding: 30px 0">
-            <a class="btn btn-primary w-25" role="button" href="javascript:window.history.back();">Volver</a>
-        </div>
+        </main>
 
-    </main>
+        <footer style="height: 56px; background-color: #A6E26E;">
+            <div class="h-100 d-flex justify-content-center">
+                <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+                    <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+                    by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+                </p>
+            </div>
+        </footer>
 
-    <footer class="mt-auto" style="background-color: #A6E26E;">
-        <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
-            <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
-            by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
-        </p>
-    </footer>
-</div>
-
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+    </body>
 </html>

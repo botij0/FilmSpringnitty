@@ -1,147 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FilmSpringnity</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>FilmSpringnity</title>
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    </head>
 
-    <!-- Custom styles for this template -->
-</head>
-<body class="vh-100" style="background-color:#F9F9F9">
+    <body style="background-color:#F9F9F9">
 
-<div class="cover-container d-flex vh-100 flex-column mx-auto">
-    <header class="mb-1">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
-            <div class="container-fluid">
-                <!-- icono o nombre -->
+        <header>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
+                <div class="container-fluid">
 
-                <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
-                    <img
-                            th:src="@{/logo_def.png}"
-                            height="40"
-                            alt="MDB Logo"
-                            loading="lazy"
-                            style="margin-top: -12px; margin-bottom: -10px"
-                    />
-                </a>
+                    <!------------------------------ icono ------------------------------>
+                    <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
+                        <img
+                                th:src="@{/logo_def.png}"
+                                height="40"
+                                alt="MDB Logo"
+                                loading="lazy"
+                                style="margin-top: -12px; margin-bottom: -10px"
+                        />
+                    </a>
 
-                <!-- botón del menu -->
+                    <!------------------------------ botón del menu ------------------------------>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
+                    <div class="collapse navbar-collapse" id="menu">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                            </li>
+                        </ul>
 
-                <!-- elementos del menu colapsable -->
+                        <hr class="d-md-none text-black">
 
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
-                        </li>
-                    </ul>
-
-                    <hr class="d-md-none text-black">
-
-                    <!--boton Informacion -->
-
-                    <form class="d-flex  me-0 me-md-5 justify-content-center">
-                        <button type="button" class="btn btn-link px-3 me-2">
-                            Iniciar Sesión
-                        </button>
-                        <button type="button" class="btn btn-primary me-3">
-                            Registrarse
-                        </button>
-                    </form>
+                        <!------------------------------ Botones Identificación ------------------------------>
+                        <form class="d-flex  me-0 me-md-5 justify-content-center">
+                            <button type="button" class="btn btn-link px-3 me-2">
+                                Iniciar Sesión
+                            </button>
+                            <button type="button" class="btn btn-primary me-3">
+                                Registrarse
+                            </button>
+                        </form>
+                    </div>
                 </div>
+            </nav>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
+        </header>
+
+        <main class="container-fluid w-75" style="min-height: calc(100vh - 56px - 56px);">
+
+            <h2 class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important;">
+                Búsqueda de Peliculas
+            </h2>
+
+            <!----------------------------------- Buscador por Título ----------------------------------->
+            <form th:action="@{/cpeliculas/titulo/8}" method="get">
+
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo"
+                           placeholder="Escriba el título de la película">
+                </div>
+
+                <button type="submit" class="btn btn-success">Buscar por Título</button>
+
+            </form>
+            <hr>
+
+            <!----------------------------------- Buscador por Género ----------------------------------->
+            <form th:action="@{/cpeliculas/genero/8}" method="get">
+
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Género</label>
+                    <select class="form-select" name="genero" id="genero">
+                        <option value="Acción">Acción</option>
+                        <option value="Animación">Animación</option>
+                        <option value="Aventura">Aventura</option>
+                        <option value="Ciencia Ficción">Ciencia Ficción</option>
+                        <option value="Comedia">Comedia</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Documental">Documental</option>
+                        <option value="Fantasía">Fantasía</option>
+                        <option value="Musical">Musical</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Suspense">Suspense</option>
+                        <option value="Terror">Terror</option>
+                        <option value="Thriller">Thriller</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Buscar por Género</button>
+
+            </form>
+            <hr>
+
+            <!----------------------------------- Buscador por Actor ----------------------------------->
+            <form th:action="@{/cpeliculas/actor/8}" method="get">
+
+                <div class="mb-3">
+                    <label for="actor" class="form-label">Nombre del Actor</label>
+                    <input type="text" class="form-control" id="actor" name="actor"
+                           placeholder="Escriba el nombre del Actor del curso">
+                </div>
+
+                <button type="submit" class="btn btn-success">Buscar por Actor</button>
+
+            </form>
+            <hr>
+
+            <!----------------------------------- Buscador por Año ----------------------------------->
+            <form th:action="@{/cpeliculas/anio/8}" method="get">
+
+                <div class="mb-3">
+                    <label for="min" class="form-label">Desde</label>
+                    <input type="number" class="form-control" id="min" name="min"
+                           placeholder="Desde" value="0" required>
+                    <label for="max" class="form-label">Hasta</label>
+                    <input type="number" class="form-control" id="max" name="max"
+                           placeholder="Hasta" value="2024" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Buscar por Años</button>
+
+            </form>
+            <hr>
+
+            <!----------------------------------- Botón Volver ----------------------------------->
+            <a class="btn btn-primary mb-2" role="button" style="width: 145px;" href="javascript:window.history.back();">Volver</a>
+
+        </main>
+
+        <footer style="height: 56px; background-color: #A6E26E;">
+            <div class="h-100 d-flex justify-content-center">
+                <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+                    <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+                    by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+                </p>
             </div>
-        </nav>
-        <!-- Navbar -->
-    </header>
+        </footer>
 
-
-    <main class="px-3 w-75 mx-auto">
-
-        <h2 class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important; margin-top: -4px;">Búsqueda de Peliculas</h2>
-        <form th:action="@{/cpeliculas/titulo/8}" method="get">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Título</label>
-                <input type="text" class="form-control" id="titulo" name="titulo"
-                       placeholder="Escriba el título de la película">
-            </div>
-            <button type="submit" class="btn btn-success">Buscar por Título</button>
-        </form>
-        <hr>
-        <form th:action="@{/cpeliculas/genero/8}" method="get">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Género</label>
-                <select class="form-select" name="genero" id="genero">
-                    <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
-                    <option value="Acción">Acción</option>
-                    <option value="Animación">Animación</option>
-                    <option value="Aventura">Aventura</option>
-                    <option value="Ciencia Ficción">Ciencia Ficción</option>
-                    <option value="Comedia">Comedia</option>
-                    <option value="Drama">Drama</option>
-                    <option value="Documental">Documental</option>
-                    <option value="Fantasía">Fantasía</option>
-                    <option value="Musical">Musical</option>
-                    <option value="Romance">Romance</option>
-                    <option value="Suspense">Suspense</option>
-                    <option value="Terror">Terror</option>
-                    <option value="Thriller">Thriller</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-success">Buscar por Género</button>
-        </form>
-        <hr>
-        <form th:action="@{/cpeliculas/actor/8}" method="get">
-            <div class="mb-3">
-                <label for="actor" class="form-label">Nombre del Actor</label>
-                <input type="text" class="form-control" id="actor" name="actor"
-                       placeholder="Escriba el nombre del Actor del curso">
-            </div>
-            <button type="submit" class="btn btn-success">Buscar por Actor</button>
-        </form>
-
-        <hr>
-        <form th:action="@{/cpeliculas/anio/8}" method="get">
-            <div class="mb-3">
-                <label for="min" class="form-label">Desde</label>
-                <input type="number" class="form-control" id="min" name="min"
-                       placeholder="Desde" value="0" required>
-                <label for="max" class="form-label">Hasta</label>
-                <input type="number" class="form-control" id="max" name="max"
-                       placeholder="Hasta" value="2024" required>
-            </div>
-            <button type="submit" class="btn btn-success">Buscar por Años</button>
-        </form>
-
-        <hr>
-        <a class="btn btn-primary" role="button" th:href="@{/cpeliculas/home}">Inicio</a>
-    </main>
-
-    <footer class="mt-auto text-center" style="background-color: #A6E26E;">
-        <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
-            <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
-            by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
-        </p>
-    </footer>
-</div>
-
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+    </body>
 </html>

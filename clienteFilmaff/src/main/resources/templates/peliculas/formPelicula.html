@@ -1,30 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FilmSpringnity</title>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>FilmSpringnity</title>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+        <!------------------------------------------------- Estilos ------------------------------------------------->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
-    <!-- Or for RTL support -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+        <!------------------------------------------------- RTL ------------------------------------------------->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
+    </head>
+    <body style="background-color:#F9F9F9">
 
-
-    <!-- Custom styles for this template -->
-</head>
-<body class="text-center vh-100" style="background-color:#F9F9F9">
-
-    <div class="cover-container d-flex vh-100 flex-column mx-auto">
-        <header class="">
-            <!-- Navbar -->
+        <header>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
             <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
                 <div class="container-fluid">
-                    <!-- icono o nombre -->
 
+                    <!------------------------------ icono ------------------------------>
                     <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
                         <img
                                 th:src="@{/logo_def.png}"
@@ -35,19 +31,17 @@
                         />
                     </a>
 
-                    <!-- botón del menu -->
-
+                    <!------------------------------ botón del menu ------------------------------>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <!-- elementos del menu colapsable -->
-
+                    <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -59,14 +53,13 @@
                                 <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
                             </li>
                         </ul>
 
                         <hr class="d-md-none text-black">
 
-                        <!--boton Informacion -->
-
+                        <!------------------------------ Botones Identificación ------------------------------>
                         <form class="d-flex  me-0 me-md-5 justify-content-center">
                             <button type="button" class="btn btn-link px-3 me-2">
                                 Iniciar Sesión
@@ -78,16 +71,19 @@
                     </div>
                 </div>
             </nav>
-            <!-- Navbar -->
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
         </header>
 
+        <main class="container-fluid w-75" style="min-height: calc(100vh - 56px - 56px);">
 
-        <main class="px-3 w-75 mx-auto text-start">
             <h2 th:text="${titulo}"
-                class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important; margin-top: -4px;">
+                class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important;">
             </h2>
+
+            <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
             <form th:action="@{/cpeliculas/guardar/}" method="post" th:object="${pelicula}" enctype="multipart/form-data">
 
+                <!---------------------------------------------------- Errores ---------------------------------------------------->
                 <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
                     Por favor corrija los siguientes errores:
                     <ul>
@@ -95,40 +91,56 @@
                     </ul>
                 </div>
 
+                <!---------------------------------------------------- Título ---------------------------------------------------->
                 <div class="mb-3">
                     <label for="titulo" class="form-label fw-bold">Titulo</label>
                     <input type="text" class="form-control" th:field="*{titulo}" id="titulo" name="titulo"
                            placeholder="Escriba el titulo de la película" required="required" maxlength="100">
                 </div>
 
+                <!---------------------------------------------------- Año ---------------------------------------------------->
                 <div class="mb-3">
-                    <label for="anio" class="form-label fw-bold">Año</label>
+                    <label for="anio" class="form-label fw-bold">
+                        Año
+                    </label>
                     <input type="number" class="form-control" th:field="*{anio}" id="anio" name="anio"
                            placeholder="Escriba el año de la película" required="required">
                 </div>
 
+                <!---------------------------------------------------- Duración ---------------------------------------------------->
                 <div class="mb-3">
-                    <label for="duracion" class="form-label fw-bold">Duración (mins)</label>
+                    <label for="duracion" class="form-label fw-bold">
+                        Duración (mins)
+                    </label>
                     <input type="number" class="form-control" th:field="*{duracion}" id="duracion" name="duracion"
                            placeholder="Escriba la duración de la película en minutos" required="required">
                 </div>
 
+                <!---------------------------------------------------- Pais ---------------------------------------------------->
                 <div class="mb-3">
-                    <label for="pais" class="form-label fw-bold">Pais</label>
+                    <label for="pais" class="form-label fw-bold">
+                        Pais
+                    </label>
                     <select class="form-select" data-flag="true"  th:field="*{pais}" name="pais" id="pais" style="text-align: left">
                         <option th:each="pais :${paises}" th:value="${pais}" th:text="${pais}">
                         </option>
                     </select>
                 </div>
 
+                <!---------------------------------------------------- Dirección ---------------------------------------------------->
                 <div class="mb-3">
-                    <label for="direccion" class="form-label fw-bold">Dirección</label>
+                    <label for="direccion" class="form-label fw-bold">
+                        Dirección
+                    </label>
                     <input type="text" class="form-control" th:field="*{direccion}" id="direccion" name="direccion"
                            placeholder="Escriba el director de la película" required="required" maxlength="100">
                 </div>
 
+                <!---------------------------------------------------- Género ---------------------------------------------------->
                 <div class="mb-3">
-                    <label for="genero" class="form-label fw-bold">Género</label>
+                    <label for="genero" class="form-label fw-bold">
+                        Género
+                    </label>
                     <select class="form-select" th:field="*{genero}" name="genero" id="genero">
                         <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
                         <option value="Acción">Acción</option>
@@ -147,77 +159,100 @@
                     </select>
                 </div>
 
+                <!---------------------------------------------------- Sinopsis ---------------------------------------------------->
                 <div class="mb-3">
-                    <label for="sinopsis" class="form-label fw-bold">Sinopsis</label>
+                    <label for="sinopsis" class="form-label fw-bold">
+                        Sinopsis
+                    </label>
                     <textarea class="form-control" th:field="*{sinopsis}" id="sinopsis" name="sinopsis"
                               placeholder="Escriba la sinopsis de la película" required="required" rows="4" maxlength="1000">
-                </textarea>
+                    </textarea>
                 </div>
 
+                <!---------------------------------------------------- Imagen (Si estamos en editar) ---------------------------------------------------->
                 <img th:if="${pelicula.imagen != null && #strings.length(pelicula.imagen) > 0}" class="img-thumbnail rounded float-left"
                      style="max-width: 25%;" th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}"
                      th:alt="${pelicula.imagen}" />
 
+                <!---------------------------------------------------- Imagen ---------------------------------------------------->
                 <div class="mb-3">
-                    <label for="file" class="col-sm-2 col-form-label fw-bold">Imagen</label>
+                    <label for="file" class="col-sm-2 col-form-label fw-bold">
+                        Imagen
+                    </label>
                     <div class="col-sm-6">
                         <input type="file" id="file" name="file" class="form-control" th:required="${(pelicula.imagen != null && #strings.length(pelicula.imagen) > 0)} ? null : 'required' "/>
                     </div>
                 </div>
 
-                <div style="margin-bottom: 100px">
-                    <label for="actores" class="form-label fw-bold">Actores</label>
-                    <select class="form-select" th:field="*{actores}" name="actores" id="actores" multiple th:data-actores="${actoresSeleccionados}">
-                        <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
-                        <option th:each="actor :${listadoActores}" th:value="${actor.getIdActor()}" th:text="${actor.getNombre()}"
-                        ></option>
+                <!---------------------------------------------------- Actores ---------------------------------------------------->
+                <div style="margin-bottom: 120px">
+                    <label for="actores" class="form-label fw-bold">
+                        Actores
+                    </label>
+                    <select class="form-select" th:field="*{actores}" name="actores" id="actores"
+                            multiple th:data-actores="${actoresSeleccionados}"
+                    >
+                        <option th:each="actor :${listadoActores}" th:value="${actor.getIdActor()}"
+                                th:text="${actor.getNombre()}"
+                        >
+                        </option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">Guardar</button>
-                <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();" style="width: 130px; height: 40px">Volver</a>
+                <!---------------------------------------------------- Botones ---------------------------------------------------->
+                <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">
+                    Guardar
+                </button>
+                <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();"
+                   style="width: 130px; height: 40px">
+                    Volver
+                </a>
+
                 <input type="hidden" th:field="*{idPelicula}" />
                 <input type="hidden" th:field="*{imagen}"/>
+
             </form>
         </main>
 
-        <footer class="mt-auto" style="background-color: #A6E26E;">
-            <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
-                <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
-                by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
-            </p>
+        <footer style="height: 56px; background-color: #A6E26E;">
+            <div class="h-100 d-flex justify-content-center">
+                <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+                    <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+                    by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+                </p>
+            </div>
         </footer>
-    </div>
 
-<!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
+        <!------------------------------------------------- Scripts ------------------------------------------------->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
 
-    <script>
-        $( document ).ready(function(){
+        <script>
+            $( document ).ready(function(){
 
-            $('#pais').select2();
-            $('#genero').select2({
-                minimumResultsForSearch: -1,
+                $('#pais').select2();
+                $('#genero').select2({
+                    minimumResultsForSearch: -1,
 
+                });
+
+                $( '#actores' ).select2( {
+                    theme: "bootstrap-5",
+                    width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+                    placeholder: $( this ).data( 'placeholder' ),
+                    closeOnSelect: false,
+                    dropdownPosition: 'below', // Establece la posición del dropdown debajo
+                    dropdownCssClass: 'select2-dropdown-adjust', // Clase para ajustar estilos del dropdown
+                })
+
+                var actoresSeleccionados = $('#actores').data('actores');
+                // Selecciona los actores en el selector múltiple
+                $('#actores').val(actoresSeleccionados);
+                $('#actores').trigger('change'); // Notifica a Select2 sobre el cambio
             });
+        </script>
 
-            $( '#actores' ).select2( {
-                theme: "bootstrap-5",
-                width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
-                placeholder: $( this ).data( 'placeholder' ),
-                closeOnSelect: false,
-                dropdownPosition: 'below', // Establece la posición del dropdown debajo
-                dropdownCssClass: 'select2-dropdown-adjust', // Clase para ajustar estilos del dropdown
-            })
-
-            var actoresSeleccionados = $('#actores').data('actores');
-            // Selecciona los actores en el selector múltiple
-            $('#actores').val(actoresSeleccionados);
-            $('#actores').trigger('change'); // Notifica a Select2 sobre el cambio
-        });
-    </script>
-</body>
+    </body>
 </html>

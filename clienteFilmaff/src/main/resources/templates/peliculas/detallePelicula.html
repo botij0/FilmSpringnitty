@@ -1,172 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8">
     <title>FilmSpringnity</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-
   </head>
 
-  <body class="text-center vh-100" style="background-color:#F9F9F9">
+  <body class="text-center" style="background-color:#F9F9F9">
 
-    <div class="cover-container d-flex vh-100 flex-column mx-auto">
-      <header class="">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
-          <div class="container-fluid">
-            <!-- icono o nombre -->
+    <header>
+      <!---------------------------------------------------- Navbar ---------------------------------------------------->
+      <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
+        <div class="container-fluid">
 
-            <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
-              <img
-                      th:src="@{/logo_def.png}"
-                      height="40"
-                      alt="MDB Logo"
-                      loading="lazy"
-                      style="margin-top: -12px; margin-bottom: -10px"
-              />
-            </a>
+          <!------------------------------ icono ------------------------------>
+          <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
+            <img
+                    th:src="@{/logo_def.png}"
+                    height="40"
+                    alt="MDB Logo"
+                    loading="lazy"
+                    style="margin-top: -12px; margin-bottom: -10px"
+            />
+          </a>
 
-            <!-- botón del menu -->
+          <!------------------------------ botón del menu ------------------------------>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+          <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
+          <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+              </li>
+            </ul>
+
+            <hr class="d-md-none text-black">
+
+            <!------------------------------ Botones Identificación ------------------------------>
+            <form class="d-flex  me-0 me-md-5 justify-content-center">
+              <button type="button" class="btn btn-link px-3 me-2">
+                Iniciar Sesión
+              </button>
+              <button type="button" class="btn btn-primary me-3">
+                Registrarse
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <!---------------------------------------------------- Navbar ---------------------------------------------------->
+    </header>
+
+    <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
+      <div class="card">
+
+        <h2 th:text="${pelicula.titulo}" class="text-decoration-underline"></h2>
+
+        <ul class="nav nav-tabs justify-content-md-center" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="ficha-tab" data-bs-toggle="tab" data-bs-target="#ficha"
+                    type="button" role="tab" aria-controls="ficha" aria-selected="false"
+            >
+              Ficha
             </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="criticas-tab" data-bs-toggle="tab" data-bs-target="#criticas"
+                    type="button" role="tab" aria-controls="criticas" aria-selected="false"
+            >
+              Criticas
+            </button>
+          </li>
+        </ul>
 
-            <!-- elementos del menu colapsable -->
+        <div class="tab-content" id="contenido">
 
-            <div class="collapse navbar-collapse" id="menu">
-              <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" th:href="@{/cpeliculas/listado}">Películas</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
-                </li>
-              </ul>
+          <div class="tab-pane fade" id="ficha" role="tabpanel" aria-labelledby="ficha-tab">
+            <div class=" mt-1">
+              <div class="container">
 
-              <hr class="d-md-none text-black">
+                <div class="row">
 
-              <!--boton Informacion -->
-
-              <form class="d-flex  me-0 me-md-5 justify-content-center">
-                <button type="button" class="btn btn-link px-3 me-2">
-                  Iniciar Sesión
-                </button>
-                <button type="button" class="btn btn-primary me-3">
-                  Registrarse
-                </button>
-              </form>
-            </div>
-          </div>
-        </nav>
-        <!-- Navbar -->
-      </header>
-
-
-      <main class="">
-        <div class="card">
-
-          <h2 th:text="${pelicula.titulo}" class="text-decoration-underline"></h2>
-
-          <ul class="nav nav-tabs justify-content-md-center" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="ficha-tab" data-bs-toggle="tab" data-bs-target="#ficha"
-                      type="button" role="tab" aria-controls="ficha" aria-selected="true">Ficha</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="criticas-tab" data-bs-toggle="tab" data-bs-target="#criticas"
-                      type="button" role="tab" aria-controls="criticas" aria-selected="false">Criticas</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="contenido">
-            <div class="tab-pane fade show active" id="ficha" role="tabpanel" aria-labelledby="ficha-tab">
-              <div class=" mt-1">
-                <div class="container">
-
-                  <div class="row">
-                    <div class="col-6 mt-3 text-start">
-                      <dl class="row row-gap-4">
-                        <dt class="col-6 text-end">Titulo: </dt> <dd class="col-6" th:text="${pelicula.titulo}"></dd>
-                        <dt class="col-6 text-end">Año: </dt> <dd class="col-6" th:text="${pelicula.anio}"></dd>
-                        <dt class="col-6 text-end">Duración: </dt> <dd class="col-6" th:text="${pelicula.duracion} + ' minutos'"></dd>
-                        <dt class="col-6 text-end">Pais: </dt> <dd class="col-6" th:text="${pelicula.pais}"></dd>
-                        <dt class="col-6 text-end">Genero: </dt> <dd class="col-6" th:text="${pelicula.genero}"></dd>
-                        <dt class="col-6 text-end">Sinopsis: </dt> <dd class="col-6" th:text="${pelicula.sinopsis}"></dd>
-                      </dl>
-                      <dl class="row">
-                        <dt class=" col-6 text-end">Reparto: </dt>
-                        <dd class="col-6">
-                          <ul>
-                            <li th:each="actor :${pelicula.actores}" class="mb-3">
-                              <a   th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})  }"
-                                   th:text="${actor.nombre}"></a>
-                            </li>
-                          </ul>
-                        </dd>
-                      </dl>
-                    </div>
-                    <div class="col-6">
-                      <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}" class="rounded" style="width: 310px; height: 530px"/>
-                    </div>
+                  <div class="col-6 mt-3 text-start">
+                    <dl class="row row-gap-4">
+                      <dt class="col-6 text-end">Titulo: </dt> <dd class="col-6" th:text="${pelicula.titulo}"></dd>
+                      <dt class="col-6 text-end">Año: </dt> <dd class="col-6" th:text="${pelicula.anio}"></dd>
+                      <dt class="col-6 text-end">Duración: </dt> <dd class="col-6" th:text="${pelicula.duracion} + ' minutos'"></dd>
+                      <dt class="col-6 text-end">Pais: </dt> <dd class="col-6" th:text="${pelicula.pais}"></dd>
+                      <dt class="col-6 text-end">Genero: </dt> <dd class="col-6" th:text="${pelicula.genero}"></dd>
+                      <dt class="col-6 text-end">Sinopsis: </dt> <dd class="col-6" th:text="${pelicula.sinopsis}"></dd>
+                    </dl>
+                    <dl class="row">
+                      <dt class=" col-6 text-end">Reparto: </dt>
+                      <dd class="col-6">
+                        <ul>
+                          <li th:each="actor :${pelicula.actores}" class="mb-3">
+                            <a   th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})  }"
+                                 th:text="${actor.nombre}"></a>
+                          </li>
+                        </ul>
+                      </dd>
+                    </dl>
                   </div>
-                </div>
 
+                  <div class="col-6">
+                    <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}"
+                         class="rounded" style="width: 310px; height: 530px"
+                    />
+                  </div>
+
+                </div>
               </div>
             </div>
+          </div>
 
-            <div class="tab-pane fade" id="criticas" role="tabpanel" aria-labelledby="criticas-tab">
-              <div class="card-body">
-                <div class="bg-light rounded shadow-sm p-4 mb-4 criticas text-black h-100 w-75 mx-auto">
-                  <h5>Criticas y Puntuaciones</h5>
+          <div class="tab-pane fade" id="criticas" role="tabpanel" aria-labelledby="criticas-tab">
+            <div class="card-body">
+              <div class="bg-light rounded shadow-sm p-4 mb-4 criticas text-black h-100 w-75 mx-auto">
+
+                <h5>
+                  Criticas y Puntuaciones
+                </h5>
+                <hr>
+
+                <div class="critica-usuario text-start row" th:each="critica : ${criticas}">
+                  <div class="Icono-Info col-2 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
+                         class="bi bi-person-circle" viewBox="0 0 16 16"
+                    >
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226
+                    4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+
+                    <h6 th:text="${critica.usuario.nombre}"></h6>
+                    <p th:text="${#dates.format(critica.fecha, 'dd-MM-yyyy')}"></p>
+                  </div>
+                  <div class="texto-critica col-9">
+                    <p th:text="${critica.valoracion}">
+
+                    </p>
+                  </div>
+                  <div class="col-1">
+                    <div class="border border-2 rounded-2 border-warning text-center shadow fw-bold ms-auto"
+                    style="width: 45px; height: 45px; font-size: 25px" th:text="${critica.nota}">
+
+                    </div>
+                  </div>
                   <hr>
-                  <div class="critica-usuario text-start">
-                    <div class="Icono-Info">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-person-circle float-start me-3" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226
-                      4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                      </svg>
-
-                      <h6 class="ms-3"> Javier Gonzalez</h6>
-                      <p class="ms-4">11-12-2023</p>
-                    </div>
-                    <div class="texto-critica text-center">
-                      <p>me ha gustado la pelicula, esto es una critica de prueba</p>
-
-                    </div>
-
-                    <hr>
-                  </div>
                 </div>
+                <nav th:replace="paginator-nav :: paginator"></nav>
+                <hr>
               </div>
-
             </div>
           </div>
         </div>
+      </div>
 
-        <div style="padding: 30px 0">
-          <a class="btn btn-primary w-25 mx-auto" role="button" href="javascript:window.history.back();">Volver</a>
-        </div>
+      <div style="padding: 30px 0">
+        <a class="btn btn-primary w-25 mx-auto" role="button"
+           href="javascript:window.history.back();"
+        >
+          Volver
+        </a>
+      </div>
 
-      </main>
+    </main>
 
-      <footer class="mt-auto" style="background-color: #A6E26E;">
-        <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+    <footer style="height: 56px; background-color: #A6E26E;">
+      <div class="h-100 d-flex justify-content-center">
+        <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
           <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
           by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
         </p>
-      </footer>
-    </div>
+      </div>
+    </footer>
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
   </body>

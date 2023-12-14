@@ -1,132 +1,161 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    </head>
 
-<body class="vh-100" style="background-color:#F9F9F9">
+    <body style="background-color:#F9F9F9">
 
-<div class="cover-container vh-100 flex-column mx-auto">
-    <header class="mb-auto">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
-            <div class="container-fluid">
-                <!-- icono o nombre -->
+        <header>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
+                <div class="container-fluid">
 
-                <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
-                    <img
-                            th:src="@{/logo_def.png}"
-                            height="40"
-                            alt="MDB Logo"
-                            loading="lazy"
-                            style="margin-top: -12px; margin-bottom: -10px"
-                    />
+                    <!------------------------------ icono ------------------------------>
+                    <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
+                        <img
+                                th:src="@{/logo_def.png}"
+                                height="40"
+                                alt="MDB Logo"
+                                loading="lazy"
+                                style="margin-top: -12px; margin-bottom: -10px"
+                        />
+                    </a>
+
+                    <!------------------------------ botón del menu ------------------------------>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
+                    <div class="collapse navbar-collapse" id="menu">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                            </li>
+                        </ul>
+
+                        <hr class="d-md-none text-black">
+
+                        <!------------------------------ Botones Identificación ------------------------------>
+                        <form class="d-flex  me-0 me-md-5 justify-content-center">
+                            <button type="button" class="btn btn-link px-3 me-2">
+                                Iniciar Sesión
+                            </button>
+                            <button type="button" class="btn btn-primary me-3">
+                                Registrarse
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
+        </header>
+
+        <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
+            <div class="card">
+
+                <h2 th:text="${titulo}" class="card-header text-center">
+                </h2>
+
+                <div class="card-body mx-auto" style="width: 85%">
+
+                    <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}"
+                         role='alert'
+                    >
+                    </div>
+
+                    <!------------------------------------------------ Btn Crear Crítica ------------------------------------------------>
+                    <h4 class="card-title text-end">
+                        <a th:href="@{/ccriticas/nuevo}" class="btn btn-primary btn-xs">
+                            Crear Crítica
+                        </a>
+                    </h4>
+
+                    <!---------------------------------------------------- Tabla ---------------------------------------------------->
+                    <table class="table table-hover mx-auto">
+
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="col">Id</th>
+                                <th class="col">Pelicula ID</th>
+                                <th class="col">Valoración</th>
+                                <th class="col">Nota</th>
+                                <th class="col">Fecha</th>
+                                <th class="col">Usuario</th>
+                                <th class="col">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="critica : ${listadoCriticas}">
+                                <td th:text="${critica.idCritica}"></td>
+                                <td th:text="${critica.peliculaId}"></td>
+                                <td th:text="${critica.valoracion}"></td>
+                                <td th:text="${critica.nota}"></td>
+                                <td th:text="${#dates.format(critica.fecha, 'dd-MM-yyyy')}"></td>
+                                <td th:text="${critica.usuario.idUsuario}"></td>
+                                <td>
+                                    <a th:href="@{/ccriticas/editar/{id}  (id=${critica.idCritica})}"
+                                       th:text="'editar'" class="btn btn-success btn-sm" role="button"
+                                       title="Editar el usuario."
+                                    >
+                                        <i class="fas fa-pencil-alt" aria-hidden="true">
+                                        </i>
+                                    </a>
+                                    <a th:href="@{/ccriticas/borrar/{id}  (id=${critica.idCritica})}"
+                                       th:text="'borrar'" onclick="return confirm('¿Estas seguro?')"
+                                       class="btn btn-danger btn-sm" role="button" title="Eliminar el usuario."
+                                    >
+                                        <i class="fas fa-trash" aria-hidden="true">
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <nav th:replace="paginator-nav :: paginator"></nav>
+                    <hr>
+
+                </div>
+
+                <!---------------------------------------------------- Btn Volver ---------------------------------------------------->
+                <a class="btn btn-primary mx-auto mb-3" role="button"
+                   th:href="@{/cpeliculas/panelControl}" style="width: 15%"
+                >
+                    Volver
                 </a>
 
-                <!-- botón del menu -->
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- elementos del menu colapsable -->
-
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
-                        </li>
-                    </ul>
-
-                    <hr class="d-md-none text-black">
-
-                    <!--boton Informacion -->
-
-                    <form class="d-flex  me-0 me-md-5 justify-content-center">
-                        <button type="button" class="btn btn-link px-3 me-2">
-                            Iniciar Sesión
-                        </button>
-                        <button type="button" class="btn btn-primary me-3">
-                            Registrarse
-                        </button>
-                    </form>
-                </div>
             </div>
-        </nav>
-        <!-- Navbar -->
-    </header>
+        </main>
 
-
-    <main class="mb-1">
-        <div class="card">
-            <h2 th:text="${titulo}" class="card-header text-center"></h2>
-            <div class="card-body mx-auto" style="width: 85%">
-                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
-                <h4 class="card-title text-end">
-                    <a th:href="@{/ccriticas/nuevo}" class="btn btn-primary btn-xs">Crear Crítica</a>
-                </h4>
-                <table class="table table-hover mx-auto">
-                    <thead class="thead-light">
-                    <tr>
-                        <th class="col">Id</th>
-                        <th class="col">Pelicula ID</th>
-                        <th class="col">Valoración</th>
-                        <th class="col">Nota</th>
-                        <th class="col">Fecha</th>
-                        <th class="col">Usuario</th>
-                        <th class="col">Acciones</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr th:each="critica : ${listadoCriticas}">
-                        <td th:text="${critica.idCritica}"></td>
-                        <td th:text="${critica.peliculaId}"></td>
-                        <td th:text="${critica.valoracion}"></td>
-                        <td th:text="${critica.nota}"></td>
-                        <td th:text="${#dates.format(critica.fecha, 'dd-MM-yyyy')}"></td>
-                        <td th:text="${critica.usuario.idUsuario}"></td>
-                        <td>
-                            <a th:href="@{/ccriticas/editar/{id}  (id=${critica.idCritica})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button" title="Editar el usuario."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                            <a th:href="@{/ccriticas/borrar/{id}  (id=${critica.idCritica})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar el usuario."><i class="fas fa-trash" aria-hidden="true"></i></a>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
-
-                <nav th:replace="paginator-nav :: paginator"></nav>
-
+        <footer style="height: 56px; background-color: #A6E26E;">
+            <div class="h-100 d-flex justify-content-center">
+                <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+                    <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+                    by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+                </p>
             </div>
-            <hr>
-            <a class="btn btn-primary mx-auto" role="button" th:href="@{/cpeliculas/panelControl}" style="width: 15%">Volver</a>
-        </div>
-    </main>
+        </footer>
 
-    <footer class="mt-auto text-center" style="background-color: #A6E26E;">
-        <p class="py-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
-            <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
-            by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
-        </p>
-    </footer>
-</div>
-
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+    </body>
 
 </html>

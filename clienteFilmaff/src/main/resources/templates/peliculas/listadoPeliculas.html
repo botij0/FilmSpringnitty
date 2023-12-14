@@ -1,32 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FilmSpringnity</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>FilmSpringnity</title>
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+        <!----------------------- Estilos Custom ----------------------->
+        <style>
+            .tarjeta{
+                transition: all 0.3s;
+            }
+            .tarjeta:hover{
+                transform: scale(1.10);
+                cursor: pointer;
+            }
+        </style>
+    </head>
 
-    <style>
-        .prueba{
-            transition: all 0.3s;
-        }
-        .prueba:hover{
-            transform: scale(1.10);
-            cursor: pointer;
+    <body class="text-center" style="background-color:#F9F9F9">
 
-        }
-    </style>
-</head>
-<body class="text-center" style="background-color:#F9F9F9">
-
-    <div class="cover-container d-flex vh-100 flex-column mx-auto">
-        <header class="mb-0">
-            <!-- Navbar -->
+        <header>
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
             <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
                 <div class="container-fluid">
-                    <!-- icono o nombre -->
 
+                    <!------------------------------ icono ------------------------------>
                     <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
                         <img
                                 th:src="@{/logo_def.png}"
@@ -37,22 +35,20 @@
                         />
                     </a>
 
-                    <!-- botón del menu -->
-
+                    <!------------------------------ botón del menu ------------------------------>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <!-- elementos del menu colapsable -->
-
+                    <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" th:href="@{/cpeliculas/listado}">Películas</a>
+                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
@@ -67,8 +63,7 @@
 
                         <hr class="d-md-none text-black">
 
-                        <!--boton Informacion -->
-
+                        <!------------------------------ Botones Identificación ------------------------------>
                         <form class="d-flex  me-0 me-md-5 justify-content-center">
                             <button type="button" class="btn btn-link px-3 me-2">
                                 Iniciar Sesión
@@ -80,15 +75,18 @@
                     </div>
                 </div>
             </nav>
-            <!-- Navbar -->
+            <!---------------------------------------------------- Navbar ---------------------------------------------------->
         </header>
 
+        <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
 
-        <main class="">
-            <div class="card">
+            <div class="card h-100">
 
                 <h2 th:text="${titulo}" class="card-header text-center"></h2>
+
                 <div class="card-body">
+
+                    <!---------------------------------- Buscador Por Título ---------------------------------->
                     <form th:action="@{/cpeliculas/titulo/8}" method="get" class="w-50 mx-auto">
                         <div class="mb-3 row justify-content-center">
                             <label for="titulo" class="col-auto col-form-label fw-bold">Buscar: </label>
@@ -101,41 +99,39 @@
                             </div>
 
                         </div>
-
                     </form>
+
+                    <!---------------------------------- Tarjetas Películas ---------------------------------->
                     <div class="container">
                         <div class="row row-cols-4">
-                            <div class="mb-5 prueba" th:each="pelicula : ${listadoPeliculas}">
+                            <div class="mb-5 tarjeta" th:each="pelicula : ${listadoPeliculas}">
                                 <a th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})}">
                                     <div class="border border-1 bg-light shadow mx-auto rounded" style="width: 250px; height:420px ">
                                         <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}" class="mt-3 rounded img-fluid" style="width: 210px; height: 360px"/>
                                         <p class="p-2 fw-bold" th:text="${pelicula.titulo}"></p>
                                     </div>
                                 </a>
-
-
                             </div>
                         </div>
-
                     </div>
                 </div>
+
                 <div class="mx-auto">
                     <nav th:replace="paginator-nav :: paginator"></nav>
                 </div>
-
-
             </div>
-
         </main>
 
-        <footer class="mt-auto" style="background-color: #A6E26E;">
-            <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
-                <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
-                by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
-            </p>
+        <footer style="height: 56px; background-color: #A6E26E;">
+            <div class="h-100 d-flex justify-content-center">
+                <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+                    <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+                    by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+                </p>
+            </div>
         </footer>
-    </div>
 
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    </body>
 </html>

@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  </head>
 
-<body class="vh-100" style="background-color:#F9F9F9">
+  <body style="background-color:#F9F9F9">
 
-  <div class="cover-container vh-100 flex-column mx-auto">
-    <header class="mb-auto">
-      <!-- Navbar -->
+    <header>
+      <!---------------------------------------------------- Navbar ---------------------------------------------------->
       <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
         <div class="container-fluid">
-          <!-- icono o nombre -->
 
+          <!------------------------------ icono ------------------------------>
           <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
             <img
                     th:src="@{/logo_def.png}"
@@ -25,19 +24,17 @@
             />
           </a>
 
-          <!-- botón del menu -->
-
+          <!------------------------------ botón del menu ------------------------------>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
                   aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <!-- elementos del menu colapsable -->
-
+          <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
           <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav mx-auto">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -49,14 +46,13 @@
                 <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
               </li>
             </ul>
 
             <hr class="d-md-none text-black">
 
-            <!--boton Informacion -->
-
+            <!------------------------------ Botones Identificación ------------------------------>
             <form class="d-flex  me-0 me-md-5 justify-content-center">
               <button type="button" class="btn btn-link px-3 me-2">
                 Iniciar Sesión
@@ -68,20 +64,27 @@
           </div>
         </div>
       </nav>
-      <!-- Navbar -->
+      <!---------------------------------------------------- Navbar ---------------------------------------------------->
     </header>
 
+    <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
 
-    <main class="mb-1">
       <div class="card">
+
         <h2 th:text="${titulo}" class="card-header text-center"></h2>
+
         <div class="card-body mx-auto" style="width: 85%">
+
           <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+          <!---------------------------------------------------- Btn Crear Pelicula ---------------------------------------------------->
           <h4 class="card-title text-end me-4">
             <a th:href="@{/cpeliculas/nueva}" class="btn btn-primary btn-xs">Crear nueva película</a>
           </h4>
 
+          <!---------------------------------------------------- Tabla ---------------------------------------------------->
           <table class="table table-hover mx-auto">
+
             <thead class="thead-light">
               <tr>
                 <th class="col">Id</th>
@@ -108,42 +111,67 @@
                 <td th:text="${pelicula.duracion} + ' mins'"></td>
                 <td th:text="${pelicula.pais}"></td>
                 <td th:text="${pelicula.direccion}"></td>
-                <td th:if="${pelicula.sinopsis.length() >= 150 }" th:text="${pelicula.sinopsis.substring(0,150) + '...'}" th:title="${pelicula.sinopsis}"></td>
-                <td th:unless="${pelicula.sinopsis.length() >= 150 }" th:text="${pelicula.sinopsis}"></td>
-                <td><img  th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}"
-                         style="width:70px; height: 120px"></td>
-                <td th:text="${pelicula.genero}"></td>
-                <td><a th:each="actor :${pelicula.actores}" th:text="${actor.nombre}"
-                       th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})  }" class="mx-2"></a></td>
+                <td th:if="${pelicula.sinopsis.length() >= 150 }"
+                    th:text="${pelicula.sinopsis.substring(0,150) + '...'}"
+                    th:title="${pelicula.sinopsis}">
+                </td>
+                <td th:unless="${pelicula.sinopsis.length() >= 150 }"
+                    th:text="${pelicula.sinopsis}">
+                </td>
                 <td>
-                  <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})  }" th:text="'editar'"
-                     class="btn btn-success btn-sm mb-3" role="button" title="Editar la Película.">
+                  <img  th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}"
+                        th:alt="${pelicula.imagen}" style="width:70px; height: 120px"/>
+                </td>
+                <td th:text="${pelicula.genero}"></td>
+                <td>
+                  <a th:each="actor :${pelicula.actores}" th:text="${actor.nombre}"
+                       th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})}"
+                     class="mx-2">
                   </a>
-                  <a th:href="@{/cpeliculas/borrar/{id}  (id=${pelicula.idPelicula})   }" th:text="'borrar'"
-                     onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm mb-3" role="button" title="Eliminar la Película.">
+                </td>
+                <td>
+                  <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})}"
+                     th:text="'editar'" class="btn btn-success btn-sm mb-3"
+                     role="button" title="Editar la Película."
+                  >
+                  </a>
+                  <a th:href="@{/cpeliculas/borrar/{id}  (id=${pelicula.idPelicula})   }"
+                     th:text="'borrar'" onclick="return confirm('¿Estas seguro?')"
+                     class="btn btn-danger btn-sm mb-3" role="button" title="Eliminar la Película."
+                  >
                   </a>
                 </td>
               </tr>
             </tbody>
+
           </table>
 
           <nav th:replace="paginator-nav :: paginator"></nav>
+          <hr>
 
         </div>
-        <hr>
-        <a class="btn btn-primary mx-auto" role="button" th:href="@{/cpeliculas/panelControl}" style="width: 15%">Volver</a>
+
+
+        <!---------------------------------------------------- Btn Volver ---------------------------------------------------->
+        <a class="btn btn-primary mx-auto mb-3" role="button"
+           th:href="@{/cpeliculas/panelControl}" style="width: 15%"
+        >
+          Volver
+        </a>
+
       </div>
     </main>
 
-    <footer class="mt-auto text-center" style="background-color: #A6E26E;">
-      <p class="py-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
-        <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
-        by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
-      </p>
+    <footer style="height: 56px; background-color: #A6E26E;">
+      <div class="h-100 d-flex justify-content-center">
+        <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+          <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+          by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+        </p>
+      </div>
     </footer>
-  </div>
 
-  <script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
 
+  </body>
 </html>

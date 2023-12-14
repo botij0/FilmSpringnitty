@@ -56,7 +56,7 @@ public class CriticaServiceImpl implements ICriticasService {
     }
 
     @Override
-    public Page<Critica> buscarCriticasPorIdPelicula(Integer idPelicula, Pageable pageable) {
+    public Page<Critica> buscarCriticasPorIdPeliculaTabla(Integer idPelicula, Pageable pageable) {
         Critica[] matriculas = template.getForObject(url+"/pelicula/"+idPelicula, Critica[].class);
         List<Critica> matriculasList = Arrays.asList(matriculas);
 

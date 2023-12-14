@@ -1,95 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FilmSpringnity</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<html lang="es">
 
-    <!-- Custom styles for this template -->
-</head>
-<body class="text-center vh-100" style="background-color:#F9F9F9">
+    <head>
+        <meta charset="UTF-8">
+        <title>FilmSpringnity</title>
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    </head>
 
-    <div class="cover-container d-flex vh-100 flex-column mx-auto">
-        <header class="mb-auto">
-            <!-- Navbar -->
-            <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
-                <div class="container-fluid">
-                    <!-- icono o nombre -->
+    <body class="text-center" style="background-color:#F9F9F9">
 
-                    <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
-                        <img
-                                th:src="@{/logo_def.png}"
-                                height="40"
-                                alt="MDB Logo"
-                                loading="lazy"
-                                style="margin-top: -12px; margin-bottom: -10px"
-                        />
-                    </a>
+            <header>
+                <!---------------------------------------------------- Navbar ---------------------------------------------------->
+                <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
+                    <div class="container-fluid">
 
-                    <!-- botón del menu -->
+                        <!------------------------------ icono ------------------------------>
+                        <a class="navbar-brand ms-5" th:href="@{/cpeliculas/}">
+                            <img
+                                    th:src="@{/logo_def.png}"
+                                    height="40"
+                                    alt="MDB Logo"
+                                    loading="lazy"
+                                    style="margin-top: -12px; margin-bottom: -10px"
+                            />
+                        </a>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                        <!------------------------------ botón del menu ------------------------------>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <!-- elementos del menu colapsable -->
+                        <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
+                        <div class="collapse navbar-collapse" id="menu">
+                            <ul class="navbar-nav mx-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                                </li>
+                            </ul>
 
-                    <div class="collapse navbar-collapse" id="menu">
-                        <ul class="navbar-nav mx-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
-                            </li>
-                        </ul>
+                            <hr class="d-md-none text-black">
 
-                        <hr class="d-md-none text-black">
+                            <!------------------------------ Botones Identificación ------------------------------>
+                            <form class="d-flex  me-0 me-md-5 justify-content-center">
+                                <button type="button" class="btn btn-link px-3 me-2">
+                                    Iniciar Sesión
+                                </button>
+                                <button type="button" class="btn btn-primary me-3">
+                                    Registrarse
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+                <!---------------------------------------------------- Navbar ---------------------------------------------------->
+            </header>
 
-                        <!--boton Informacion -->
+            <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
 
-                        <form class="d-flex  me-0 me-md-5 justify-content-center">
-                            <button type="button" class="btn btn-link px-3 me-2">
-                                Iniciar Sesión
-                            </button>
-                            <button type="button" class="btn btn-primary me-3">
-                                Registrarse
-                            </button>
-                        </form>
+                <div class="d-flex justify-content-center align-items-center"  style="min-height: calc(100vh - 56px - 56px);">
+                    <div>
+                        <marquee class="w-50" scrollamount="15">
+                            <h1 class="display-1">Bienvenidos</h1>
+                        </marquee>
+                        <p class="lead">
+                            Elige la opción que desee en la navegación para comenzar a utilizar la aplicación.
+                        </p>
                     </div>
                 </div>
-            </nav>
-            <!-- Navbar -->
-        </header>
+            </main>
 
+            <footer style="height: 56px; background-color: #A6E26E;">
+                <div class="h-100 d-flex justify-content-center">
+                    <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+                        <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+                        by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+                    </p>
+                </div>
+            </footer>
 
-        <main class="px-3">
-            <marquee class="w-50" scrollamount="15">
-                <h1 class="display-1">Bienvenidos</h1>
-            </marquee>
-            <p class="lead">
-                Elige la opción que desee en la navegación para comenzar a utilizar la aplicación.
-            </p>
-        </main>
-
-        <footer class="mt-auto" style="background-color: #A6E26E;">
-            <p class="pt-3">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
-                <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
-                by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
-            </p>
-        </footer>
-    </div>
-
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+    </body>
 </html>

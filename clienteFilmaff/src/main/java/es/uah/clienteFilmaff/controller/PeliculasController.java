@@ -1,12 +1,10 @@
 package es.uah.clienteFilmaff.controller;
 
 import es.uah.clienteFilmaff.model.Actor;
+import es.uah.clienteFilmaff.model.Critica;
 import es.uah.clienteFilmaff.model.Pelicula;
 import es.uah.clienteFilmaff.paginator.PageRender;
-import es.uah.clienteFilmaff.service.IActoresService;
-import es.uah.clienteFilmaff.service.IPaisesService;
-import es.uah.clienteFilmaff.service.IPeliculasService;
-import es.uah.clienteFilmaff.service.IUploadFileService;
+import es.uah.clienteFilmaff.service.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -42,6 +40,9 @@ public class PeliculasController {
 
     @Autowired
     IPaisesService paisesService;
+
+    @Autowired
+    ICriticasService criticasService;
 
 
     @GetMapping("/uploads/{filename:.+}")
@@ -129,9 +130,18 @@ public class PeliculasController {
     }
 
     @GetMapping("/detallePelicula/{id}")
-    public String detallePelicula(Model model, @PathVariable("id") Integer id) {
+    public String detallePelicula(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                                  @PathVariable("id") Integer id
+                                  ) {
+        Pageable pageable = PageRequest.of(page, 5);
         Pelicula pelicula = peliculasService.buscarPeliculaPorId(id);
+
+        Page<Critica> criticas = criticasService.buscarCriticasPorIdPeliculaTabla(id, pageable);
+        PageRender<Critica> pageRender = new PageRender<Critica>("/cpeliculas/detallePelicula/" + id,criticas);
+
         model.addAttribute("pelicula", pelicula);
+        model.addAttribute("criticas", criticas);
+        model.addAttribute("page",pageRender);
         return "peliculas/detallePelicula";
     }
 
