@@ -71,36 +71,75 @@
         <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
             <div class="card">
 
-                <h2 th:text="${titulo}" class="card-header text-center">
-                </h2>
-
                 <div class="card-body mx-auto" style="width: 85%">
                     <div th:if="${msg != null}" class='alert alert-success'
                          th:text="${msg}" role='alert'
                     >
                     </div>
 
-                    <!---------------------------------------------------- Btn Crear Usuario ---------------------------------------------------->
-                    <h4 class="card-title text-end">
-                        <a th:href="@{/cusuarios/nuevo}" class="btn btn-primary btn-xs">
-                            Crear Usuario
-                        </a>
-                    </h4>
+                    <!------------------------------------------------ FILTROS ------------------------------------------------>
+                    <div class=" mx-auto rounded rounded-5 mb-5 border border-5 shadow">
 
-                    <!---------------------------------------------------- Tabla ---------------------------------------------------->
-                    <table class="table table-hover mx-auto">
-                        <thead class="thead-light">
+                        <h5 class="fw-bold mb-3 text-decoration-underline py-3 text-center">Filtros</h5>
+
+                        <div class="row mb-3">
+
+                            <!---------------------------------- Buscador Por Nombre ---------------------------------->
+                            <form th:action="@{/cusuarios/nombre}" method="get" class="col">
+                                <div class="mb-3 row justify-content-center">
+                                    <label for="nombre" class="col-auto col-form-label fw-bold">Usuario: </label>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control" id="nombre" name="nombre"
+                                               placeholder="Escriba el usuario">
+                                    </div>
+                                    <div class="col-auto text-end ms-2">
+                                        <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!---------------------------------- Buscador Por Correo ---------------------------------->
+                            <form th:action="@{/cusuarios/correo}" method="get" class="col">
+                                <div class="mb-3 row justify-content-center">
+                                    <label for="correo" class="col-auto col-form-label fw-bold">Correo: </label>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control" id="correo" name="correo"
+                                               placeholder="Escriba el correo">
+                                    </div>
+                                    <div class="col-auto text-end ms-2">
+                                        <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <div class=" mx-auto rounded rounded-5 border border-5 shadow ">
+                        <h3 th:text="${titulo}" class="text-center mt-3 mb-3 text-decoration-underline"></h3>
+
+                        <!---------------------------------------------------- Btn Crear Usuario ---------------------------------------------------->
+                        <h4 class="card-title text-end me-5 mb-2">
+                            <a th:href="@{/cusuarios/nuevo}" class="btn btn-primary btn-xs">
+                                Crear Usuario
+                            </a>
+                        </h4>
+
+                        <!---------------------------------------------------- Tabla ---------------------------------------------------->
+                        <table class="table table-hover mx-auto" style="width: 95%">
+                            <thead class="thead-light">
                             <tr>
                                 <th class="col">Id</th>
                                 <th class="col">Nombre</th>
                                 <th class="col">Clave</th>
                                 <th class="col">Correo</th>
                                 <th class="col">Rol</th>
-                                <th class="col">Acciones</th>
+                                <th class="col text-end">Acciones</th>
                             </tr>
-                        </thead>
+                            </thead>
 
-                        <tbody>
+                            <tbody>
                             <tr th:each="usuario : ${listadoUsuarios}">
                                 <td>
                                     <a class="btn btn-secondary btn-xs text-white"
@@ -115,13 +154,13 @@
                                 <td>
                                     <table>
                                         <tbody>
-                                            <tr th:each="rol: ${usuario.roles}">
-                                                <td th:text="${rol.authority}"></td>
-                                            </tr>
+                                        <tr th:each="rol: ${usuario.roles}">
+                                            <td th:text="${rol.authority}"></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </td>
-                                <td>
+                                <td class="text-end">
                                     <a th:href="@{/cusuarios/editar/{id}  (id=${usuario.idUsuario})}"
                                        th:text="'editar'" class="btn btn-success btn-sm" role="button"
                                        title="Editar el usuario."
@@ -136,13 +175,15 @@
                                     </a>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
 
-                    <nav th:replace="paginator-nav :: paginator"></nav>
-                    <hr>
-
+                        <div class="d-flex justify-content-center py-4">
+                            <nav th:replace="paginator-nav :: paginator"></nav>
+                        </div>
+                    </div>
                 </div>
+
                 <!---------------------------------------------------- Btn Volver ---------------------------------------------------->
                 <a class="btn btn-primary mx-auto mb-3" role="button" th:href="@{/cpeliculas/panelControl}"
                    style="width: 15%"

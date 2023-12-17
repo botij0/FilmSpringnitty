@@ -9,6 +9,8 @@ public interface ICriticasService {
 
     List<Critica> buscarCriticasPorIdPelicula(Integer idPelicula);
 
+    List<Critica> buscarCriticasPorIdUsuario(Integer idUsuario);
+
     Critica buscarCriticaPorId(Integer idCritica);
 
     void guardarCritica(Critica critica);

@@ -22,10 +22,16 @@ public class UsuariosServiceImpl implements IUsuariosService {
 
     String url = "http://localhost:8090/api/usuarios/usuarios";
 
+
+    @Override
+    public List<Usuario> buscarTodosLista(){
+        Usuario[] usuarios = template.getForObject(url, Usuario[].class);
+        return Arrays.asList(usuarios);
+    }
     @Override
     public Page<Usuario> buscarTodos(Pageable pageable) {
-        Usuario[] cursos = template.getForObject(url, Usuario[].class);
-        List<Usuario> usuariosList = Arrays.asList(cursos);
+        Usuario[] usuarios = template.getForObject(url, Usuario[].class);
+        List<Usuario> usuariosList = Arrays.asList(usuarios);
 
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
@@ -51,15 +57,50 @@ public class UsuariosServiceImpl implements IUsuariosService {
     }
 
     @Override
-    public Usuario buscarUsuarioPorNombre(String nombre) {
-        Usuario usuario = template.getForObject(url+"/nombre/"+nombre, Usuario.class);
-        return usuario;
+    public Page<Usuario> buscarUsuariosPorNombre(String nombre, Pageable pageable) {
+        Usuario[] usuarios = template.getForObject(url+"/nombre/"+nombre, Usuario[].class);
+        List<Usuario> usuariosList = Arrays.asList(usuarios);
+
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Usuario> list;
+
+        if (usuariosList.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, usuariosList.size());
+            list = usuariosList.subList(startItem, toIndex);
+        }
+
+        Page<Usuario> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), usuariosList.size());
+        return page;
     }
 
     @Override
     public Usuario buscarUsuarioPorCorreo(String correo) {
         Usuario usuario = template.getForObject(url+"/correo/"+correo, Usuario.class);
         return usuario;
+    }
+    @Override
+    public Page<Usuario> buscarUsuariosPorCorreo(String correo, Pageable pageable) {
+        Usuario[] usuarios = template.getForObject(url+"/correo/"+correo, Usuario[].class);
+        List<Usuario> usuariosList = Arrays.asList(usuarios);
+
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Usuario> list;
+
+        if (usuariosList.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, usuariosList.size());
+            list = usuariosList.subList(startItem, toIndex);
+        }
+
+        Page<Usuario> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), usuariosList.size());
+        return page;
     }
 
     @Override

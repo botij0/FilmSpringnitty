@@ -6,7 +6,7 @@ import java.util.List;
 public interface IActoresService {
     List<Actor> buscarTodos();
     Actor buscarActorPorId(Integer idActor);
-    List<Actor> buscarActorPorNombre(String correo);
+    List<Actor> buscarActorPorNombre(String nombre);
     void guardarActor(Actor actor);
     void eliminarActor(Integer idActor);
     void actualizarActor(Actor actor);

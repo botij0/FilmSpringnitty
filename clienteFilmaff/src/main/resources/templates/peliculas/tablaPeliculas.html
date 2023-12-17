@@ -34,7 +34,7 @@
           <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav mx-auto">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -46,7 +46,7 @@
                 <a class="nav-link" th:href="@{/cpeliculas/buscarListado}">Buscador Avanzado</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
               </li>
             </ul>
 
@@ -71,86 +71,177 @@
 
       <div class="card">
 
-        <h2 th:text="${titulo}" class="card-header text-center"></h2>
-
         <div class="card-body mx-auto" style="width: 85%">
 
           <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
 
-          <!---------------------------------------------------- Btn Crear Pelicula ---------------------------------------------------->
-          <h4 class="card-title text-end me-4">
-            <a th:href="@{/cpeliculas/nueva}" class="btn btn-primary btn-xs">Crear nueva película</a>
-          </h4>
+          <!------------------------------------------------ FILTROS ------------------------------------------------>
+          <div class=" mx-auto rounded rounded-5 mb-5 border border-5 shadow">
 
-          <!---------------------------------------------------- Tabla ---------------------------------------------------->
-          <table class="table table-hover mx-auto">
+            <h5 class="fw-bold mb-3 text-decoration-underline py-3 text-center">Filtros</h5>
 
-            <thead class="thead-light">
-              <tr>
-                <th class="col">Id</th>
-                <th class="col">Título</th>
-                <th class="col">Año</th>
-                <th class="col">Duración</th>
-                <th class="col">Pais</th>
-                <th class="col">Dirección</th>
-                <th class="col-2">Sinopsis</th>
-                <th class="col">Imagen</th>
-                <th class="col">Género</th>
-                <th class="col">Reparto</th>
-                <th class="col">Acciones</th>
-              </tr>
-            </thead>
+            <div class="row mb-3 justify-content-center">
+              <!---------------------------------- Buscador Por Título ---------------------------------->
+              <form th:action="@{/cpeliculas/titulo/5}" method="get" class="col me-5">
+                <div class="mb-3 row justify-content-end">
+                  <label for="titulo" class="col-auto col-form-label fw-bold">Titulo: </label>
+                  <div class="col-5">
+                    <input type="text" class="form-control" id="titulo" name="titulo"
+                           placeholder="Escriba el título de la película">
+                  </div>
+                  <div class="col-auto text-end ms-2">
+                    <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                  </div>
+                </div>
+              </form>
 
-            <tbody>
-              <tr th:each="pelicula : ${listadoPeliculas}">
-                <td><a class="btn btn-secondary btn-xs text-white" th:href="@{/cpeliculas/detallePelicula/} + ${pelicula.idPelicula}"
-                       th:text="${pelicula.idPelicula}"></a>
-                </td>
-                <td th:text="${pelicula.titulo}"></td>
-                <td th:text="${pelicula.anio}"></td>
-                <td th:text="${pelicula.duracion} + ' mins'"></td>
-                <td th:text="${pelicula.pais}"></td>
-                <td th:text="${pelicula.direccion}"></td>
-                <td th:if="${pelicula.sinopsis.length() >= 150 }"
-                    th:text="${pelicula.sinopsis.substring(0,150) + '...'}"
-                    th:title="${pelicula.sinopsis}">
-                </td>
-                <td th:unless="${pelicula.sinopsis.length() >= 150 }"
-                    th:text="${pelicula.sinopsis}">
-                </td>
-                <td>
-                  <img  th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}"
-                        th:alt="${pelicula.imagen}" style="width:70px; height: 120px"/>
-                </td>
-                <td th:text="${pelicula.genero}"></td>
-                <td>
-                  <a th:each="actor :${pelicula.actores}" th:text="${actor.nombre}"
-                       th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})}"
-                     class="mx-2">
-                  </a>
-                </td>
-                <td>
-                  <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})}"
-                     th:text="'editar'" class="btn btn-success btn-sm mb-3"
-                     role="button" title="Editar la Película."
-                  >
-                  </a>
-                  <a th:href="@{/cpeliculas/borrar/{id}  (id=${pelicula.idPelicula})   }"
-                     th:text="'borrar'" onclick="return confirm('¿Estas seguro?')"
-                     class="btn btn-danger btn-sm mb-3" role="button" title="Eliminar la Película."
-                  >
-                  </a>
-                </td>
-              </tr>
-            </tbody>
+              <!----------------------------------- Buscador por Género ----------------------------------->
+              <form th:action="@{/cpeliculas/genero/5}" method="get" class="col">
+                <div class="mb-3 row justify-content-start">
+                  <label for="genero" class="col-auto col-form-label fw-bold">Genero: </label>
+                  <div class="col-5">
+                    <select class="form-select" name="genero" id="genero">
+                      <option value="">--- Genero ---</option>
+                      <option value="Acción">Acción</option>
+                      <option value="Animación">Animación</option>
+                      <option value="Aventura">Aventura</option>
+                      <option value="Ciencia Ficción">Ciencia Ficción</option>
+                      <option value="Comedia">Comedia</option>
+                      <option value="Drama">Drama</option>
+                      <option value="Documental">Documental</option>
+                      <option value="Fantasía">Fantasía</option>
+                      <option value="Musical">Musical</option>
+                      <option value="Romance">Romance</option>
+                      <option value="Suspense">Suspense</option>
+                      <option value="Terror">Terror</option>
+                      <option value="Thriller">Thriller</option>
+                    </select>
+                  </div>
+                  <div class="col-auto text-end ms-2">
+                    <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row">
+              <!----------------------------------- Buscador por Actor ----------------------------------->
+              <form th:action="@{/cpeliculas/actor/5}" method="get" class="col me-5">
+                <div class="mb-3 row justify-content-end">
+                  <label for="actor" class="col-auto col-form-label fw-bold">Actor: </label>
+                  <div class="col-5">
+                    <input type="text" class="form-control" id="actor" name="actor"
+                           placeholder="Escriba el nombre del actor">
+                  </div>
+                  <div class="col-auto text-end ms-2">
+                    <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                  </div>
+                </div>
+              </form>
 
-          </table>
+              <!----------------------------------- Buscador por Año ----------------------------------->
+              <form th:action="@{/cpeliculas/anio/5}" method="get" class="col">
+                <div class="mb-3 row justify-content-start">
+                  <label for="min" class="col-auto col-form-label fw-bold">Desde: </label>
+                  <div class="col-2">
+                    <input type="number" class="form-control" id="min" name="min"
+                           placeholder="Desde" value="0" required>
+                  </div>
+                  <label for="max" class="col-auto col-form-label fw-bold">Hasta: </label>
+                  <div class="col-2">
+                    <input type="number" class="form-control" id="max" name="max"
+                           placeholder="Hasta" value="2024" required>
+                  </div>
+                  <div class="col-auto text-end ms-2">
+                    <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
 
-          <nav th:replace="paginator-nav :: paginator"></nav>
-          <hr>
+          <!------------------------------------------------ PELICULAS ------------------------------------------------>
+          <div class=" mx-auto rounded rounded-5 border border-5 shadow ">
 
+            <h3 th:text="${titulo}" class="text-center mt-3 mb-3 text-decoration-underline"></h3>
+
+            <!------------------------------------------ Btn Crear Pelicula ------------------------------------------>
+            <h4 class="card-title text-end me-5 mb-2">
+              <a th:href="@{/cpeliculas/nueva}" class="btn btn-primary btn-xs">Crear nueva película</a>
+            </h4>
+
+            <!------------------------------------------------- Tabla ------------------------------------------------>
+            <table class="table table-hover mx-auto" style="width: 95%">
+
+              <thead class="thead-light">
+                <tr>
+                  <th class="col">Id</th>
+                  <th class="col">Título</th>
+                  <th class="col">Año</th>
+                  <th class="col">Duración</th>
+                  <th class="col">Pais</th>
+                  <th class="col">Dirección</th>
+                  <th class="col-2">Sinopsis</th>
+                  <th class="col">Imagen</th>
+                  <th class="col">Género</th>
+                  <th class="col">Reparto</th>
+                  <th class="col">Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr th:each="pelicula : ${listadoPeliculas}">
+                  <td>
+                    <a class="btn btn-secondary btn-xs text-white"
+                         th:href="@{/cpeliculas/detallePelicula/} + ${pelicula.idPelicula}"
+                         th:text="${pelicula.idPelicula}">
+
+                    </a>
+                  </td>
+                  <td th:text="${pelicula.titulo}"></td>
+                  <td th:text="${pelicula.anio}"></td>
+                  <td th:text="${pelicula.duracion} + ' mins'"></td>
+                  <td th:text="${pelicula.pais}"></td>
+                  <td th:text="${pelicula.direccion}"></td>
+                  <td th:if="${pelicula.sinopsis.length() >= 150 }"
+                      th:text="${pelicula.sinopsis.substring(0,150) + '...'}"
+                      th:title="${pelicula.sinopsis}">
+                  </td>
+                  <td th:unless="${pelicula.sinopsis.length() >= 150 }"
+                      th:text="${pelicula.sinopsis}">
+                  </td>
+                  <td>
+                    <img  th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}"
+                          th:alt="${pelicula.imagen}" style="width:70px; height: 120px"/>
+                  </td>
+                  <td th:text="${pelicula.genero}"></td>
+                  <td>
+                    <a th:each="actor :${pelicula.actores}" th:text="${actor.nombre}"
+                         th:href="@{/cactores/detalleActor/{id}  (id=${actor.idActor})}"
+                       class="mx-2">
+                    </a>
+                  </td>
+                  <td>
+                    <a th:href="@{/cpeliculas/editar/{id}  (id=${pelicula.idPelicula})}"
+                       th:text="'editar'" class="btn btn-success btn-sm mb-3"
+                       role="button" title="Editar la Película."
+                    >
+                    </a>
+                    <a th:href="@{/cpeliculas/borrar/{id}  (id=${pelicula.idPelicula})   }"
+                       th:text="'borrar'" onclick="return confirm('¿Estas seguro?')"
+                       class="btn btn-danger btn-sm mb-3" role="button" title="Eliminar la Película."
+                    >
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="d-flex justify-content-center py-4">
+              <nav th:replace="paginator-nav :: paginator"></nav>
+            </div>
+
+          </div>
         </div>
-
 
         <!---------------------------------------------------- Btn Volver ---------------------------------------------------->
         <a class="btn btn-primary mx-auto mb-3" role="button"

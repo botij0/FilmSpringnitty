@@ -71,8 +71,6 @@
     <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
       <div class="card">
 
-        <h2 th:text="${titulo}" class="card-header text-center"></h2>
-
         <div class="card-body mx-auto" style="width: 85%">
 
           <div th:if="${msg != null}" class='alert alert-success'
@@ -80,17 +78,43 @@
           >
           </div>
 
-          <!----------------------------------------------- Btn Crear Actor/Actriz ----------------------------------------------->
-          <h4 class="card-title text-end">
-            <a th:href="@{/cactores/nuevo}" class="btn btn-primary btn-xs">
-              Crear nuevo Actor/Actriz
-            </a>
-          </h4>
+          <!------------------------------------------------ FILTROS ------------------------------------------------>
+          <div class=" mx-auto rounded rounded-5 mb-5 border border-5 shadow">
 
-          <!---------------------------------------------------- Tabla ---------------------------------------------------->
-          <table class="table table-hover mx-auto">
+            <h5 class="fw-bold mb-3 text-decoration-underline py-3 text-center">Filtros</h5>
 
-            <thead class="thead-light">
+            <div class="row mb-3 justify-content-center">
+              <!---------------------------------- Buscador Por Nombre ---------------------------------->
+              <form th:action="@{/cactores/nombre/5}" method="get" class="w-50 mx-auto">
+                <div class="mb-3 row justify-content-center">
+                  <label for="nombre" class="col-auto col-form-label fw-bold">Buscar: </label>
+                  <div class="col-5">
+                    <input type="text" class="form-control" id="nombre" name="nombre"
+                           placeholder="Escriba el Nombre del Actor">
+                  </div>
+                  <div class="col-auto text-end ms-2">
+                    <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class=" mx-auto rounded rounded-5 border border-5 shadow ">
+
+            <h3 th:text="${titulo}" class="text-center mt-3 mb-3 text-decoration-underline"></h3>
+
+            <!----------------------------------------------- Btn Crear Actor/Actriz ----------------------------------------------->
+            <h4 class="card-title text-end me-5 mb-2">
+              <a th:href="@{/cactores/nuevo}" class="btn btn-primary btn-xs">
+                Crear nuevo Actor/Actriz
+              </a>
+            </h4>
+
+            <!---------------------------------------------------- Tabla ---------------------------------------------------->
+            <table class="table table-hover mx-auto" style="width: 95%">
+
+              <thead class="thead-light">
               <tr>
                 <th class="col">Id</th>
                 <th class="col">Nombre</th>
@@ -100,9 +124,9 @@
                 <th class="col">Películas</th>
                 <th class="col">Acciones</th>
               </tr>
-            </thead>
+              </thead>
 
-            <tbody>
+              <tbody>
               <tr th:each="actor : ${listadoActores}">
                 <td>
                   <a class="btn btn-secondary btn-xs text-white"
@@ -116,13 +140,13 @@
                 <td>
                   <img  th:src="@{'/cpeliculas/uploads/' + ${actor.imagen}}"
                         th:alt="${actor.imagen}"
-                          style="width:70px; height: 120px"
+                        style="width:70px; height: 120px"
                   />
                 </td>
                 <td>
                   <a th:each="pelicula :${actor.peliculas}" th:text="${pelicula.titulo}"
-                       th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})  }"
-                       class="mx-2"
+                     th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})  }"
+                     class="mx-2"
                   >
                   </a>
                 </td>
@@ -138,11 +162,14 @@
                   </a>
                 </td>
               </tr>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
 
-          <nav th:replace="paginator-nav :: paginator"></nav>
-          <hr>
+            <div class="d-flex justify-content-center py-4">
+              <nav th:replace="paginator-nav :: paginator"></nav>
+            </div>
+
+          </div>
 
         </div>
 

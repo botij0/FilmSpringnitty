@@ -1,6 +1,7 @@
 package es.uah.clienteFilmaff.controller;
 
 
+import es.uah.clienteFilmaff.model.Pelicula;
 import es.uah.clienteFilmaff.model.Rol;
 import es.uah.clienteFilmaff.model.Usuario;
 import es.uah.clienteFilmaff.paginator.PageRender;
@@ -37,7 +38,7 @@ public class UsuariosController {
 
     @GetMapping("/listado")
     public String listadoUsuarios(Model model, @RequestParam(name="page", defaultValue="0") int page) {
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 8);
         Page<Usuario> listado = usuariosService.buscarTodos(pageable);
         PageRender<Usuario> pageRender = new PageRender<Usuario>("/cusuarios/listado", listado);
         model.addAttribute("titulo", "Listado de todos los usuarios");
@@ -92,6 +93,52 @@ public class UsuariosController {
         }
 
         return "redirect:/cusuarios/listado";
+    }
+
+    @GetMapping("/nombre")
+    public String buscarUsuarioPorNombre(Model model,
+                                         @RequestParam(name="page", defaultValue = "0") int page,
+                                         @RequestParam("nombre") String nombre)
+    {
+        Pageable pageable = PageRequest.of(page,8);
+        Page<Usuario> listado;
+
+        if(nombre.equals("")){
+            listado = usuariosService.buscarTodos(pageable);
+        }
+        else{
+            listado = usuariosService.buscarUsuariosPorNombre(nombre, pageable);
+        }
+
+        PageRender<Usuario> pageRender = new PageRender<Usuario>("/cusuarios/listado", listado);
+        model.addAttribute("titulo", "Tabla Usuarios");
+        model.addAttribute("listadoUsuarios", listado);
+        model.addAttribute("page", pageRender);
+
+        return "usuarios/listUsuario";
+    }
+
+    @GetMapping("/correo")
+    public String buscarUsuarioPorCorreo(Model model,
+                                         @RequestParam(name="page", defaultValue = "0") int page,
+                                         @RequestParam("correo") String correo)
+    {
+        Pageable pageable = PageRequest.of(page,8);
+        Page<Usuario> listado;
+
+        if(correo.equals("")){
+            listado = usuariosService.buscarTodos(pageable);
+        }
+        else{
+            listado = usuariosService.buscarUsuariosPorCorreo(correo, pageable);
+        }
+
+        PageRender<Usuario> pageRender = new PageRender<Usuario>("/cusuarios/listado", listado);
+        model.addAttribute("titulo", "Tabla Usuarios");
+        model.addAttribute("listadoUsuarios", listado);
+        model.addAttribute("page", pageRender);
+
+        return "usuarios/listUsuario";
     }
 
 

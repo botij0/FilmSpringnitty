@@ -34,7 +34,7 @@ public class ActoresDAOImpl implements IActoresDAO {
 
     @Override
     public List<Actor> buscarActorPorNombre(String nombre){
-        return actoresJPA.findByNombreIgnoreCase(nombre);
+        return actoresJPA.findByNombreContainingIgnoreCase(nombre);
     }
 
     @Override

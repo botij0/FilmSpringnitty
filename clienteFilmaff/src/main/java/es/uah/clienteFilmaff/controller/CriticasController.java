@@ -2,9 +2,11 @@ package es.uah.clienteFilmaff.controller;
 
 import es.uah.clienteFilmaff.model.Critica;
 import es.uah.clienteFilmaff.model.Pelicula;
+import es.uah.clienteFilmaff.model.Usuario;
 import es.uah.clienteFilmaff.paginator.PageRender;
 import es.uah.clienteFilmaff.service.ICriticasService;
 import es.uah.clienteFilmaff.service.IPeliculasService;
+import es.uah.clienteFilmaff.service.IUsuariosService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,13 +29,23 @@ public class CriticasController {
     @Autowired
     IPeliculasService peliculasService;
 
+    @Autowired
+    IUsuariosService usuariosService;
+
     @GetMapping("/listado")
     public String listadoCriticas(Model model, @RequestParam(name="page", defaultValue="0") int page) {
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 8);
         Page<Critica> listado = criticasService.buscarTodas(pageable);
         PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/listado", listado);
-        model.addAttribute("titulo", "Listado de todas las criticas");
+
+        List<Usuario> usuarioList = usuariosService.buscarTodosLista();
+        List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+
+
+        model.addAttribute("titulo", "Tabla Críticas");
         model.addAttribute("listadoCriticas", listado);
+        model.addAttribute("listadoUsuarios",usuarioList);
+        model.addAttribute("listadoPeliculas", peliculaList);
         model.addAttribute("page", pageRender);
         return "usuarios/listCriticas";
     }
@@ -114,4 +126,57 @@ public class CriticasController {
         return "redirect:/ccriticas/listado";
     }
 
+    @GetMapping("/pelicula")
+    public String buscarCriticaPeliculaId(Model model, @RequestParam(name="page", defaultValue = "0") int page,
+                                          @RequestParam("pelicula") Integer peliculaId) {
+
+        Pageable pageable = PageRequest.of(page, 8);
+        Page<Critica> listado;
+        if(peliculaId == 0){
+            listado = criticasService.buscarTodas(pageable);
+        }
+        else{
+            listado = criticasService.buscarCriticasPorIdPeliculaTabla(peliculaId, pageable);
+        }
+
+        PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/listado", listado);
+
+        List<Usuario> usuarioList = usuariosService.buscarTodosLista();
+        List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+
+
+        model.addAttribute("titulo", "Tabla Críticas");
+        model.addAttribute("listadoCriticas", listado);
+        model.addAttribute("listadoUsuarios",usuarioList);
+        model.addAttribute("listadoPeliculas", peliculaList);
+        model.addAttribute("page", pageRender);
+        return "usuarios/listCriticas";
+    }
+
+    @GetMapping("/usuario")
+    public String buscarCriticaUsuarioId(Model model, @RequestParam(name="page", defaultValue = "0") int page,
+                                          @RequestParam("usuario") Integer usuarioId) {
+
+        Pageable pageable = PageRequest.of(page, 8);
+        Page<Critica> listado;
+        if(usuarioId == 0){
+            listado = criticasService.buscarTodas(pageable);
+        }
+        else{
+            listado = criticasService.buscarCriticasPorIdUsuarioTabla(usuarioId, pageable);
+        }
+
+        PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/listado", listado);
+
+        List<Usuario> usuarioList = usuariosService.buscarTodosLista();
+        List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+
+
+        model.addAttribute("titulo", "Tabla Críticas");
+        model.addAttribute("listadoCriticas", listado);
+        model.addAttribute("listadoUsuarios",usuarioList);
+        model.addAttribute("listadoPeliculas", peliculaList);
+        model.addAttribute("page", pageRender);
+        return "usuarios/listCriticas";
+    }
 }

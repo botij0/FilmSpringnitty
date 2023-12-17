@@ -105,7 +105,7 @@ public class PeliculasController {
         Pageable pageable = PageRequest.of(page, 5);
         Page<Pelicula> listado = peliculasService.buscarTodos(pageable);
         PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/cpeliculas/tabla",listado);
-        model.addAttribute("titulo", "Listado de todas las Peliculas");
+        model.addAttribute("titulo", "Tabla Películas");
         model.addAttribute("listadoPeliculas", listado);
         model.addAttribute("page",pageRender);
         return "peliculas/tablaPeliculas";

@@ -19,7 +19,7 @@ public class UsuariosServiceImpl implements IUsuariosService {
     }
 
     @Override
-    public Usuario buscarUsuarioPorNombre(String nombre) {
+    public List<Usuario> buscarUsuarioPorNombre(String nombre) {
         return usuariosDAO.buscarUsuarioPorNombre(nombre);
     }
 
@@ -29,7 +29,7 @@ public class UsuariosServiceImpl implements IUsuariosService {
     }
 
     @Override
-    public Usuario buscarUsuarioPorCorreo(String correo) {
+    public List<Usuario> buscarUsuarioPorCorreo(String correo) {
         return usuariosDAO.buscarUsuarioPorCorreo(correo);
     }
 

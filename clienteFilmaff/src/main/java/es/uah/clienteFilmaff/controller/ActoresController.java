@@ -54,26 +54,28 @@ public class ActoresController {
         return "actores/listadoActores";
     }
 
-    @GetMapping("/nombre/")
-    public String buscarActorPorNombre(Model model,
+    @GetMapping("/nombre/{pageSize}")
+    public String buscarActorPorNombre(Model model, @PathVariable("pageSize") int pageSize,
                                           @RequestParam(name="page", defaultValue = "0") int page,
-                                          @RequestParam("titulo") String titulo)
+                                          @RequestParam("nombre") String nombre)
     {
-        Pageable pageable = PageRequest.of(page,8);
+        Pageable pageable = PageRequest.of(page,pageSize);
         Page<Actor> listado;
-        if(titulo.equals("")){
+        if(nombre.equals("")){
             listado = actoresService.buscarTodos(pageable);
         }
         else{
-            listado = actoresService.buscarActorPorNombre(titulo, pageable);
+            listado = actoresService.buscarActorPorNombre(nombre, pageable);
         }
 
-        PageRender<Actor> pageRender = new PageRender<Actor>("/cactores/listado", listado);
+        PageRender<Actor> pageRender = pageSize == 8 ? new PageRender<Actor>("/cactores/listado", listado) :
+                                                       new PageRender<Actor>("/cactores/tabla", listado);
 
-        model.addAttribute("titulo", "Listado de Actores");
+        model.addAttribute("titulo", "Actores");
         model.addAttribute("listadoActores", listado);
         model.addAttribute("page", pageRender);
-        return "actores/listadoActores";
+        return  pageSize == 8 ? "actores/listadoActores" :
+                                "actores/tablaActores";
     }
 
     @GetMapping("/detalleActor/{id}")

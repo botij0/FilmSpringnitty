@@ -24,12 +24,12 @@ public class UsuariosController {
     }
 
     @GetMapping("/usuarios/correo/{correo}")
-    public Usuario buscarUsuarioPorCorreo(@PathVariable("correo") String correo) {
+    public  List<Usuario> buscarUsuarioPorCorreo(@PathVariable("correo") String correo) {
         return usuariosService.buscarUsuarioPorCorreo(correo);
     }
 
     @GetMapping("/usuarios/nombre/{nombre}")
-    public Usuario buscarUsuarioPorNombre(@PathVariable("nombre") String nombre) {
+    public List<Usuario> buscarUsuarioPorNombre(@PathVariable("nombre") String nombre) {
         return usuariosService.buscarUsuarioPorNombre(nombre);
     }
 

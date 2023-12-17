@@ -31,21 +31,13 @@ public class UsuariosDAOImpl implements IUsuariosDAO {
     }
 
     @Override
-    public Usuario buscarUsuarioPorNombre(String nombre) {
-        Optional<Usuario> optional = Optional.ofNullable(usuariosJPA.findByNombre(nombre));
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        return null;
+    public List<Usuario> buscarUsuarioPorNombre(String nombre) {
+        return usuariosJPA.findByNombreContainingIgnoreCase(nombre);
     }
 
     @Override
-    public Usuario buscarUsuarioPorCorreo(String correo) {
-        Optional<Usuario> optional = Optional.ofNullable(usuariosJPA.findByCorreo(correo));
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        return null;
+    public List<Usuario> buscarUsuarioPorCorreo(String correo) {
+        return usuariosJPA.findByCorreoContainingIgnoreCase(correo);
     }
 
     @Override

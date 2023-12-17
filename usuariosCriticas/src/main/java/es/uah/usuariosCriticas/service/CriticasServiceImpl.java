@@ -37,4 +37,9 @@ public class CriticasServiceImpl implements ICriticasService{
     public void eliminarCritica(Integer idCritica) {
         criticasDAO.eliminarCritica(idCritica);
     }
+
+    public List<Critica> buscarCriticasPorIdUsuario(Integer idUsuario)
+    {
+        return criticasDAO.buscarCriticasPorIdUsuario(idUsuario);
+    }
 }

@@ -3,10 +3,12 @@ package es.uah.usuariosCriticas.dao;
 import es.uah.usuariosCriticas.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface IUsuariosJPA extends JpaRepository<Usuario, Integer> {
 
-    Usuario findByNombre(String nombre);
+    List<Usuario> findByNombreContainingIgnoreCase(String nombre);
 
-    Usuario findByCorreo(String correo);
+    List<Usuario> findByCorreoContainingIgnoreCase(String correo);
 
 }

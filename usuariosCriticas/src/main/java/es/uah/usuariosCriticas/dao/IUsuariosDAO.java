@@ -10,9 +10,9 @@ public interface IUsuariosDAO {
 
     Usuario buscarUsuarioPorId(Integer idUsuario);
 
-    Usuario buscarUsuarioPorNombre(String nombre);
+    List<Usuario> buscarUsuarioPorNombre(String nombre);
 
-    Usuario buscarUsuarioPorCorreo(String correo);
+    List<Usuario> buscarUsuarioPorCorreo(String correo);
 
     void guardarUsuario(Usuario usuario);
 
