@@ -5,6 +5,7 @@ import es.uah.clienteFilmaff.model.Pelicula;
 import es.uah.clienteFilmaff.paginator.PageRender;
 import es.uah.clienteFilmaff.service.ICriticasService;
 import es.uah.clienteFilmaff.service.IPeliculasService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +38,22 @@ public class CriticasController {
         return "usuarios/listCriticas";
     }
 
+    @GetMapping("/nueva/pelicula/{id}")
+    public String nuevaCriticaPeliculaId(Model model, @PathVariable("id") Integer id)
+    {
+        Critica critica = new Critica();
+        Pelicula pelicula = peliculasService.buscarPeliculaPorId(id);
+
+        //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
+
+        model.addAttribute("titulo", "Nueva Critica de " + pelicula.getTitulo());
+        model.addAttribute("public", true);
+        model.addAttribute("pelicula", pelicula);
+        model.addAttribute("usuarioID", 2);
+        model.addAttribute("critica", critica);
+        return "usuarios/formCritica";
+    }
+
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         Critica critica = new Critica();
@@ -44,32 +61,42 @@ public class CriticasController {
 
         //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
 
-
         model.addAttribute("titulo", "Nueva critica");
         model.addAttribute("peliculas", peliculaList);
+        model.addAttribute("public", false);
         model.addAttribute("usuarioID", 2);
         model.addAttribute("critica", critica);
         return "usuarios/formCritica";
     }
 
     @PostMapping("/guardar/")
-    public String guardarCritica(Model model, Critica critica, RedirectAttributes attributes) {
+    public String guardarCritica(Model model, Critica critica, RedirectAttributes attributes,HttpServletRequest request ) {
         String resultado = criticasService.guardarCritica(critica);
         model.addAttribute("titulo", "Nueva critica");
         attributes.addFlashAttribute("msg", resultado);
-        return "redirect:/ccriticas/listado";
+
+        // Obtener la URL de la página actual
+        String referer = request.getHeader("referer");
+
+        // Comparar con la URL esperada y redirigir en consecuencia
+        if (referer != null && referer.contains("/pelicula")) {
+            return "redirect:/cpeliculas/listado";
+        } else {
+            return "redirect:/ccriticas/listado";
+        }
     }
 
     @GetMapping("/editar/{id}")
     public String editarCritica(Model model, @PathVariable("id") Integer id) {
         Critica critica = criticasService.buscarCriticaPorId(id);
-        List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+        //List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+        Pelicula pelicula = peliculasService.buscarPeliculaPorId(critica.getPeliculaId());
 
         //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
 
         model.addAttribute("titulo", "Editar Critica");
         model.addAttribute("critica", critica);
-        model.addAttribute("peliculas", peliculaList);
+        model.addAttribute("pelicula", pelicula);
         model.addAttribute("usuarioID", 2);
         return "usuarios/formCritica";
     }

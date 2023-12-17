@@ -75,7 +75,7 @@
         <ul class="nav nav-tabs justify-content-md-center" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="ficha-tab" data-bs-toggle="tab" data-bs-target="#ficha"
-                    type="button" role="tab" aria-controls="ficha" aria-selected="false"
+                    type="button" role="tab" aria-controls="ficha" aria-selected="true"
             >
               Ficha
             </button>
@@ -91,7 +91,7 @@
 
         <div class="tab-content" id="contenido">
 
-          <div class="tab-pane fade" id="ficha" role="tabpanel" aria-labelledby="ficha-tab">
+          <div class="tab-pane fade show active" id="ficha" role="tabpanel" aria-labelledby="ficha-tab">
             <div class=" mt-1">
               <div class="container">
 
@@ -123,8 +123,29 @@
                     <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}"
                          class="rounded" style="width: 310px; height: 530px"
                     />
-                  </div>
+                    <div class="row mt-3">
+                      <div class="col"></div>
+                      <div class="col">
+                        <div class="rounded-2 text-center shadow fw-bold me-auto text-white"
+                             style="font-size: 80px; background-color: #A6E26E"
+                        >
+                          <p th:text="${criticas.size()} == 0 ? '--' : ${notaMedia}"></p>
+                        </div>
 
+                      </div>
+                      <div class="col">
+                        <div class="border border-2 rounded-2 text-center shadow fw-bold me-auto"
+                             style="font-size: 45px; border-color: #A6E26E !important;"
+                        >
+                          <span th:text="${criticas.size()}"></span>
+                          <p class="fw-normal" style="font-size: 20px">votos</p>
+                        </div>
+                      </div>
+                      <div class="col"></div>
+                    </div>
+
+
+                  </div>
                 </div>
               </div>
             </div>
@@ -134,9 +155,14 @@
             <div class="card-body">
               <div class="bg-light rounded shadow-sm p-4 mb-4 criticas text-black h-100 w-75 mx-auto">
 
-                <h5>
+                <h3>
                   Criticas y Puntuaciones
-                </h5>
+                </h3>
+                <h4 class="card-title text-end">
+                  <a th:href="@{/ccriticas/nueva/pelicula/{id}  (id=${pelicula.idPelicula})}" class="btn btn-primary btn-xs">
+                    Crear Crítica
+                  </a>
+                </h4>
                 <hr>
 
                 <div class="critica-usuario text-start row" th:each="critica : ${criticas}">
@@ -154,7 +180,6 @@
                   </div>
                   <div class="texto-critica col-9">
                     <p th:text="${critica.valoracion}">
-
                     </p>
                   </div>
                   <div class="col-1">
@@ -165,8 +190,6 @@
                   </div>
                   <hr>
                 </div>
-                <nav th:replace="paginator-nav :: paginator"></nav>
-                <hr>
               </div>
             </div>
           </div>

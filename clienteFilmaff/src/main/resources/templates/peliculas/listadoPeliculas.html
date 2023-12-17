@@ -82,32 +82,99 @@
 
             <div class="card h-100">
 
-                <h2 th:text="${titulo}" class="card-header text-center"></h2>
-
                 <div class="card-body">
+                    <div class="bg-light w-75 mx-auto rounded rounded-5 mb-5 border border-5 shadow">
+                        <h5 class="fw-bold mb-3 text-decoration-underline py-3">Filtros</h5>
 
-                    <!---------------------------------- Buscador Por Título ---------------------------------->
-                    <form th:action="@{/cpeliculas/titulo/8}" method="get" class="w-50 mx-auto">
-                        <div class="mb-3 row justify-content-center">
-                            <label for="titulo" class="col-auto col-form-label fw-bold">Buscar: </label>
-                            <div class="col-5">
-                                <input type="text" class="form-control" id="titulo" name="titulo"
-                                       placeholder="Escriba el título de la película">
-                            </div>
-                            <div class="col-auto text-end ms-2">
-                                <button type="submit" class="btn btn-success mb-3">Buscar</button>
-                            </div>
+                        <div class="row mb-3 justify-content-center">
+                            <!---------------------------------- Buscador Por Título ---------------------------------->
+                            <form th:action="@{/cpeliculas/titulo/8}" method="get" class="col me-5">
+                                <div class="mb-3 row justify-content-end">
+                                    <label for="titulo" class="col-auto col-form-label fw-bold">Titulo: </label>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control" id="titulo" name="titulo"
+                                               placeholder="Escriba el título de la película">
+                                    </div>
+                                    <div class="col-auto text-end ms-2">
+                                        <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
 
+                            <!----------------------------------- Buscador por Género ----------------------------------->
+                            <form th:action="@{/cpeliculas/genero/8}" method="get" class="col">
+                                <div class="mb-3 row justify-content-start">
+                                    <label for="genero" class="col-auto col-form-label fw-bold">Genero: </label>
+                                    <div class="col-5">
+                                        <select class="form-select" name="genero" id="genero">
+                                            <option value="">--- Genero ---</option>
+                                            <option value="Acción">Acción</option>
+                                            <option value="Animación">Animación</option>
+                                            <option value="Aventura">Aventura</option>
+                                            <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                            <option value="Comedia">Comedia</option>
+                                            <option value="Drama">Drama</option>
+                                            <option value="Documental">Documental</option>
+                                            <option value="Fantasía">Fantasía</option>
+                                            <option value="Musical">Musical</option>
+                                            <option value="Romance">Romance</option>
+                                            <option value="Suspense">Suspense</option>
+                                            <option value="Terror">Terror</option>
+                                            <option value="Thriller">Thriller</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto text-end ms-2">
+                                        <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                        <div class="row">
+                            <!----------------------------------- Buscador por Actor ----------------------------------->
+                            <form th:action="@{/cpeliculas/actor/8}" method="get" class="col me-5">
+                                <div class="mb-3 row justify-content-end">
+                                    <label for="actor" class="col-auto col-form-label fw-bold">Actor: </label>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control" id="actor" name="actor"
+                                               placeholder="Escriba el nombre del actor">
+                                    </div>
+                                    <div class="col-auto text-end ms-2">
+                                        <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!----------------------------------- Buscador por Año ----------------------------------->
+                            <form th:action="@{/cpeliculas/anio/8}" method="get" class="col">
+                                <div class="mb-3 row justify-content-start">
+                                    <label for="min" class="col-auto col-form-label fw-bold">Desde: </label>
+                                    <div class="col-2">
+                                        <input type="number" class="form-control" id="min" name="min"
+                                               placeholder="Desde" value="0" required>
+                                    </div>
+                                    <label for="max" class="col-auto col-form-label fw-bold">Hasta: </label>
+                                    <div class="col-2">
+                                        <input type="number" class="form-control" id="max" name="max"
+                                               placeholder="Hasta" value="2024" required>
+                                    </div>
+                                    <div class="col-auto text-end ms-2">
+                                        <button type="submit" class="btn btn-success mb-3">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                     <!---------------------------------- Tarjetas Películas ---------------------------------->
-                    <div class="container">
+                    <div class="bg-light w-75 mx-auto rounded rounded-5 border border-5 shadow ">
+                        <h3 th:text="${titulo}" class="text-center mt-3 mb-5 text-decoration-underline"></h3>
                         <div class="row row-cols-4">
                             <div class="mb-5 tarjeta" th:each="pelicula : ${listadoPeliculas}">
                                 <a th:href="@{/cpeliculas/detallePelicula/{id}  (id=${pelicula.idPelicula})}">
-                                    <div class="border border-1 bg-light shadow mx-auto rounded" style="width: 250px; height:420px ">
-                                        <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}" class="mt-3 rounded img-fluid" style="width: 210px; height: 360px"/>
+                                    <div class="border border-1 bg-light shadow mx-auto rounded" style="max-width: 250px;max-height:420px ">
+                                        <img th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}" th:alt="${pelicula.imagen}"
+                                             class="mx-3 mt-3 rounded img-fluid " style="width: 210px; height: 360px"
+                                        />
                                         <p class="p-2 fw-bold" th:text="${pelicula.titulo}"></p>
                                     </div>
                                 </a>

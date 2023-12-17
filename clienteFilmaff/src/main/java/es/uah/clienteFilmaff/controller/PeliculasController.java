@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -130,18 +131,14 @@ public class PeliculasController {
     }
 
     @GetMapping("/detallePelicula/{id}")
-    public String detallePelicula(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
-                                  @PathVariable("id") Integer id
-                                  ) {
-        Pageable pageable = PageRequest.of(page, 5);
+    public String detallePelicula(Model model, @PathVariable("id") Integer id) {
         Pelicula pelicula = peliculasService.buscarPeliculaPorId(id);
-
-        Page<Critica> criticas = criticasService.buscarCriticasPorIdPeliculaTabla(id, pageable);
-        PageRender<Critica> pageRender = new PageRender<Critica>("/cpeliculas/detallePelicula/" + id,criticas);
-
+        List<Critica> criticas = criticasService.buscarCriticaPorIdDetallePelicula(id);
+        double notaMedia = criticasService.obtenerNotaMediaCriticasPeliculaId(id);
+        DecimalFormat df = new DecimalFormat("#.#");
         model.addAttribute("pelicula", pelicula);
         model.addAttribute("criticas", criticas);
-        model.addAttribute("page",pageRender);
+        model.addAttribute("notaMedia",df.format(notaMedia));
         return "peliculas/detallePelicula";
     }
 

@@ -87,8 +87,8 @@
           </ul>
         </div>
 
-        <!---------------------------------------------------- Pelicula ---------------------------------------------------->
-        <div class="my-4">
+        <!---------------------------------------------------- Listado de Peliculas (Todas) ---------------------------------------------------->
+        <div class="my-4" th:if="${titulo == 'Nueva critica'}">
           <label for="pelicula" class="form-label fw-bold">
             Pelicula
           </label>
@@ -97,6 +97,18 @@
             </option>
           </select>
         </div>
+
+        <!---------------------------------------------------- Película (Editar Crítica) ---------------------------------------------------->
+        <div class="my-4" th:unless="${titulo == 'Nueva critica'}">
+          <label for="pelicula" class="form-label fw-bold">
+            Pelicula
+          </label>
+          <select class="form-select" th:field="*{peliculaId}" name="pelicula" id="pelicula2" th:readonly="${titulo == 'Editar Critica'}">
+            <option th:value="${pelicula.idPelicula}" th:text="${pelicula.titulo}">
+            </option>
+          </select>
+        </div>
+
 
         <!---------------------------------------------------- Valoración ---------------------------------------------------->
         <div class="my-4">

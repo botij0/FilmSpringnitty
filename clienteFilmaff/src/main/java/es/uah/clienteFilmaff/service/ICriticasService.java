@@ -12,9 +12,13 @@ public interface ICriticasService {
 
     Page<Critica> buscarCriticasPorIdPeliculaTabla(Integer idPelicula, Pageable pageable);
 
+    List<Critica> buscarCriticaPorIdDetallePelicula(Integer idPelicula);
+
     Critica buscarCriticaPorId(Integer idCritica);
 
     String guardarCritica(Critica critica);
+
+    double obtenerNotaMediaCriticasPeliculaId(Integer idPelicula);
 
     void eliminarCritica(Integer idCritica);
 

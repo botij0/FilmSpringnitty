@@ -57,22 +57,30 @@ public class CriticaServiceImpl implements ICriticasService {
 
     @Override
     public Page<Critica> buscarCriticasPorIdPeliculaTabla(Integer idPelicula, Pageable pageable) {
-        Critica[] matriculas = template.getForObject(url+"/pelicula/"+idPelicula, Critica[].class);
-        List<Critica> matriculasList = Arrays.asList(matriculas);
+        Critica[] criticas = template.getForObject(url+"/pelicula/"+idPelicula, Critica[].class);
+        List<Critica> criticaList = Arrays.asList(criticas);
 
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
         List<Critica>list;
 
-        if(matriculasList.size() < startItem) {
+        if(criticaList.size() < startItem) {
             list = Collections.emptyList();
         } else {
-            int toIndex = Math.min(startItem + pageSize, matriculasList.size());
-            list = matriculasList.subList(startItem, toIndex);
+            int toIndex = Math.min(startItem + pageSize, criticaList.size());
+            list = criticaList.subList(startItem, toIndex);
         }
-        Page<Critica> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), matriculasList.size());
+        Page<Critica> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), criticaList.size());
         return page;
+    }
+
+    @Override
+    public List<Critica> buscarCriticaPorIdDetallePelicula(Integer idPelicula)
+    {
+        Critica[] criticas = template.getForObject(url+"/pelicula/"+idPelicula, Critica[].class);
+        List<Critica> criticaList = Arrays.asList(criticas);
+        return criticaList;
     }
 
     @Override
@@ -95,6 +103,17 @@ public class CriticaServiceImpl implements ICriticasService {
             template.postForObject(url,critica,String.class);
             return "Los datos de la crítica fueron guardados!";
         }
+    }
+
+    @Override
+    public double obtenerNotaMediaCriticasPeliculaId(Integer idPelicula)
+    {
+        Critica[] criticas = template.getForObject(url+"/pelicula/"+idPelicula, Critica[].class);
+        Integer sumaNotas = 0;
+        for(Critica crit : criticas){
+            sumaNotas += crit.getNota();
+        }
+        return (double) sumaNotas /criticas.length;
     }
 
     @Override
