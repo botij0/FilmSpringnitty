@@ -40,4 +40,6 @@ public class RolesDAOImpl implements IRolesDAO {
         rolJPA.deleteById(idRol);
     }
 
+
+
 }

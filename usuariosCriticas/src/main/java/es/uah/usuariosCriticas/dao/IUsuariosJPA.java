@@ -11,4 +11,8 @@ public interface IUsuariosJPA extends JpaRepository<Usuario, Integer> {
 
     List<Usuario> findByCorreoContainingIgnoreCase(String correo);
 
+    Usuario findByCorreoAndPassword(String correo, String clave);
+
+    Usuario findByCorreo(String email);
+
 }

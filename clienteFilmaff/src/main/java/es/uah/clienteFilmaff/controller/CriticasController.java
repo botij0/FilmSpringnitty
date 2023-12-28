@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,7 @@ public class CriticasController {
     public String tablaCriticas(Model model, @RequestParam(name="page", defaultValue="0") int page) {
         Pageable pageable = PageRequest.of(page, 8);
         Page<Critica> listado = criticasService.buscarTodas(pageable);
-        PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/listado", listado);
+        PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/tablaCriticas", listado);
 
         List<Usuario> usuarioList = usuariosService.buscarTodosLista();
         List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
@@ -97,18 +99,26 @@ public class CriticasController {
         Critica critica = new Critica();
         List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
 
+        // Obtener el ID del usuario logeado
+
+
         //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
 
         model.addAttribute("titulo", "Nueva critica");
         model.addAttribute("peliculas", peliculaList);
         model.addAttribute("public", false);
-        model.addAttribute("usuarioID", 2);
         model.addAttribute("critica", critica);
         return "usuarios/formCritica";
     }
 
     @PostMapping("/guardar/")
-    public String guardarCritica(Model model, Critica critica, RedirectAttributes attributes,HttpServletRequest request ) {
+    public String guardarCritica(Model model, Critica critica, RedirectAttributes attributes,
+                                 HttpServletRequest request, Authentication authentication ) {
+
+        Usuario usuario = usuariosService.buscarUsuarioAutenticado(authentication);
+                //obtenerUsuario(authentication);
+
+        critica.setUsuario(usuario);
         String resultado = criticasService.guardarCritica(critica);
         model.addAttribute("titulo", "Nueva critica");
         attributes.addFlashAttribute("msg", resultado);
@@ -118,9 +128,9 @@ public class CriticasController {
 
         // Comparar con la URL esperada y redirigir en consecuencia
         if (referer != null && referer.contains("/pelicula")) {
-            return "redirect:/cpeliculas/listado";
+            return "redirect:/ccriticas/criticas";
         } else {
-            return "redirect:/ccriticas/listado";
+            return "redirect:/ccriticas/tablaCriticas";
         }
     }
 
@@ -216,5 +226,15 @@ public class CriticasController {
         model.addAttribute("listadoPeliculas", peliculaList);
         model.addAttribute("page", pageRender);
         return pageSize == 8 ? "usuarios/tablaCriticas" : "usuarios/listadoCriticas";
+    }
+
+    private Usuario obtenerUsuario(Authentication authentication) {
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return usuariosService.buscarUsuarioPorCorreo(userDetails.getUsername());
+        }
+
+        return null;
     }
 }

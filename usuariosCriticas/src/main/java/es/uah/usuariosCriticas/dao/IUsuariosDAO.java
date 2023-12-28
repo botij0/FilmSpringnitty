@@ -21,4 +21,8 @@ public interface IUsuariosDAO {
     void actualizarUsuario(Usuario usuario);
 
     void eliminarCritica(Integer idUsuario, Integer idCritica);
+
+    Usuario buscarUsuarioPorCorreoClave(String Correo, String Clave);
+
+    Usuario buscarUsuarioPorEmail(String email);
 }

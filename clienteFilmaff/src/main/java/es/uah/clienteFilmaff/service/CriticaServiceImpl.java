@@ -111,7 +111,7 @@ public class CriticaServiceImpl implements ICriticasService {
 
     @Override
     public String guardarCritica(Critica critica) {
-        Usuario usuario = usuariosService.buscarUsuarioPorId(2);
+        Usuario usuario = usuariosService.buscarUsuarioPorId(critica.getUsuario().getIdUsuario());
         critica.setUsuario(usuario);
         critica.setFecha(new Date());
         if (critica.getIdCritica() != null && critica.getIdCritica() > 0) {

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FilmSpringnity</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body class="text-center" style="background-color:#F9F9F9">
+
+    <header>
+        <!---------------------------------------------------- Navbar ---------------------------------------------------->
+        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #A6E26E;">
+            <div class="container-fluid">
+
+
+                <!------------------------------ elementos de la navbar y del menu colapsable ------------------------------>
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active fw-bold" aria-current="page" th:href="@{/cpeliculas/}">FILMSPRINGNITY</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!---------------------------------------------------- Navbar ---------------------------------------------------->
+    </header>
+
+    <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
+        <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+        <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
+
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Inicio de sesión</h3>
+                    <form th:action="@{/login}" method="post">
+                        <div class="form-group">
+                            <input type="text" name="username" id="username"
+                                   class="form-control" th:placeholder="Correo" autofocus required/>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" name="password" id="password"
+                                   class="form-control" th:placeholder="Contraseña" required/>
+                        </div>
+
+                        <input type="submit" class="btn btn-lg btn-primary btn-block"
+                               th:value="Login"/>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Registro nuevo usuario</h3>
+                    <a class="btn btn-primary" role="button" th:href="@{/cusuarios/registrar}">Registrarse</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer style="height: 56px; background-color: #A6E26E;">
+        <div class="h-100 d-flex justify-content-center">
+            <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+                <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+                by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+            </p>
+        </div>
+    </footer>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

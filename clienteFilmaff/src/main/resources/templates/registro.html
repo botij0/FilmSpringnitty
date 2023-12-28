@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FilmSpringnity</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body class="text-center" style="background-color:#F9F9F9">
+
+<header>
+</header>
+
+<main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
+
+    <h1 class="text-center">Registro nuevo usuario</h1>
+    <h2 th:text="${titulo}"
+        class="text-secondary border border-success border-top-0 border-left-0 border-right-0"></h2>
+    <form th:action="@{/cusuarios/registrar}" method="post" th:object="${usuario}">
+        <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+            Por favor corrija los siguientes errores:
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
+                   placeholder="Escriba el nombre del usuario" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="clave" class="form-label">Clave</label>
+            <input type="text" class="form-control" th:field="*{clave}" id="clave" name="clave"
+                   placeholder="Escriba la clave del usuario" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="text" class="form-control" th:field="*{correo}" id="correo" name="correo"
+                   placeholder="Escriba el correo del usuario" required="required">
+        </div>
+        <button type="submit" class="btn btn-dark">Registrarse</button>
+    </form>
+
+    <hr>
+    <a class="btn btn-primary" role="button" th:href="@{/login/}">Ir a Login</a>
+</main>
+
+<footer style="height: 56px; background-color: #A6E26E;">
+    <div class="h-100 d-flex justify-content-center">
+        <p class="m-auto">Trabajo Inicial de la asignatura Frameworks Backend y Microservicios del Máster Universitario
+            <a href="https://www.uah.es/es/estudios/estudios-oficiales/masteres-universitarios/Desarrollo-Agil-de-Software-para-la-Web/">DASW</a>,
+            by <a href="https://github.com/Javier-Gonzalez-Soldado">Javier González Soldado</a>.
+        </p>
+    </div>
+</footer>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

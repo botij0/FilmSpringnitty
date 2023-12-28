@@ -20,4 +20,9 @@ public interface IUsuariosService {
     void actualizarUsuario(Usuario usuario);
 
     void eliminarCritica(Integer idUsuario, Integer idCritica);
+
+    Usuario buscarUsuarioPorCorreoClave(String correo, String clave);
+    Usuario buscarUsuarioPorEmail(String username);
+
+
 }

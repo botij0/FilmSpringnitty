@@ -32,6 +32,11 @@ public class UsuariosController {
     public List<Usuario> buscarUsuarioPorNombre(@PathVariable("nombre") String nombre) {
         return usuariosService.buscarUsuarioPorNombre(nombre);
     }
+    @GetMapping("/usuarios/email/{email}")
+    public Usuario buscarUsuarioPorUsername(@PathVariable("email") String email) {
+        return usuariosService.buscarUsuarioPorEmail(email);
+    }
+
 
     @PostMapping("/usuarios")
     public void guardarUsuario(@RequestBody Usuario usuario) {
@@ -47,5 +52,12 @@ public class UsuariosController {
     public void eliminarUsuario(@PathVariable("id") Integer id) {
         usuariosService.eliminarUsuario(id);
     }
+
+    @GetMapping("/usuarios/login/{correo}/{clave}")
+    public Usuario buscarUsuarioPorCorreoConClave(@PathVariable("correo") String
+                                                          correo, @PathVariable("clave") String clave) {
+        return usuariosService.buscarUsuarioPorCorreoClave(correo, clave);
+    }
+
 
 }

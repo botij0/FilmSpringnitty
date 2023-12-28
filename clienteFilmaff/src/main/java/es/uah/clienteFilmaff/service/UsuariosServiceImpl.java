@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -57,6 +59,16 @@ public class UsuariosServiceImpl implements IUsuariosService {
     }
 
     @Override
+    public Usuario buscarUsuarioAutenticado(Authentication authentication)
+    {
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return buscarUsuarioPorCorreo(userDetails.getUsername());
+        }
+        return null;
+    }
+
+    @Override
     public Page<Usuario> buscarUsuariosPorNombre(String nombre, Pageable pageable) {
         Usuario[] usuarios = template.getForObject(url+"/nombre/"+nombre, Usuario[].class);
         List<Usuario> usuariosList = Arrays.asList(usuarios);
@@ -79,7 +91,7 @@ public class UsuariosServiceImpl implements IUsuariosService {
 
     @Override
     public Usuario buscarUsuarioPorCorreo(String correo) {
-        Usuario usuario = template.getForObject(url+"/correo/"+correo, Usuario.class);
+        Usuario usuario = template.getForObject(url+"/email/"+correo, Usuario.class);
         return usuario;
     }
     @Override
@@ -116,6 +128,19 @@ public class UsuariosServiceImpl implements IUsuariosService {
     @Override
     public void eliminarUsuario(Integer idUsuario) {
         template.delete(url+"/"+idUsuario);
+    }
+
+    @Override
+    public Usuario login(String correo, String clave) {
+        Usuario usuario = template.getForObject(url+"/login/"+correo+"/"+clave,
+                Usuario.class);
+        return usuario;
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorUsername(String email){
+        Usuario usuario = template.getForObject(url+"/email/"+email, Usuario.class);
+        return usuario;
     }
 
 }
