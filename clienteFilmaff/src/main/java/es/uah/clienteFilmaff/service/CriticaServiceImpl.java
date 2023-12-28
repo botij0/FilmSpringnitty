@@ -141,4 +141,22 @@ public class CriticaServiceImpl implements ICriticasService {
         template.delete(url+ "/" +  idCritica);
     }
 
+    @Override
+    public List<Critica> buscarListaTodasCriticas(){
+        Critica[] criticas = template.getForObject(url, Critica[].class);
+        List<Critica> criticaList = Arrays.asList(criticas);
+        return criticaList;
+    }
+
+    @Override
+    public String obtenerTituloPelicula(Critica critica, List<Pelicula> peliculas)
+    {
+        for (Pelicula pelicula : peliculas) {
+            if (pelicula.getIdPelicula().equals(critica.getPeliculaId())) {
+                return pelicula.getTitulo();
+            }
+        }
+        return "";
+    }
+
 }

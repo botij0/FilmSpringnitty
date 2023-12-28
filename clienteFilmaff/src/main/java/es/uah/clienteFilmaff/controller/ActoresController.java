@@ -68,8 +68,9 @@ public class ActoresController {
             listado = actoresService.buscarActorPorNombre(nombre, pageable);
         }
 
-        PageRender<Actor> pageRender = pageSize == 8 ? new PageRender<Actor>("/cactores/listado", listado) :
-                                                       new PageRender<Actor>("/cactores/tabla", listado);
+        PageRender<Actor> pageRender = pageSize == 8 ?
+                new PageRender<Actor>("/cactores/nombre/8?nombre=" + nombre, listado) :
+                new PageRender<Actor>("/cactores/nombre/5?nombre=" + nombre, listado);
 
         model.addAttribute("titulo", "Actores");
         model.addAttribute("listadoActores", listado);

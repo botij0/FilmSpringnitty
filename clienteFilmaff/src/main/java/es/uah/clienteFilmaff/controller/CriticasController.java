@@ -17,7 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ccriticas")
@@ -32,8 +32,8 @@ public class CriticasController {
     @Autowired
     IUsuariosService usuariosService;
 
-    @GetMapping("/listado")
-    public String listadoCriticas(Model model, @RequestParam(name="page", defaultValue="0") int page) {
+    @GetMapping("/tablaCriticas")
+    public String tablaCriticas(Model model, @RequestParam(name="page", defaultValue="0") int page) {
         Pageable pageable = PageRequest.of(page, 8);
         Page<Critica> listado = criticasService.buscarTodas(pageable);
         PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/listado", listado);
@@ -41,13 +41,39 @@ public class CriticasController {
         List<Usuario> usuarioList = usuariosService.buscarTodosLista();
         List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
 
+        for (Critica critica : listado.stream().toList()) {
+            String tituloPelicula = criticasService.obtenerTituloPelicula(critica, peliculaList);
+            critica.setNombrePelicula(tituloPelicula);
+        }
 
-        model.addAttribute("titulo", "Tabla Críticas");
+        model.addAttribute("titulo", "Críticas");
         model.addAttribute("listadoCriticas", listado);
         model.addAttribute("listadoUsuarios",usuarioList);
         model.addAttribute("listadoPeliculas", peliculaList);
         model.addAttribute("page", pageRender);
-        return "usuarios/listCriticas";
+        return "usuarios/tablaCriticas";
+    }
+
+    @GetMapping("/criticas")
+    public String listadoCriticas(Model model, @RequestParam(name="page", defaultValue="0") int page)
+    {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Critica> listado = criticasService.buscarTodas(pageable);
+        PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/criticas", listado);
+
+        List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
+
+        for (Critica critica : listado.stream().toList()) {
+            String tituloPelicula = criticasService.obtenerTituloPelicula(critica, peliculaList);
+            critica.setNombrePelicula(tituloPelicula);
+        }
+
+
+        model.addAttribute("titulo", "Listado Críticas");
+        model.addAttribute("listadoCriticas", listado);
+        model.addAttribute("listadoPeliculas", peliculaList);
+        model.addAttribute("page", pageRender);
+        return "usuarios/listadoCriticas";
     }
 
     @GetMapping("/nueva/pelicula/{id}")
@@ -113,6 +139,7 @@ public class CriticasController {
         return "usuarios/formCritica";
     }
 
+
     @GetMapping("/borrar/{id}")
     public String eliminarCritica(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
         Critica critica = criticasService.buscarCriticaPorId(id);
@@ -126,11 +153,12 @@ public class CriticasController {
         return "redirect:/ccriticas/listado";
     }
 
-    @GetMapping("/pelicula")
-    public String buscarCriticaPeliculaId(Model model, @RequestParam(name="page", defaultValue = "0") int page,
+    @GetMapping("/pelicula/{pageSize}")
+    public String buscarCriticaPeliculaId(Model model, @PathVariable("pageSize") int pageSize,
+                                          @RequestParam(name="page", defaultValue = "0") int page,
                                           @RequestParam("pelicula") Integer peliculaId) {
 
-        Pageable pageable = PageRequest.of(page, 8);
+        Pageable pageable = PageRequest.of(page, pageSize);
         Page<Critica> listado;
         if(peliculaId == 0){
             listado = criticasService.buscarTodas(pageable);
@@ -139,25 +167,33 @@ public class CriticasController {
             listado = criticasService.buscarCriticasPorIdPeliculaTabla(peliculaId, pageable);
         }
 
-        PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/listado", listado);
+        PageRender<Critica> pageRender = pageSize == 8 ?
+                new PageRender<Critica>("/ccriticas/pelicula/8?pelicula=" + peliculaId, listado) :
+                new PageRender<Critica>("/ccriticas/pelicula/5?pelicula=" + peliculaId, listado);
 
         List<Usuario> usuarioList = usuariosService.buscarTodosLista();
         List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
 
+        for (Critica critica : listado.stream().toList()) {
+            String tituloPelicula = criticasService.obtenerTituloPelicula(critica, peliculaList);
+            critica.setNombrePelicula(tituloPelicula);
+        }
 
-        model.addAttribute("titulo", "Tabla Críticas");
+
+        model.addAttribute("titulo", "Críticas");
         model.addAttribute("listadoCriticas", listado);
         model.addAttribute("listadoUsuarios",usuarioList);
         model.addAttribute("listadoPeliculas", peliculaList);
         model.addAttribute("page", pageRender);
-        return "usuarios/listCriticas";
+        return pageSize == 8 ? "usuarios/tablaCriticas" : "usuarios/listadoCriticas";
     }
 
-    @GetMapping("/usuario")
-    public String buscarCriticaUsuarioId(Model model, @RequestParam(name="page", defaultValue = "0") int page,
+    @GetMapping("/usuario/{pageSize}")
+    public String buscarCriticaUsuarioId(Model model, @PathVariable("pageSize") int pageSize,
+                                         @RequestParam(name="page", defaultValue = "0") int page,
                                           @RequestParam("usuario") Integer usuarioId) {
 
-        Pageable pageable = PageRequest.of(page, 8);
+        Pageable pageable = PageRequest.of(page, pageSize);
         Page<Critica> listado;
         if(usuarioId == 0){
             listado = criticasService.buscarTodas(pageable);
@@ -166,7 +202,9 @@ public class CriticasController {
             listado = criticasService.buscarCriticasPorIdUsuarioTabla(usuarioId, pageable);
         }
 
-        PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/listado", listado);
+        PageRender<Critica> pageRender = pageSize == 8 ?
+                new PageRender<Critica>("/ccriticas/usuario/8?usuario=" + usuarioId, listado) :
+                new PageRender<Critica>("/ccriticas/usuario/5?usuario=" + usuarioId, listado);
 
         List<Usuario> usuarioList = usuariosService.buscarTodosLista();
         List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
@@ -177,6 +215,6 @@ public class CriticasController {
         model.addAttribute("listadoUsuarios",usuarioList);
         model.addAttribute("listadoPeliculas", peliculaList);
         model.addAttribute("page", pageRender);
-        return "usuarios/listCriticas";
+        return pageSize == 8 ? "usuarios/tablaCriticas" : "usuarios/listadoCriticas";
     }
 }

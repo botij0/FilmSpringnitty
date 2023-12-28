@@ -156,8 +156,9 @@ public class PeliculasController {
             listado = peliculasService.buscarPeliculaPorTitulo(titulo, pageable);
         }
 
-        PageRender<Pelicula> pageRender = pageSize == 8 ?   new PageRender<Pelicula>("/cpeliculas/listado", listado) :
-                                                            new PageRender<Pelicula>("/cpeliculas/tabla", listado);
+        PageRender<Pelicula> pageRender = pageSize == 8 ?
+                new PageRender<Pelicula>("/cpeliculas/titulo/8?titulo=" + titulo, listado) :
+                new PageRender<Pelicula>("/cpeliculas/titulo/5?titulo=" + titulo, listado);
 
         model.addAttribute("titulo", "Listado de Peliculas por Titulo");
         model.addAttribute("listadoPeliculas", listado);
@@ -180,8 +181,9 @@ public class PeliculasController {
             listado = peliculasService.buscarPeliculaPorGenero(genero, pageable);
         }
 
-        PageRender<Pelicula> pageRender = pageSize == 8 ?   new PageRender<Pelicula>("/cpeliculas/listado", listado) :
-                                                            new PageRender<Pelicula>("/cpeliculas/tabla", listado);
+        PageRender<Pelicula> pageRender = pageSize == 8 ?
+                new PageRender<Pelicula>("/cpeliculas/genero/8?genero=" + genero, listado) :
+                new PageRender<Pelicula>("/cpeliculas/genero/5?genero=" + genero, listado);
 
         model.addAttribute("titulo", "Listado de Peliculas por Genero");
         model.addAttribute("listadoPeliculas", listado);
@@ -224,8 +226,9 @@ public class PeliculasController {
 
         Page<Pelicula> listado = peliculasService.buscarPeliculaPorAnio(min,max,pageable);
 
-        PageRender<Pelicula> pageRender = pageSize == 8 ?   new PageRender<Pelicula>("/cpeliculas/listado", listado) :
-                new PageRender<Pelicula>("/cpeliculas/tabla", listado);
+        PageRender<Pelicula> pageRender = pageSize == 8 ?
+                new PageRender<Pelicula>("/cpeliculas/anio/8?min=" + min + "&max=" + max, listado) :
+                new PageRender<Pelicula>("/cpeliculas/anio/5?min=" + min + "&max=" + max, listado);
 
         model.addAttribute("titulo", "Listado de Peliculas por Año");
         model.addAttribute("listadoPeliculas", listado);

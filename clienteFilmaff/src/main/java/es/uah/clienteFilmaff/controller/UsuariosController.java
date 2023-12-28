@@ -91,7 +91,6 @@ public class UsuariosController {
         } else {
             attributes.addFlashAttribute("msg", "Usuario no encontrado!");
         }
-
         return "redirect:/cusuarios/listado";
     }
 
@@ -110,7 +109,7 @@ public class UsuariosController {
             listado = usuariosService.buscarUsuariosPorNombre(nombre, pageable);
         }
 
-        PageRender<Usuario> pageRender = new PageRender<Usuario>("/cusuarios/listado", listado);
+        PageRender<Usuario> pageRender = new PageRender<Usuario>("/cusuarios/nombre?nombre=" + nombre, listado);
         model.addAttribute("titulo", "Tabla Usuarios");
         model.addAttribute("listadoUsuarios", listado);
         model.addAttribute("page", pageRender);
@@ -133,7 +132,7 @@ public class UsuariosController {
             listado = usuariosService.buscarUsuariosPorCorreo(correo, pageable);
         }
 
-        PageRender<Usuario> pageRender = new PageRender<Usuario>("/cusuarios/listado", listado);
+        PageRender<Usuario> pageRender = new PageRender<Usuario>("/cusuarios/correo?correo=" + correo, listado);
         model.addAttribute("titulo", "Tabla Usuarios");
         model.addAttribute("listadoUsuarios", listado);
         model.addAttribute("page", pageRender);

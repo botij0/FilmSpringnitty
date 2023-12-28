@@ -1,5 +1,8 @@
 package es.uah.clienteFilmaff.model;
 
+import es.uah.clienteFilmaff.service.IPeliculasService;
+
+import java.util.Comparator;
 import java.util.Date;
 
 public class Critica {
@@ -10,6 +13,8 @@ public class Critica {
     private Integer nota;
     private Date fecha;
     private Usuario usuario;
+
+    private String nombrePelicula;
 
     public Critica() {
     }
@@ -62,4 +67,12 @@ public class Critica {
         this.usuario = usuario;
     }
 
+
+    public String getNombrePelicula() {
+        return nombrePelicula;
+    }
+
+    public void setNombrePelicula(String nombrePelicula) {
+        this.nombrePelicula = nombrePelicula;
+    }
 }
