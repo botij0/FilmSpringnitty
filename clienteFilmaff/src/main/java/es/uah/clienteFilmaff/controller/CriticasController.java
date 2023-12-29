@@ -63,6 +63,7 @@ public class CriticasController {
         Page<Critica> listado = criticasService.buscarTodas(pageable);
         PageRender<Critica> pageRender = new PageRender<Critica>("/ccriticas/criticas", listado);
 
+        List<Usuario> usuarioList = usuariosService.buscarTodosLista();
         List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
 
         for (Critica critica : listado.stream().toList()) {
@@ -70,10 +71,10 @@ public class CriticasController {
             critica.setNombrePelicula(tituloPelicula);
         }
 
-
         model.addAttribute("titulo", "Listado Críticas");
         model.addAttribute("listadoCriticas", listado);
         model.addAttribute("listadoPeliculas", peliculaList);
+        model.addAttribute("listadoUsuarios",usuarioList);
         model.addAttribute("page", pageRender);
         return "usuarios/listadoCriticas";
     }
@@ -84,25 +85,17 @@ public class CriticasController {
         Critica critica = new Critica();
         Pelicula pelicula = peliculasService.buscarPeliculaPorId(id);
 
-        //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
-
         model.addAttribute("titulo", "Nueva Critica de " + pelicula.getTitulo());
         model.addAttribute("public", true);
         model.addAttribute("pelicula", pelicula);
-        model.addAttribute("usuarioID", 2);
         model.addAttribute("critica", critica);
         return "usuarios/formCritica";
     }
 
-    @GetMapping("/nuevo")
+    @GetMapping(value = {"/nuevo", "/nueva", "nueva/public"})
     public String nuevo(Model model) {
         Critica critica = new Critica();
         List<Pelicula> peliculaList = peliculasService.listadoPeliculas();
-
-        // Obtener el ID del usuario logeado
-
-
-        //TODO: enviar el id del usuario logeado (Ver ChatGPT 13/12/2023)!!!!
 
         model.addAttribute("titulo", "Nueva critica");
         model.addAttribute("peliculas", peliculaList);
@@ -116,7 +109,6 @@ public class CriticasController {
                                  HttpServletRequest request, Authentication authentication ) {
 
         Usuario usuario = usuariosService.buscarUsuarioAutenticado(authentication);
-                //obtenerUsuario(authentication);
 
         critica.setUsuario(usuario);
         String resultado = criticasService.guardarCritica(critica);
@@ -127,9 +119,10 @@ public class CriticasController {
         String referer = request.getHeader("referer");
 
         // Comparar con la URL esperada y redirigir en consecuencia
-        if (referer != null && referer.contains("/pelicula")) {
+        if (referer != null && (referer.contains("/pelicula") || referer.contains("/public"))) {
             return "redirect:/ccriticas/criticas";
-        } else {
+        }
+        else {
             return "redirect:/ccriticas/tablaCriticas";
         }
     }

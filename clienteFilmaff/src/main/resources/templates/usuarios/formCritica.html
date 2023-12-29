@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8">
-    <title>FilmSpringnity</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <title>PeliculasApp | Aplicación de gestión de Peliculas</title>
+
+    <!------------------------------------------------- Estilos ------------------------------------------------->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <!------------------------------------------------- RTL ------------------------------------------------->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
   </head>
 
   <body class="text-center" style="background-color:#F9F9F9">
@@ -34,7 +42,7 @@
           <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav mx-auto">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -43,10 +51,11 @@
                 <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/ccriticas/criticas}">Criticas</a>
+                <a class="nav-link active" th:href="@{/ccriticas/criticas}">Criticas</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                <a class="nav-link" th:href="@{/cpeliculas/panelControl}"
+                   sec:authorize="hasRole('ROLE_ADMIN')">Panel de Control</a>
               </li>
             </ul>
 
@@ -54,12 +63,9 @@
 
             <!------------------------------ Botones Identificación ------------------------------>
             <form class="d-flex  me-0 me-md-5 justify-content-center">
-              <button type="button" class="btn btn-link px-3 me-2">
-                Iniciar Sesión
-              </button>
-              <button type="button" class="btn btn-primary me-3">
-                Registrarse
-              </button>
+              <a th:href="@{/logout}" type="button" class="btn btn-danger px-3 me-2">
+                Cerrar Sesión
+              </a>
             </form>
           </div>
         </div>
@@ -69,81 +75,89 @@
 
     <main class="container-fluid w-75" style="min-height: calc(100vh - 56px - 56px);">
 
-      <h2 th:text="${titulo}"
-          class="text-secondary border border-success border-top-0 border-left-0 border-right-0 text-center py-2"
-      >
-      </h2>
+      <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+      <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
+
+
+      <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 100px - 100px);">
+        <div class="card mx-auto" style="width: 60%">
+          <h3 class="card-header mb-5 text-center" th:text="${titulo}"></h3>
+          <div class="w-50 mx-auto my-auto">
+            <form th:action="@{/ccriticas/guardar/}" method="post" th:object="${critica}"
+                  enctype="multipart/form-data" class="text-start"
+            >
+
+              <!---------------------------------------------------- Errores ---------------------------------------------------->
+              <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                Por favor corrija los siguientes errores:
+                <ul>
+                  <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                </ul>
+              </div>
+
+              <!---------------------------------------------------- Listado de Peliculas (Todas) ---------------------------------------------------->
+              <div class="my-4" th:if="${titulo == 'Nueva critica'}">
+                <label for="pelicula" class="form-label fw-bold">
+                  Pelicula
+                </label>
+                <select class="form-select" th:field="*{peliculaId}" name="pelicula" id="pelicula">
+                  <option th:each="peli :${peliculas}" th:value="${peli.idPelicula}" th:text="${peli.titulo}">
+                  </option>
+                </select>
+              </div>
+
+              <!---------------------------------------------------- Película (Editar Crítica) ---------------------------------------------------->
+              <div class="my-4" th:unless="${titulo == 'Nueva critica'}">
+                <label for="pelicula" class="form-label fw-bold">
+                  Pelicula
+                </label>
+                <select class="form-select" th:field="*{peliculaId}" name="pelicula" id="pelicula2" th:readonly="${titulo == 'Editar Critica'}">
+                  <option th:value="${pelicula.idPelicula}" th:text="${pelicula.titulo}">
+                  </option>
+                </select>
+              </div>
+
+
+              <!---------------------------------------------------- Valoración ---------------------------------------------------->
+              <div class="my-4">
+                <label for="valoracion" class="form-label fw-bold">
+                  Valoración
+                </label>
+                <textarea class="form-control" th:field="*{valoracion}" id="valoracion" name="valoracion"
+                          placeholder="Introduzca una valoración" required="required">
+          </textarea>
+              </div>
+
+              <!---------------------------------------------------- Nota ---------------------------------------------------->
+              <div class="my-4">
+                <label for="nota" class="form-label fw-bold">
+                  Nota
+                </label>
+                <input type="number" class="form-control" th:field="*{nota}" id="nota" name="nota"
+                       placeholder="5" required="required" min="1" max="10">
+              </div>
+
+              <!---------------------------------------------------- Botones ---------------------------------------------------->
+              <button type="submit" class="btn btn-dark my-5 fw-bold"
+                      style="width: 130px; height: 40px"
+              >
+                Guardar
+              </button>
+              <a type="button" class="btn btn-primary my-5 fw-bold ms-3"
+                 href="javascript:window.history.back();" style="width: 130px; height: 40px"
+              >
+                Volver
+              </a>
+
+              <input type="hidden" th:field="*{idCritica}" />
+
+            </form>
+          </div>
+        </div>
+      </div>
 
       <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
-      <form th:action="@{/ccriticas/guardar/}" method="post" th:object="${critica}"
-            enctype="multipart/form-data" class="text-start"
-      >
 
-        <!---------------------------------------------------- Errores ---------------------------------------------------->
-        <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
-          Por favor corrija los siguientes errores:
-          <ul>
-            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
-          </ul>
-        </div>
-
-        <!---------------------------------------------------- Listado de Peliculas (Todas) ---------------------------------------------------->
-        <div class="my-4" th:if="${titulo == 'Nueva critica'}">
-          <label for="pelicula" class="form-label fw-bold">
-            Pelicula
-          </label>
-          <select class="form-select" th:field="*{peliculaId}" name="pelicula" id="pelicula">
-            <option th:each="peli :${peliculas}" th:value="${peli.idPelicula}" th:text="${peli.titulo}">
-            </option>
-          </select>
-        </div>
-
-        <!---------------------------------------------------- Película (Editar Crítica) ---------------------------------------------------->
-        <div class="my-4" th:unless="${titulo == 'Nueva critica'}">
-          <label for="pelicula" class="form-label fw-bold">
-            Pelicula
-          </label>
-          <select class="form-select" th:field="*{peliculaId}" name="pelicula" id="pelicula2" th:readonly="${titulo == 'Editar Critica'}">
-            <option th:value="${pelicula.idPelicula}" th:text="${pelicula.titulo}">
-            </option>
-          </select>
-        </div>
-
-
-        <!---------------------------------------------------- Valoración ---------------------------------------------------->
-        <div class="my-4">
-          <label for="valoracion" class="form-label fw-bold">
-            Valoración
-          </label>
-          <textarea class="form-control" th:field="*{valoracion}" id="valoracion" name="valoracion"
-                 placeholder="Introduzca una valoración" required="required">
-          </textarea>
-        </div>
-
-        <!---------------------------------------------------- Nota ---------------------------------------------------->
-        <div class="my-4">
-          <label for="nota" class="form-label fw-bold">
-            Nota
-          </label>
-          <input type="number" class="form-control" th:field="*{nota}" id="nota" name="nota"
-                 placeholder="5" required="required" min="1" max="10">
-        </div>
-
-        <!---------------------------------------------------- Botones ---------------------------------------------------->
-        <button type="submit" class="btn btn-dark my-5 fw-bold"
-                style="width: 130px; height: 40px"
-        >
-          Guardar
-        </button>
-        <a type="button" class="btn btn-primary my-5 fw-bold ms-3"
-           href="javascript:window.history.back();" style="width: 130px; height: 40px"
-        >
-          Volver
-        </a>
-
-        <input type="hidden" th:field="*{idCritica}" />
-
-      </form>
     </main>
 
     <footer style="height: 56px; background-color: #A6E26E;">
@@ -155,6 +169,15 @@
       </div>
     </footer>
 
+    <!------------------------------------------------- Scripts ------------------------------------------------->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script>
+      $( document ).ready(function(){
+        $('#pelicula').select2();
+      });
+    </script>
   </body>
 </html>

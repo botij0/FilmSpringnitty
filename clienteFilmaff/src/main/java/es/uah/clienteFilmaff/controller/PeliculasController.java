@@ -89,16 +89,6 @@ public class PeliculasController {
         return "peliculas/formPelicula";
     }
 
-    @GetMapping("/buscarTabla")
-    public String buscarTabla (Model model){
-        return "peliculas/searchPeliculaTabla";
-    }
-
-    @GetMapping("/buscarListado")
-    public String buscarListado (Model model){
-        return "peliculas/searchPeliculaListado";
-    }
-
     @GetMapping("/tabla")
     public String tablaPeliculas(Model model, @RequestParam(name = "page", defaultValue = "0") int page)
     {

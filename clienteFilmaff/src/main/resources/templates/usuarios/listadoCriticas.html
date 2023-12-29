@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>FilmSpringnity</title>
@@ -41,7 +42,7 @@
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                        <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -50,10 +51,11 @@
                         <a class="nav-link" th:href="@{/cactores/listado}">Actores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/ccriticas/criticas}">Criticas</a>
+                        <a class="nav-link active" th:href="@{/ccriticas/criticas}">Criticas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                        <a class="nav-link" th:href="@{/cpeliculas/panelControl}"
+                           sec:authorize="hasRole('ROLE_ADMIN')">Panel de Control</a>
                     </li>
                 </ul>
 
@@ -61,12 +63,9 @@
 
                 <!------------------------------ Botones Identificación ------------------------------>
                 <form class="d-flex  me-0 me-md-5 justify-content-center">
-                    <button type="button" class="btn btn-link px-3 me-2">
-                        Iniciar Sesión
-                    </button>
-                    <button type="button" class="btn btn-primary me-3">
-                        Registrarse
-                    </button>
+                    <a th:href="@{/logout}" type="button" class="btn btn-danger px-3 me-2">
+                        Cerrar Sesión
+                    </a>
                 </form>
             </div>
         </div>
@@ -75,6 +74,10 @@
 </header>
 
 <main class="container-fluid" style="min-height: calc(100vh - 56px - 56px);">
+
+    <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+    <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
+
     <div class="card">
 
         <div class="tab-content" id="contenido">
@@ -124,7 +127,7 @@
                         </div>
 
                         <h4 class="card-title text-end">
-                            <a th:href="@{/ccriticas/nuevo}" class="btn btn-primary btn-xs">
+                            <a th:href="@{/ccriticas/nueva/public}" class="btn btn-primary btn-xs">
                                 Crear Crítica
                             </a>
                         </h4>

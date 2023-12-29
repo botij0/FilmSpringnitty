@@ -41,7 +41,7 @@
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -53,7 +53,7 @@
                                 <a class="nav-link" th:href="@{/ccriticas/criticas}">Criticas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                                <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
                             </li>
                         </ul>
 
@@ -61,12 +61,9 @@
 
                         <!------------------------------ Botones Identificación ------------------------------>
                         <form class="d-flex  me-0 me-md-5 justify-content-center">
-                            <button type="button" class="btn btn-link px-3 me-2">
-                                Iniciar Sesión
-                            </button>
-                            <button type="button" class="btn btn-primary me-3">
-                                Registrarse
-                            </button>
+                            <a th:href="@{/logout}" type="button" class="btn btn-danger px-3 me-2">
+                                Cerrar Sesión
+                            </a>
                         </form>
                     </div>
                 </div>
@@ -76,142 +73,160 @@
 
         <main class="container-fluid w-75" style="min-height: calc(100vh - 56px - 56px);">
 
-            <h2 th:text="${titulo}"
-                class="text-secondary border border-top-0 border-3 text-center pt-1 pb-2" style="border-color: #A6E26E !important;">
-            </h2>
+            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+            <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
 
-            <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
-            <form th:action="@{/cpeliculas/guardar/}" method="post" th:object="${pelicula}" enctype="multipart/form-data">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 100px - 100px);">
+                <div class="card mx-auto" style="width: 60%">
+                    <h3 class="card-header mb-5 text-center" th:text="${titulo}"></h3>
+                    <div class="mx-auto my-auto" style="width: 90%">
+                        <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
+                        <form th:action="@{/cpeliculas/guardar/}" method="post" th:object="${pelicula}" enctype="multipart/form-data">
 
-                <!---------------------------------------------------- Errores ---------------------------------------------------->
-                <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
-                    Por favor corrija los siguientes errores:
-                    <ul>
-                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
-                    </ul>
-                </div>
+                            <!---------------------------------------------------- Errores ---------------------------------------------------->
+                            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                                Por favor corrija los siguientes errores:
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                                </ul>
+                            </div>
 
-                <!---------------------------------------------------- Título ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="titulo" class="form-label fw-bold">Titulo</label>
-                    <input type="text" class="form-control" th:field="*{titulo}" id="titulo" name="titulo"
-                           placeholder="Escriba el titulo de la película" required="required" maxlength="100">
-                </div>
+                            <div class="mb-4 row g-5">
 
-                <!---------------------------------------------------- Año ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="anio" class="form-label fw-bold">
-                        Año
-                    </label>
-                    <input type="number" class="form-control" th:field="*{anio}" id="anio" name="anio"
-                           placeholder="Escriba el año de la película" required="required">
-                </div>
+                                <!---------------------------------------------------- Título ---------------------------------------------------->
+                                <div class="col">
+                                    <label for="titulo" class="form-label fw-bold">Titulo</label>
+                                    <input type="text" class="form-control" th:field="*{titulo}" id="titulo" name="titulo"
+                                           placeholder="Titulo de la película" required="required" maxlength="100">
+                                </div>
 
-                <!---------------------------------------------------- Duración ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="duracion" class="form-label fw-bold">
-                        Duración (mins)
-                    </label>
-                    <input type="number" class="form-control" th:field="*{duracion}" id="duracion" name="duracion"
-                           placeholder="Escriba la duración de la película en minutos" required="required">
-                </div>
+                                <!---------------------------------------------------- Año ---------------------------------------------------->
+                                <div class="col">
+                                    <label for="anio" class="form-label fw-bold">
+                                        Año
+                                    </label>
+                                    <input type="number" class="form-control" th:field="*{anio}" id="anio" name="anio"
+                                           placeholder="Año de la película" required="required">
+                                </div>
+                            </div>
 
-                <!---------------------------------------------------- Pais ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="pais" class="form-label fw-bold">
-                        Pais
-                    </label>
-                    <select class="form-select" data-flag="true"  th:field="*{pais}" name="pais" id="pais" style="text-align: left">
-                        <option th:each="pais :${paises}" th:value="${pais}" th:text="${pais}">
-                        </option>
-                    </select>
-                </div>
+                            <div class="mb-4 row g-5">
 
-                <!---------------------------------------------------- Dirección ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="direccion" class="form-label fw-bold">
-                        Dirección
-                    </label>
-                    <input type="text" class="form-control" th:field="*{direccion}" id="direccion" name="direccion"
-                           placeholder="Escriba el director de la película" required="required" maxlength="100">
-                </div>
+                                <!---------------------------------------------------- Duración ---------------------------------------------------->
+                                <div class="col">
+                                    <label for="duracion" class="form-label fw-bold">
+                                        Duración (mins)
+                                    </label>
+                                    <input type="number" class="form-control" th:field="*{duracion}" id="duracion" name="duracion"
+                                           placeholder="Duración de la película en minutos" required="required">
+                                </div>
 
-                <!---------------------------------------------------- Género ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="genero" class="form-label fw-bold">
-                        Género
-                    </label>
-                    <select class="form-select" th:field="*{genero}" name="genero" id="genero">
-                        <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
-                        <option value="Acción">Acción</option>
-                        <option value="Animación">Animación</option>
-                        <option value="Aventura">Aventura</option>
-                        <option value="Ciencia Ficción">Ciencia Ficción</option>
-                        <option value="Comedia">Comedia</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Documental">Documental</option>
-                        <option value="Fantasía">Fantasía</option>
-                        <option value="Musical">Musical</option>
-                        <option value="Romance">Romance</option>
-                        <option value="Suspense">Suspense</option>
-                        <option value="Terror">Terror</option>
-                        <option value="Thriller">Thriller</option>
-                    </select>
-                </div>
+                                <!---------------------------------------------------- Dirección ---------------------------------------------------->
+                                <div class="col">
+                                    <label for="direccion" class="form-label fw-bold">
+                                        Dirección
+                                    </label>
+                                    <input type="text" class="form-control" th:field="*{direccion}" id="direccion" name="direccion"
+                                           placeholder="Escriba el director de la película" required="required" maxlength="100">
+                                </div>
+                            </div>
 
-                <!---------------------------------------------------- Sinopsis ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="sinopsis" class="form-label fw-bold">
-                        Sinopsis
-                    </label>
-                    <textarea class="form-control" th:field="*{sinopsis}" id="sinopsis" name="sinopsis"
-                              placeholder="Escriba la sinopsis de la película" required="required" rows="4" maxlength="1000">
+                            <div class="mb-4 row g-5">
+
+                                <!---------------------------------------------------- Género ---------------------------------------------------->
+                                <div class="col">
+                                    <label for="genero" class="form-label fw-bold">
+                                        Género
+                                    </label>
+                                    <select class="form-select" th:field="*{genero}" name="genero" id="genero">
+                                        <!--                 <option th:value="" selected>Seleccionar categoría</option> -->
+                                        <option value="Acción">Acción</option>
+                                        <option value="Animación">Animación</option>
+                                        <option value="Aventura">Aventura</option>
+                                        <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                        <option value="Comedia">Comedia</option>
+                                        <option value="Drama">Drama</option>
+                                        <option value="Documental">Documental</option>
+                                        <option value="Fantasía">Fantasía</option>
+                                        <option value="Musical">Musical</option>
+                                        <option value="Romance">Romance</option>
+                                        <option value="Suspense">Suspense</option>
+                                        <option value="Terror">Terror</option>
+                                        <option value="Thriller">Thriller</option>
+                                    </select>
+                                </div>
+
+                                <!---------------------------------------------------- Pais ---------------------------------------------------->
+                                <div class="col">
+                                    <label for="pais" class="form-label fw-bold">
+                                        Pais
+                                    </label>
+                                    <select class="form-select" data-flag="true"  th:field="*{pais}" name="pais" id="pais" style="text-align: left">
+                                        <option th:each="pais :${paises}" th:value="${pais}" th:text="${pais}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!---------------------------------------------------- Sinopsis ---------------------------------------------------->
+                            <div class="mb-3">
+                                <label for="sinopsis" class="form-label fw-bold">
+                                    Sinopsis
+                                </label>
+                                <textarea class="form-control" th:field="*{sinopsis}" id="sinopsis" name="sinopsis"
+                                          placeholder="Escriba la sinopsis de la película" required="required" rows="4" maxlength="1000">
                     </textarea>
-                </div>
+                            </div>
 
-                <!---------------------------------------------------- Imagen (Si estamos en editar) ---------------------------------------------------->
-                <img th:if="${pelicula.imagen != null && #strings.length(pelicula.imagen) > 0}" class="img-thumbnail rounded float-left"
-                     style="max-width: 25%;" th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}"
-                     th:alt="${pelicula.imagen}" />
+                            <!---------------------------------------------------- Imagen (Si estamos en editar) ---------------------------------------------------->
+                            <img th:if="${pelicula.imagen != null && #strings.length(pelicula.imagen) > 0}" class="img-thumbnail rounded float-left"
+                                 style="max-width: 25%;" th:src="@{'/cpeliculas/uploads/' + ${pelicula.imagen}}"
+                                 th:alt="${pelicula.imagen}" />
 
-                <!---------------------------------------------------- Imagen ---------------------------------------------------->
-                <div class="mb-3">
-                    <label for="file" class="col-sm-2 col-form-label fw-bold">
-                        Imagen
-                    </label>
-                    <div class="col-sm-6">
-                        <input type="file" id="file" name="file" class="form-control" th:required="${(pelicula.imagen != null && #strings.length(pelicula.imagen) > 0)} ? null : 'required' "/>
+                            <!---------------------------------------------------- Imagen ---------------------------------------------------->
+                            <div class="mb-3">
+                                <label for="file" class="col-sm-2 col-form-label fw-bold">
+                                    Imagen
+                                </label>
+                                <div class="col-sm-6">
+                                    <input type="file" id="file" name="file" class="form-control"
+                                           th:required="${(pelicula.imagen != null && #strings.length(pelicula.imagen) > 0)} ? null : 'required' "/>
+                                </div>
+                            </div>
+
+                            <!---------------------------------------------------- Actores ---------------------------------------------------->
+                            <div style="margin-bottom: 120px">
+                                <label for="actores" class="form-label fw-bold">
+                                    Actores
+                                </label>
+                                <select class="form-select" th:field="*{actores}" name="actores" id="actores"
+                                        multiple th:data-actores="${actoresSeleccionados}"
+                                >
+                                    <option th:each="actor :${listadoActores}" th:value="${actor.getIdActor()}"
+                                            th:text="${actor.getNombre()}"
+                                    >
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!---------------------------------------------------- Botones ---------------------------------------------------->
+                            <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">
+                                Guardar
+                            </button>
+                            <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();"
+                               style="width: 130px; height: 40px">
+                                Volver
+                            </a>
+
+                            <input type="hidden" th:field="*{idPelicula}" />
+                            <input type="hidden" th:field="*{imagen}"/>
+
+                        </form>
                     </div>
                 </div>
+            </div>
 
-                <!---------------------------------------------------- Actores ---------------------------------------------------->
-                <div style="margin-bottom: 120px">
-                    <label for="actores" class="form-label fw-bold">
-                        Actores
-                    </label>
-                    <select class="form-select" th:field="*{actores}" name="actores" id="actores"
-                            multiple th:data-actores="${actoresSeleccionados}"
-                    >
-                        <option th:each="actor :${listadoActores}" th:value="${actor.getIdActor()}"
-                                th:text="${actor.getNombre()}"
-                        >
-                        </option>
-                    </select>
-                </div>
 
-                <!---------------------------------------------------- Botones ---------------------------------------------------->
-                <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">
-                    Guardar
-                </button>
-                <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();"
-                   style="width: 130px; height: 40px">
-                    Volver
-                </a>
-
-                <input type="hidden" th:field="*{idPelicula}" />
-                <input type="hidden" th:field="*{imagen}"/>
-
-            </form>
         </main>
 
         <footer style="height: 56px; background-color: #A6E26E;">

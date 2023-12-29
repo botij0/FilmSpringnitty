@@ -33,7 +33,7 @@
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -45,7 +45,7 @@
                                 <a class="nav-link" th:href="@{/ccriticas/criticas}">Criticas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                                <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
                             </li>
                         </ul>
 
@@ -53,12 +53,9 @@
 
                         <!------------------------------ Botones Identificación ------------------------------>
                         <form class="d-flex  me-0 me-md-5 justify-content-center">
-                            <button type="button" class="btn btn-link px-3 me-2">
-                                Iniciar Sesión
-                            </button>
-                            <button type="button" class="btn btn-primary me-3">
-                                Registrarse
-                            </button>
+                            <a th:href="@{/logout}" type="button" class="btn btn-danger px-3 me-2">
+                                Cerrar Sesión
+                            </a>
                         </form>
                     </div>
                 </div>
@@ -67,81 +64,87 @@
         </header>
 
         <main class="container-fluid w-75" style="min-height: calc(100vh - 56px - 56px);">
+            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+            <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
 
-            <h2 th:text="${titulo}"
-                class="text-secondary border border-success border-top-0 border-left-0 border-right-0 text-center py-2"
-            >
-            </h2>
+            <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 100px - 100px);">
+                <div class="card mx-auto" style="width: 60%">
+                    <h3 class="card-header mb-5 text-center" th:text="${titulo}"></h3>
+                    <div class="w-50 mx-auto my-auto">
+                        <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
+                        <form th:action="@{/cusuarios/guardar/}" method="post"
+                              th:object="${usuario}" enctype="multipart/form-data"
+                              class="text-start"
+                        >
 
-            <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
-            <form th:action="@{/cusuarios/guardar/}" method="post"
-                  th:object="${usuario}" enctype="multipart/form-data"
-                  class="text-start"
-            >
+                            <!---------------------------------------------------- Errores ---------------------------------------------------->
+                            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                                Por favor corrija los siguientes errores:
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                                </ul>
+                            </div>
 
-                <!---------------------------------------------------- Errores ---------------------------------------------------->
-                <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
-                    Por favor corrija los siguientes errores:
-                    <ul>
-                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
-                    </ul>
+                            <!---------------------------------------------------- Nombre Usuario ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="nombre" class="form-label fw-bold">
+                                    Nombre Usuario
+                                </label>
+                                <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
+                                       placeholder="Escriba el Nombre de Usuario" required="required" maxlength="50"
+                                >
+                            </div>
+
+                            <!---------------------------------------------------- Contraseña ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="password" class="form-label fw-bold">
+                                    Contraseña
+                                </label>
+                                <input type="password" class="form-control" th:field="*{password}" id="password" name="password"
+                                       placeholder="Introduzca una contraseña" required="required"
+                                >
+                            </div>
+
+                            <!---------------------------------------------------- Correo ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="correo" class="form-label fw-bold">
+                                    Correo
+                                </label>
+                                <input type="email" class="form-control" th:field="*{correo}" id="correo" name="correo"
+                                       placeholder="correo@mail.com" required="required"
+                                >
+                            </div>
+
+                            <!---------------------------------------------------- Roles ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="roles" class="form-label fw-bold">
+                                    Rol:
+                                </label>
+                                <input type="checkbox" class="form-check-input mx-4" name="roles" id="roles"
+                                       th:each="rol : ${allRoles}"
+                                       th:text="${rol}"
+                                       th:value="${rol}"
+                                       th:field="*{roles}"
+                                >
+                            </div>
+
+                            <!---------------------------------------------------- Botones ---------------------------------------------------->
+                            <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">
+                                Guardar
+                            </button>
+                            <a type="button" class="btn btn-primary my-5 fw-bold ms-3"
+                               href="javascript:window.history.back();" style="width: 130px; height: 40px"
+                            >
+                                Volver
+                            </a>
+
+                            <input type="hidden" th:field="*{idUsuario}" />
+                        </form>
+                    </div>
                 </div>
+            </div>
 
-                <!---------------------------------------------------- Nombre Usuario ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="nombre" class="form-label fw-bold">
-                        Nombre Usuario
-                    </label>
-                    <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
-                           placeholder="Escriba el Nombre de Usuario" required="required" maxlength="50"
-                    >
-                </div>
 
-                <!---------------------------------------------------- Contraseña ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="password" class="form-label fw-bold">
-                        Contraseña
-                    </label>
-                    <input type="text" class="form-control" th:field="*{password}" id="password" name="password"
-                           placeholder="Introduzca una contraseña" required="required"
-                    >
-                </div>
-
-                <!---------------------------------------------------- Correo ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="correo" class="form-label fw-bold">
-                        Correo
-                    </label>
-                    <input type="email" class="form-control" th:field="*{correo}" id="correo" name="correo"
-                           placeholder="correo@mail.com" required="required"
-                    >
-                </div>
-
-                <!---------------------------------------------------- Roles ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="roles" class="form-label fw-bold">
-                        Rol:
-                    </label>
-                    <input type="checkbox" class="form-check-input mx-4" name="roles" id="roles"
-                           th:each="rol : ${allRoles}"
-                           th:text="${rol}"
-                           th:value="${rol}"
-                           th:field="*{roles}"
-                    >
-                </div>
-
-                <!---------------------------------------------------- Botones ---------------------------------------------------->
-                <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">
-                    Guardar
-                </button>
-                <a type="button" class="btn btn-primary my-5 fw-bold ms-3"
-                   href="javascript:window.history.back();" style="width: 130px; height: 40px"
-                >
-                    Volver
-                </a>
-
-                <input type="hidden" th:field="*{idUsuario}" />
-            </form>
         </main>
 
         <footer style="height: 56px; background-color: #A6E26E;">

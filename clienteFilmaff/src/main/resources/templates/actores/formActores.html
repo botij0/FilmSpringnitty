@@ -42,7 +42,7 @@
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
+                                <a class="nav-link" aria-current="page" th:href="@{/cpeliculas/}">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/cpeliculas/listado}">Películas</a>
@@ -54,7 +54,7 @@
                                 <a class="nav-link" th:href="@{/ccriticas/criticas}">Criticas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
+                                <a class="nav-link active" th:href="@{/cpeliculas/panelControl}">Panel de Control</a>
                             </li>
                         </ul>
 
@@ -62,12 +62,9 @@
 
                         <!------------------------------ Botones Identificación ------------------------------>
                         <form class="d-flex  me-0 me-md-5 justify-content-center">
-                            <button type="button" class="btn btn-link px-3 me-2">
-                                Iniciar Sesión
-                            </button>
-                            <button type="button" class="btn btn-primary me-3">
-                                Registrarse
-                            </button>
+                            <a th:href="@{/logout}" type="button" class="btn btn-danger px-3 me-2">
+                                Cerrar Sesión
+                            </a>
                         </form>
                     </div>
                 </div>
@@ -77,84 +74,88 @@
 
         <main class="container-fluid w-75" style="min-height: calc(100vh - 56px - 56px);">
 
-            <h2 th:text="${titulo}"
-                class="text-secondary border border-success border-top-0 border-left-0
-                border-right-0 text-center py-2"
-            >
-            </h2>
+            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+            <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
 
-            <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
-            <form th:action="@{/cactores/guardar/}" method="post" th:object="${actor}"
-                  enctype="multipart/form-data" class="text-start"
-            >
-                <!---------------------------------------------------- Errores ---------------------------------------------------->
-                <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
-                    Por favor corrija los siguientes errores:
-                    <ul>
-                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
-                    </ul>
-                </div>
+            <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 100px - 100px);">
+                <div class="card mx-auto" style="width: 60%">
+                    <h3 class="card-header mb-5 text-center" th:text="${titulo}"></h3>
+                    <div class="w-50 mx-auto my-auto">
+                        <!---------------------------------------------------- FORMULARIO ---------------------------------------------------->
+                        <form th:action="@{/cactores/guardar/}" method="post" th:object="${actor}"
+                              enctype="multipart/form-data" class="text-start"
+                        >
+                            <!---------------------------------------------------- Errores ---------------------------------------------------->
+                            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                                Por favor corrija los siguientes errores:
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                                </ul>
+                            </div>
 
-                <!---------------------------------------------------- Nombre ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="nombre" class="form-label fw-bold">
-                        Nombre Completo
-                    </label>
-                    <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
-                           placeholder="Escriba el Nombre y Apellido/s" required="required" maxlength="50">
-                </div>
+                            <!---------------------------------------------------- Nombre ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="nombre" class="form-label fw-bold">
+                                    Nombre Completo
+                                </label>
+                                <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
+                                       placeholder="Escriba el Nombre y Apellido/s" required="required" maxlength="50">
+                            </div>
 
-                <!---------------------------------------------------- Fecha Nacimiento ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="fechaNac" class="form-label fw-bold">
-                        Fecha Nacimiento
-                    </label>
-                    <input type="date" class="form-control" th:field="*{fechaNac}" id="fechaNac" name="fechaNac"
-                           placeholder="**/**/****" required="required">
-                </div>
+                            <!---------------------------------------------------- Fecha Nacimiento ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="fechaNac" class="form-label fw-bold">
+                                    Fecha Nacimiento
+                                </label>
+                                <input type="date" class="form-control" th:field="*{fechaNac}" id="fechaNac" name="fechaNac"
+                                       placeholder="**/**/****" required="required">
+                            </div>
 
-                <!---------------------------------------------------- Pais Nacimiento ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="paisNac" class="form-label fw-bold">
-                        Pais Nacimiento
-                    </label>
-                    <select class="form-select" th:field="*{paisNac}" name="paisNac" id="paisNac">
-                        <option th:each="pais :${paises}" th:value="${pais}" th:text="${pais}">
-                        </option>
-                    </select>
-                </div>
+                            <!---------------------------------------------------- Pais Nacimiento ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="paisNac" class="form-label fw-bold">
+                                    Pais Nacimiento
+                                </label>
+                                <select class="form-select" th:field="*{paisNac}" name="paisNac" id="paisNac">
+                                    <option th:each="pais :${paises}" th:value="${pais}" th:text="${pais}">
+                                    </option>
+                                </select>
+                            </div>
 
-                <!---------------------------------------------------- Imagen (Si estamos editando) ---------------------------------------------------->
-                <img th:if="${actor.imagen != null && #strings.length(actor.imagen) > 0}"
-                     class="img-thumbnail rounded float-left"
-                     style="max-width: 25%; max-height: 220px;" th:src="@{'/cpeliculas/uploads/' + ${actor.imagen}}"
-                     th:alt="${actor.imagen}"
-                />
+                            <!---------------------------------------------------- Imagen (Si estamos editando) ---------------------------------------------------->
+                            <img th:if="${actor.imagen != null && #strings.length(actor.imagen) > 0}"
+                                 class="img-thumbnail rounded float-left"
+                                 style="max-width: 25%; max-height: 220px;" th:src="@{'/cpeliculas/uploads/' + ${actor.imagen}}"
+                                 th:alt="${actor.imagen}"
+                            />
 
-                <!---------------------------------------------------- Imagen ---------------------------------------------------->
-                <div class="my-4">
-                    <label for="file" class="col-sm-2 col-form-label fw-bold">
-                        Imagen
-                    </label>
-                    <div class="col-sm-6">
-                        <input type="file" id="file" name="file" class="form-control"
-                               th:required="${(actor.imagen != null && #strings.length(actor.imagen) > 0)} ? null : 'required' "/>
+                            <!---------------------------------------------------- Imagen ---------------------------------------------------->
+                            <div class="my-4">
+                                <label for="file" class="col-sm-2 col-form-label fw-bold">
+                                    Imagen
+                                </label>
+                                <div class="col-sm-6">
+                                    <input type="file" id="file" name="file" class="form-control"
+                                           th:required="${(actor.imagen != null && #strings.length(actor.imagen) > 0)} ? null : 'required' "/>
+                                </div>
+                            </div>
+
+                            <!---------------------------------------------------- Botones ---------------------------------------------------->
+                            <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">
+                                Guardar
+                            </button>
+                            <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();"
+                               style="width: 130px; height: 40px"
+                            >
+                                Volver
+                            </a>
+
+                            <input type="hidden" th:field="*{idActor}" />
+                            <input type="hidden" th:field="*{imagen}"/>
+                        </form>
                     </div>
                 </div>
-
-                <!---------------------------------------------------- Botones ---------------------------------------------------->
-                <button type="submit" class="btn btn-dark my-5 fw-bold" style="width: 130px; height: 40px">
-                    Guardar
-                </button>
-                <a type="button" class="btn btn-primary my-5 fw-bold ms-3" href="javascript:window.history.back();"
-                   style="width: 130px; height: 40px"
-                >
-                    Volver
-                </a>
-
-                <input type="hidden" th:field="*{idActor}" />
-                <input type="hidden" th:field="*{imagen}"/>
-            </form>
+            </div>
         </main>
 
         <footer style="height: 56px; background-color: #A6E26E;">

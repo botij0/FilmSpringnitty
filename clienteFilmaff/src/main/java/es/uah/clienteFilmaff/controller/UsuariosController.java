@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -138,6 +139,29 @@ public class UsuariosController {
         model.addAttribute("page", pageRender);
 
         return "usuarios/listUsuario";
+    }
+
+    @GetMapping("/registrar")
+    public String nuevoRegistro(Model model) {
+        model.addAttribute("titulo", "Nuevo registro");
+        Usuario usuario = new Usuario();
+        model.addAttribute("usuario", usuario);
+        return "/registro";
+    }
+
+    @PostMapping("/registrar")
+    public String registro(Model model, Usuario usuario, RedirectAttributes attributes) {
+        //si existe un usuario con el mismo correo no lo guardamos
+        if (usuariosService.buscarUsuarioPorCorreo(usuario.getCorreo())!=null) {
+            attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
+            return "redirect:/login";
+        }
+        usuario.setEnable(true);
+        Rol rol = rolesService.buscarRolPorId(2);
+        usuario.setRoles(Arrays.asList(rol));
+        usuariosService.guardarUsuario(usuario);
+        attributes.addFlashAttribute("msg", "Los datos del registro fueron guardados!");
+        return "redirect:/login";
     }
 
 
