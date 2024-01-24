@@ -220,14 +220,4 @@ public class CriticasController {
         model.addAttribute("page", pageRender);
         return pageSize == 8 ? "usuarios/tablaCriticas" : "usuarios/listadoCriticas";
     }
-
-    private Usuario obtenerUsuario(Authentication authentication) {
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return usuariosService.buscarUsuarioPorCorreo(userDetails.getUsername());
-        }
-
-        return null;
-    }
 }

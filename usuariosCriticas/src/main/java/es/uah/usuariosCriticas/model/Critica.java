@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Criticas", schema = "usuariosfilmdbsec")
+@Table(name = "criticas", schema = "usuariosfilmdbsec")
 public class Critica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
