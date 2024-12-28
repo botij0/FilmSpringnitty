@@ -1,2 +1,2 @@
 # FilmSpringnitty
-Proyecto web desarrollado para la asignatura de Backend y Microservicios del Máster de desarrollo web de la UAH
+Web project developed for the Backend and Microservices course of the UAH Master in Web Development.
