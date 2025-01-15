@@ -13,7 +13,7 @@ Here is a [DEMO Video](https://www.youtube.com/watch?v=7moXJkMgZ-Q) if you want 
 
 3. [How It Works](#how-it-works)
    - [Architecture](#architecture)
-   - [BBDD Structure](#bbdd-structure)
+   - [Database Structure](#database-structure)
 
 ## Execution
 
@@ -63,7 +63,7 @@ The `Eureka Server` microservice simply allows us to keep track of the microserv
 
 The microservice of the Frontend client is in charge of consuming the data provided by the moviesActors and usersCritics microservices (using REST) and displaying them to the client thanks to a presentation layer developed with Thymeleaf. To access the microservice use the address: `http://localhost:9000/cpeliculas/`
 
-### BBDD Structure
+### Database Structure
 
 The application consists of two microservices that each require a database. These microservices are: moviesActors and usersCritics. 
 
